@@ -1,0 +1,26 @@
+{
+  "name": "shop-advait",
+  "version": "2.0.0",
+  "description": "Renewed E-Commerce Store for Advait Teleservices Private Limited",
+  "scripts": {
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "seed": "cd server && npm run seed",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start"
+  },
+  "keywords": [
+    "advait-teleservices",
+    "gps-tracking",
+    "ecommerce",
+    "react",
+    "vite",
+    "tailwind",
+    "nodejs",
+    "express",
+    "postgresql",
+    "razorpay"
+  ],
+  "author": "Advait Teleservices Private Limited",
+  "license": "ISC"
+}

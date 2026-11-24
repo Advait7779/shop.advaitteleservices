@@ -1,0 +1,182 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String      @id @default(uuid())
+  mobileNumber String      @unique
+  email        String?     @unique
+  passwordHash String?
+  fullName     String
+  addressLine1 String
+  addressLine2 String?
+  city         String
+  pincode      String
+  role         String      @default("CUSTOMER") // CUSTOMER or ADMIN
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  orders       Order[]
+  cartItems    CartItem[]
+
+  @@index([role, createdAt, id])
+  @@map("users")
+}
+
+model OtpVerification {
+  id           String    @id @default(uuid())
+  mobileNumber String
+  otpCode      String
+  expiresAt    DateTime
+  isUsed       Boolean   @default(false)
+  attempts     Int       @default(0)
+  createdAt    DateTime  @default(now())
+
+  @@index([mobileNumber, otpCode])
+  @@index([mobileNumber, createdAt])
+  @@map("otp_verifications")
+}
+
+model OtpRequestQuota {
+  scope        String
+  identityHash String
+  day          String
+  count        Int      @default(0)
+
+  @@id([scope, identityHash, day])
+  @@index([day])
+  @@map("otp_request_quotas")
+}
+
+model Product {
+  id               String      @id @default(uuid())
+  slug             String      @unique
+  title            String
+  category         String      @default("vehicle-gps")
+  subtitle         String?
+  originalPrice    Float
+  sellingPrice     Float
+  discountPercent  Int
+  planOptions      String[]    @default(["1 Year"])
+  primaryImage     String
+  galleryImages    String[]    @default([])
+  description      String
+  features         String[]    @default([])
+  specs            Json?
+  whatsInBox       String[]    @default([])
+  manufacturerInfo Json?
+  inStock          Boolean     @default(true)
+  rating           Float       @default(5.0)
+  reviewCount      Int         @default(14)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  cartItems        CartItem[]
+  orderItems       OrderItem[]
+
+  @@index([updatedAt, id])
+  @@index([inStock, updatedAt, id])
+  @@index([inStock, createdAt, id])
+  @@index([inStock, category, createdAt, id])
+  @@map("products")
+}
+
+model ProductCategory {
+  id        String   @id
+  label     String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder, id])
+  @@map("product_categories")
+}
+
+model CartItem {
+  id           String    @id @default(uuid())
+  userId       String
+  productId    String
+  planDuration String    @default("1 Year")
+  quantity     Int       @default(1)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product      Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId, planDuration])
+  @@map("cart_items")
+}
+
+model Order {
+  id                String      @id @default(uuid())
+  orderNumber       String      @unique
+  checkoutKey       String?     @unique
+  userId            String
+  totalAmount       Float
+  currency          String      @default("INR")
+  status            String      @default("PENDING") // PENDING, PAID, FAILED, PROCESSING, SHIPPED, DELIVERED, CANCELLED
+  trackingNumber    String?
+  courierName       String?
+  notes             String?
+  razorpayOrderId   String?     @unique
+  razorpayPaymentId String?     @unique
+  razorpaySignature String?
+  shippingAddress   Json
+  cartSnapshot      Json?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  user              User        @relation(fields: [userId], references: [id])
+  items             OrderItem[]
+
+  @@index([createdAt, id])
+  @@index([status, createdAt, id])
+  @@index([userId, status])
+  @@map("orders")
+}
+
+model OrderItem {
+  id           String   @id @default(uuid())
+  orderId      String
+  productId    String
+  productTitle String
+  planDuration String
+  unitPrice    Float
+  quantity     Int
+  subtotal     Float
+
+  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product      Product  @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+  @@index([productId])
+  @@map("order_items")
+}
+
+model SiteSetting {
+  key       String   @id // e.g. "hero_slides", "announcement"
+  value     Json
+  updatedAt DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+model QuoteRequest {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  status    String   @default("NEW")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdAt, id])
+  @@index([status, createdAt, id])
+  @@map("quote_requests")
+}

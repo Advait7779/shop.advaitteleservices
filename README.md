@@ -1,0 +1,43 @@
+# Advait Teleservices Store
+
+React/Vite storefront and admin panel with an Express API, PostgreSQL/Prisma, mobile OTP sign-in, and Razorpay checkout.
+
+## Local development
+
+Use Node.js 22 and PostgreSQL. Install dependencies separately in `client` and `server` with `npm ci`. Copy `server/.env.example` to `server/.env` and set local values. Use `NODE_ENV=development` and `SMS_DEV_MODE=true` only on your own machine; this returns an OTP in the API response for local testing without sending an SMS. To test real SMS locally, set `SMS_API_KEY` and `SMS_DEV_MODE=false`, restart the API, and request an OTP on a number you control. Set a local PostgreSQL `DATABASE_URL` and a development `JWT_SECRET`.
+
+Create a new database schema with `cd server && npx prisma migrate deploy`, then seed sample products once with `npm run seed`. To create an administrator, set `ADMIN_EMAIL`, `ADMIN_MOBILE` (10 digits), and a unique `ADMIN_PASSWORD` of at least 12 characters, then run `node prisma/seedAdmin.js`. Seeding products again does not overwrite edited catalog entries.
+
+Start the API with `cd server && npm run dev` and Vite with `cd client && npm run dev`. Vite proxies `/api` and `/products` to port 5000 so uploaded images work during local development. Production payments require real Razorpay credentials; no simulated payment can mark an order paid.
+
+## Coolify on a Hostinger VPS
+
+1. Put this project in a private Git repository. The root `.gitignore` excludes local secrets, dependencies, build output, and uploaded images. Check the first commit for accidental secrets before pushing.
+2. Create a PostgreSQL resource in Coolify with persistent storage and scheduled backups. Copy its **internal** connection URL into the application `DATABASE_URL` setting. Test restoring a backup before launch.
+3. Create one application from the repository root using the included `Dockerfile`. Set the internal exposed port to `5000` and route your HTTPS domain to it. The image builds the client, generates Prisma Client, applies migrations on startup, and serves the SPA, API, and bundled images from the same origin. Configure Coolify's HTTP health check with path `/api/health` and port `5000`; it must return HTTP 200 after PostgreSQL is available. The image includes `curl` for Coolify's check and also defines a Dockerfile health check for deployments that use the image check.
+4. Add a persistent volume at `/app/uploads/products` for product images. Give the container user permission to write there. The production server now refuses to start without a writable upload mount, preventing image loss on redeploy.
+5. Set runtime environment variables in Coolify: `DATABASE_URL`, a random `JWT_SECRET` of at least 32 characters, `SMS_API_KEY`, `SMS_DEV_MODE=false`, `RAZORPAY_KEY_ID` beginning with `rzp_live_`, `RAZORPAY_KEY_SECRET`, and `RAZORPAY_WEBHOOK_SECRET`. The approved OTP settings default to route `38`, sender `ADAVAT`, and template ID `1777179542196464728`; override them with `SMS_ROUTE`, `SMS_SENDER`, and `SMS_TEMPLATE_ID` if the provider changes them. Set `SMS_NOTIFICATION_URL` too if your SMS provider has a separate custom-message endpoint. The image sets `NODE_ENV=production`, `PORT=5000`, and `UPLOAD_DIR=/app/uploads/products`. `CLIENT_URL` is optional for a separate trusted frontend origin; leave it unset for same-origin deployment. Keep all secret values in Coolify, never in Git or frontend variables.
+6. In Razorpay, enable automatic capture and configure a webhook for `payment.captured` to `https://YOUR_DOMAIN/api/orders/webhook`. Use the same webhook secret in Coolify. Confirm a real low-value payment and a failed payment before opening sales.
+7. Configure the administrator once using `ADMIN_EMAIL`, `ADMIN_MOBILE`, and `ADMIN_PASSWORD`, then run `cd /app/server && node prisma/seedAdmin.js` in the application terminal. Remove `ADMIN_PASSWORD` from the runtime settings afterward. Do not rerun the admin seed without intending to reset that password. Seed products once if this is a new store.
+
+The initial migration is for a **new** database. If an existing database was created with `prisma db push`, compare its schema to `server/prisma/schema.prisma`, back it up, review and apply `server/prisma/existing_db_upgrade.sql`, then run `npx prisma migrate resolve --applied 20261105_initial` against that database before enabling automatic startup migrations. Do not run the initial migration directly against existing tables.
+
+## Checkout and operations
+
+The server calculates amounts from current catalog prices, validates stock, plans, and quantities, creates a Razorpay order, and verifies the returned signature against the stored Razorpay order ID. It checks the fetched payment amount, currency, and captured status before marking an order paid. The signed webhook completes payment confirmation if the browser closes. Pending orders remain pending until confirmed; operations should review any that remain pending unusually long.
+
+The admin panel cannot manually mark an order paid or label a paid order cancelled without a refund workflow. Shipment SMS uses `SMS_NOTIFICATION_URL`; the admin panel reports when delivery is unavailable so staff can contact the customer. The Advait Digital OTP integration sends the approved template with the customer's first name (or “Customer” before registration) and generated OTP. The legacy `SMS_GATEWAY_URL` option remains available when `SMS_API_KEY` is unset; it supports `{mobile}`, `{phone}`, `{otp}`, `{code}`, and `{message}` placeholders. Confirm the provider's actual acceptance response and DLT template approval with a real test SMS before launch.
+
+OTP requests are limited to five successful sends per mobile number and five per client IP for each India calendar day. The IP limit applies across all numbers from the same network; a rejected request returns HTTP 429 and a `Retry-After` header until the next midnight in India. The existing three-requests-per-15-minutes limit also remains. Apply the `20261123_daily_otp_quotas` migration before running the updated server; the Dockerfile runs migrations on startup. Keep the application behind the trusted Coolify proxy so `req.ip` identifies the actual client.
+
+Run `cd client && npm run build` and `cd server && npm test` before deployment. No live SMS, Razorpay, or production database operations run as part of those checks.
+
+## Catalog and admin pagination
+
+`GET /api/products` defaults to 24 products per page. `GET /api/admin/products`, `/api/admin/orders`, and `/api/admin/customers` default to 25 per page. All accept positive integer `page` and `limit` parameters (maximum limit 100; maximum offset 100,000) and return `totalCount`, `totalPages`, and `hasNextPage`. Product lists load additional pages as the user scrolls; order and customer pages retain their existing controls. List responses contain only fields needed by the list. The admin editor and order drawer request full details when opened. Deep catalogs beyond the offset cap should move to cursor pagination.
+
+The shop filters by product category and search term and sorts through the same paginated API query. Product categories are stored on each product and can be changed in the admin editor. The editor can also create a category beside the category selector; it then becomes available in the shop filter and navigation. The `20261123_admin_product_categories` migration creates the saved category list and inserts the five existing categories. Coolify runs it automatically on startup. Apply the earlier `20261107_product_categories` migration before running a server built with this schema; it assigns existing products from their titles, so review any custom products afterward.
+
+In the product editor, a selected image is previewed locally and uploaded only when the product is saved. The server accepts existing `/products/` images and rejects missing paths; remote image URLs are not supported. A failed product save removes its newly uploaded file when the cleanup request succeeds. Deleting a product removes its uploaded image if no product still uses it. The server checks for unreferenced uploads older than one day at startup and every day afterward, covering interrupted saves and replaced images while giving open storefront pages time to finish loading the old image.
+
+Deploy the `20261107_admin_pagination_indexes` Prisma migration with the application before relying on the new indexes. The Dockerfile already runs `prisma migrate deploy` on startup. For a large existing database, schedule that index migration during a quiet period and measure query times before and after deployment.
