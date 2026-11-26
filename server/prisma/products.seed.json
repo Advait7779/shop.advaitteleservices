@@ -1,0 +1,334 @@
+[
+  {
+    "slug": "a5-device",
+    "title": "A5 DEVICE",
+    "category": "vehicle-gps",
+    "subtitle": "GPS TRACKER A5 device GPS Device 1 YEAR REPLACEMENT Warranty",
+    "originalPrice": 4500,
+    "sellingPrice": 3200,
+    "discountPercent": 29,
+    "planOptions": [
+      "1 Year",
+      "2 Years",
+      "3 Years"
+    ],
+    "primaryImage": "/products/a5-device-current.png",
+    "galleryImages": [
+      "/products/a5-device-current.png"
+    ],
+    "description": "GPS TRACKER A5 device GPS Device with 1 YEAR REPLACEMENT Warranty. Live GPS Tracking with Ride History feature provides accurate location tracking of your car or bike, including motion tracking even when the engine is turned OFF.",
+    "features": [
+      "Anti-theft Protection: Receive real-time anti-theft alerts on your phone triggered by ignition activation, towing, or unauthorized wire tampering.",
+      "Live Tracking & History: High precision GPS tracking with smooth ride history playback and instant speed monitoring.",
+      "Connectivity & Alerts: Comes equipped with an in-built 4G SIM Card and smart AI alerts directly on your Advait mobile application.",
+      "OverSpeed Alerts: Immediate notifications sent to owners or fleet managers via SMS and app push notifications.",
+      "Geo-fence Alerts: Set virtual safety boundaries around frequent spots and receive alerts when vehicles enter or exit.",
+      "Vehicle Movement Alarm + Overvoltage Protection: Alerts against unauthorized movement and protects device electronics from voltage spikes.",
+      "90-Day History Records: Access detailed movement, stops, idling, and mileage logs over the past 90 days."
+    ],
+    "specs": {
+      "color": "Black",
+      "weight": "125g",
+      "battery": "",
+      "skuCode": "85269190",
+      "taxCode": "18% GST Included",
+      "dimensions": "L: 15 x B: 16 x H: 17 cm"
+    },
+    "whatsInBox": [
+      "1x A5 GPS Tracker Device",
+      "1x Wiring Harness with In-line Fuse",
+      "1x Pre-configured 4G SIM Card",
+      "1x Engine Immobilizer Relay",
+      "1x User Manual & 1-Year Warranty Card"
+    ],
+    "manufacturerInfo": {
+      "brand": "Advait Teleservices",
+      "warranty": "1 Year Full Replacement Warranty",
+      "supportContact": "082829 82829 / sales@advaitteleservices.com",
+      "countryOfOrigin": "India"
+    },
+    "inStock": true,
+    "rating": 5,
+    "reviewCount": 38
+  },
+  {
+    "slug": "cctv-trueview-solar-4g",
+    "title": "CCTV TRUEVIEW SOLAR 4G",
+    "category": "vehicle-gps",
+    "subtitle": "100% Wire-Free 4G SIM Solar Powered PTZ Security Camera",
+    "originalPrice": 6400,
+    "sellingPrice": 6199,
+    "discountPercent": 3,
+    "planOptions": [
+      "1 Year",
+      "2 Years"
+    ],
+    "primaryImage": "/products/cctv-trueview-solar-4g-current.png",
+    "galleryImages": [
+      "/products/cctv-trueview-solar-4g.jpg"
+    ],
+    "description": "Self-sustaining outdoor security camera equipped with high-efficiency monocrystalline solar panel and lithium-ion backup battery. Operates seamlessly on 4G LTE SIM cards without requiring local Wi-Fi or mains power.",
+    "features": [
+      "Solar Powered + Long Life Battery: Never stops recording, completely independent of electric grid.",
+      "Pan-Tilt-Zoom (PTZ): 355° horizontal and 90° vertical rotation controlled from smartphone app.",
+      "Full Color Night Vision: Dual spotlight LEDs deliver color video surveillance in pitch darkness.",
+      "PIR Human Detection: Smart AI recognizes human motion and avoids false alarms from wind or leaves."
+    ],
+    "specs": {
+      "color": "Pure White",
+      "weight": "1.4kg",
+      "battery": "",
+      "skuCode": "85258020",
+      "taxCode": "18% GST Included",
+      "dimensions": "L: 22 x B: 18 x H: 25 cm"
+    },
+    "whatsInBox": [
+      "1x Trueview 4G Solar PTZ Camera",
+      "1x Monocrystalline Solar Panel (8W)",
+      "1x Adjustable Wall/Pole Mount Bracket",
+      "1x Built-in Rechargeable Battery Pack",
+      "1x Installation Screws & Manual"
+    ],
+    "manufacturerInfo": {
+      "brand": "Advait Teleservices",
+      "warranty": "1 Year Warranty",
+      "countryOfOrigin": "India"
+    },
+    "inStock": true,
+    "rating": 4.9,
+    "reviewCount": 26
+  },
+  {
+    "slug": "fuel-sensor-ble",
+    "title": "FUEL SENSOR(BLE)",
+    "category": "vehicle-gps",
+    "subtitle": "Wireless Bluetooth Ultra-Precision Capacitive Fuel Level Sensor",
+    "originalPrice": 22000,
+    "sellingPrice": 18500,
+    "discountPercent": 16,
+    "planOptions": [
+      "1 Year",
+      "2 Years"
+    ],
+    "primaryImage": "/products/fuel-sensor-ble-current.png",
+    "galleryImages": [
+      "/products/fuel-sensor-ble-current.png"
+    ],
+    "description": "State-of-the-art wireless Bluetooth Low Energy (BLE 5.0) capacitive fuel sensor for trucks, buses, tractors, and heavy machinery. Eliminates complex wiring harnesses between fuel tank and tracker.",
+    "features": [
+      "Wireless BLE 5.0: Quick calibration and cable-free data transmission to GPS unit.",
+      "99.5% Fuel Measurement Accuracy: Detects rapid fuel drops, pilferage, and exact refill quantities in liters.",
+      "Explosion-Proof & IP67: Certified safe for diesel and gasoline storage tanks.",
+      "Live Dashboard Integration: Real-time liters graph and consumption reports."
+    ],
+    "specs": {
+      "color": "Silver & Black",
+      "weight": "750g",
+      "battery": "",
+      "skuCode": "90261010",
+      "taxCode": "18% GST Included",
+      "dimensions": "Rod length: 700mm / 1000mm (customizable)"
+    },
+    "whatsInBox": [
+      "1x BLE Capacitive Fuel Rod Sensor",
+      "1x Tank Mounting Flange & Gasket Kit",
+      "1x Calibration Cable Unit",
+      "1x Seal & Screws Set",
+      "1x Installation Guide"
+    ],
+    "manufacturerInfo": {
+      "brand": "Advait Teleservices",
+      "warranty": "1 Year Warranty",
+      "countryOfOrigin": "India"
+    },
+    "inStock": true,
+    "rating": 4.9,
+    "reviewCount": 22
+  },
+  {
+    "slug": "magnetic-tracker",
+    "title": "MAGNETIC TRACKER",
+    "category": "vehicle-gps",
+    "subtitle": "Portable GPS Tracker with Strong Neodymium Magnet & Rechargeable Battery",
+    "originalPrice": 6299,
+    "sellingPrice": 5499,
+    "discountPercent": 13,
+    "planOptions": [
+      "1 Year",
+      "2 Years"
+    ],
+    "primaryImage": "/products/magnetic-tracker-current.png",
+    "galleryImages": [
+      "/products/magnetic-tracker.jpg"
+    ],
+    "description": "Heavy-duty magnetic tracker featuring ultra-powerful neodymium magnets that firmly attach to any metallic chassis, container, or vehicle underbody in 2 seconds. Zero wiring required.",
+    "features": [
+      "Industrial Strength Magnet: Stays firmly anchored even across rough off-road terrain.",
+      "6000mAh Battery: Up to 30 days of continuous standby and tracking on a single charge.",
+      "Anti-Dismantle Drop Sensor: Optical light sensor triggers instant alert if device is detached.",
+      "IP65 Waterproof Housing: Completely sealed against monsoon rains, mud, and road grime."
+    ],
+    "specs": {
+      "color": "Charcoal Black",
+      "weight": "240g",
+      "battery": "",
+      "skuCode": "85269194",
+      "taxCode": "18% GST Included",
+      "dimensions": "L: 10 x B: 7.5 x H: 2.5 cm"
+    },
+    "whatsInBox": [
+      "1x Industrial Magnetic Tracker",
+      "1x Micro USB Charging Cable",
+      "1x Anti-tamper Optical Sensor Seal",
+      "1x User Manual"
+    ],
+    "manufacturerInfo": {
+      "brand": "Advait Teleservices",
+      "warranty": "1 Year Warranty",
+      "countryOfOrigin": "India"
+    },
+    "inStock": true,
+    "rating": 4.9,
+    "reviewCount": 31
+  },
+  {
+    "slug": "magnetic-tracker-voice",
+    "title": "MAGNETIC TRACKER WITH VOICE",
+    "category": "vehicle-gps",
+    "subtitle": "Heavy Magnetic Tracker with Remote Voice Listening & Recording",
+    "originalPrice": 9000,
+    "sellingPrice": 7499,
+    "discountPercent": 17,
+    "planOptions": [
+      "1 Year",
+      "2 Years"
+    ],
+    "primaryImage": "/products/magnetic-tracker-voice-current.png",
+    "galleryImages": [
+      "/products/magnetic-tracker-voice.jpg"
+    ],
+    "description": "Combines ultra-strong magnetic vehicle mount with built-in high-fidelity microphone for remote audio surveillance, route replay, and covert asset tracking.",
+    "features": [
+      "Remote Voice Listening: Dial into device to hear live surroundings or review recorded audio clips.",
+      "10,000mAh Extended Battery: Supports up to 60 days on smart power saving mode.",
+      "Multi-GNSS Positioning: GPS + Beidou + GLONASS + LBS cell-tower triangulation.",
+      "Instant Movement Alarm: Wakes up and transmits coordinates as soon as asset starts moving."
+    ],
+    "specs": {
+      "color": "Stealth Black",
+      "weight": "310g",
+      "battery": "",
+      "skuCode": "85269195",
+      "taxCode": "18% GST Included",
+      "dimensions": "L: 11 x B: 8 x H: 3 cm"
+    },
+    "whatsInBox": [
+      "1x Heavy Magnetic Tracker with HD Mic",
+      "1x High-speed USB Charging Cable",
+      "1x Quick Start Guide",
+      "1x Warranty Card"
+    ],
+    "manufacturerInfo": {
+      "brand": "Advait Teleservices",
+      "warranty": "1 Year Warranty",
+      "countryOfOrigin": "India"
+    },
+    "inStock": true,
+    "rating": 5,
+    "reviewCount": 42
+  },
+  {
+    "slug": "obd-device",
+    "title": "OBD DEVICE / OBD DEVICE WITH VOICE",
+    "category": "vehicle-gps",
+    "subtitle": "Plug & Play OBD-II Vehicle Tracker with Audio Monitoring",
+    "originalPrice": 6999,
+    "sellingPrice": 4999,
+    "discountPercent": 29,
+    "planOptions": [
+      "1 Year",
+      "2 Years"
+    ],
+    "primaryImage": "/products/obd-device-current.png",
+    "galleryImages": [
+      "/products/obd-device-current.png"
+    ],
+    "description": "Zero wire-cutting installation! Simply plug into your car OBD-II port below the steering wheel. Includes remote voice monitoring microphone and vehicle diagnostic trouble code (DTC) reading.",
+    "features": [
+      "Plug & Play: Plugs directly into standard vehicle OBD port without cutting a single wire.",
+      "Remote Voice Listening: High-sensitivity built-in microphone for interior voice security.",
+      "Vehicle Health Diagnostics: Reads battery voltage, engine load, and diagnostic codes.",
+      "Instant Unplug Alert: Alerts your phone immediately if the device is removed from the OBD port."
+    ],
+    "specs": {
+      "color": "Black & Cyan",
+      "weight": "85g",
+      "battery": "",
+      "skuCode": "85269192",
+      "taxCode": "18% GST Included",
+      "dimensions": "L: 8 x B: 5 x H: 3 cm"
+    },
+    "whatsInBox": [
+      "1x OBD-II Voice Tracker Device",
+      "1x Quick Start Guide",
+      "1x 1-Year Warranty Card"
+    ],
+    "manufacturerInfo": {
+      "brand": "Advait Teleservices",
+      "warranty": "1 Year Warranty",
+      "countryOfOrigin": "India"
+    },
+    "inStock": true,
+    "rating": 4.8,
+    "reviewCount": 19
+  },
+  {
+    "slug": "v5-device",
+    "title": "V5 DEVICE",
+    "category": "vehicle-gps",
+    "subtitle": "High Precision Advanced Vehicle GPS Tracker with Remote Engine Cut-Off",
+    "originalPrice": 4999,
+    "sellingPrice": 3100,
+    "discountPercent": 38,
+    "planOptions": [
+      "1 Year",
+      "2 Years",
+      "3 Years"
+    ],
+    "primaryImage": "/products/v5-device-current.png",
+    "galleryImages": [
+      "/products/v5-device.jpg"
+    ],
+    "description": "V5 GPS Device comes with 1 Year Replacement Warranty. Advanced vehicle telematics device designed for high durability and continuous monitoring. Supports anti-theft immobilizer and SOS emergency panic button.",
+    "features": [
+      "Remote Engine Cut-Off: Remotely stop vehicle engine in case of unauthorized access or theft via Advait mobile app.",
+      "High-Gain GPS Chipset: Instant satellite locking with sub-meter precision.",
+      "Ignition Sensor: Instant notification as soon as ignition is turned on or off.",
+      "External Battery Backup: Continues transmitting even if main vehicle battery is disconnected.",
+      "90-Day Playback: View complete route, stops, idle time, and speeds."
+    ],
+    "specs": {
+      "color": "Matte Black",
+      "weight": "135g",
+      "battery": "",
+      "skuCode": "85269191",
+      "taxCode": "18% GST Included",
+      "dimensions": "L: 14 x B: 12 x H: 15 cm"
+    },
+    "whatsInBox": [
+      "1x V5 GPS Tracker Unit",
+      "1x Engine Cut-off Relay Cable",
+      "1x Wiring Harness",
+      "1x SOS Panic Button",
+      "1x Warranty Documentation"
+    ],
+    "manufacturerInfo": {
+      "brand": "Advait Teleservices",
+      "warranty": "1 Year Replacement Warranty",
+      "countryOfOrigin": "India"
+    },
+    "inStock": true,
+    "rating": 4.9,
+    "reviewCount": 29
+  }
+]
