@@ -92,7 +92,7 @@
   position: relative;
   height: clamp(286px, 27vw, 320px);
   overflow: hidden;
-  background: radial-gradient(circle at 50% 35%, #f8fbfe 0%, #eaf1f7 100%);
+  background: #eaf1f7;
   border-bottom: 1px solid #e0e9f1;
 }
 
@@ -132,17 +132,13 @@
 
 .product-editorial__image-link {
   position: absolute;
-  inset: 50px 16px 16px;
+  inset: 50px 16px 12px;
   display: flex;
   min-height: 0;
   align-items: center;
   justify-content: center;
-  padding: 8px;
   overflow: hidden;
-  border: 1px solid #dce6ef;
-  border-radius: 13px;
-  background: #fff;
-  box-shadow: 0 8px 20px -15px rgba(23, 37, 54, .35);
+  background: #eaf1f7;
 }
 
 .product-editorial__image-link img {
@@ -152,6 +148,7 @@
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+  mix-blend-mode: multiply;
   transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 

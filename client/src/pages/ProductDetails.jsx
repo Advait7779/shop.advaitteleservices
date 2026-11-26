@@ -107,17 +107,17 @@ const ProductDetails = () => {
           {/* LEFT: Image */}
           <div className="min-w-0 lg:col-span-5 reveal-left">
             <div className="lg:sticky lg:top-36">
-              <div className="bg-gradient-to-b from-brand-50/50 to-white p-8 rounded-2xl border border-gray-200/80 flex items-center justify-center">
+              <div className="flex items-center justify-center rounded-2xl border border-[#d7e2ec] bg-[#eaf1f7] p-8">
                 <img
                   src={product.primaryImage}
                   alt={product.title}
-                  className="max-h-[340px] max-w-full w-auto object-contain drop-shadow-lg"
+                  className="max-h-[340px] w-auto max-w-full object-contain mix-blend-multiply"
                 />
               </div>
               {/* Thumbnail strip */}
               <div className="flex gap-3 mt-4 justify-center">
-                <div className="w-16 h-16 rounded-xl border-2 border-[#385775] p-1 bg-white cursor-pointer shadow-xs transition-all duration-200 hover:shadow-md">
-                  <img src={product.primaryImage} alt="" className="w-full h-full object-contain" />
+                <div className="h-16 w-16 cursor-pointer rounded-xl border-2 border-[#385775] bg-[#eaf1f7] p-1 shadow-xs transition-all duration-200 hover:shadow-md">
+                  <img src={product.primaryImage} alt="" className="h-full w-full object-contain mix-blend-multiply" />
                 </div>
               </div>
             </div>

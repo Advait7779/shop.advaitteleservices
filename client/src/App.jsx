@@ -60,7 +60,10 @@ function AppContent() {
         >
           <Route index element={<AdminDashboard />} />
           <Route path="orders" element={<AdminOrders />} />
-          <Route path="products" element={<AdminProducts />} />
+          <Route
+            path="products"
+            element={<CategoryProvider><AdminProducts /></CategoryProvider>}
+          />
           <Route path="customers" element={<AdminCustomers />} />
           <Route path="quotes" element={<AdminQuotes />} />
         </Route>
@@ -97,17 +100,19 @@ function AppContent() {
 
 function App() {
   const isAdminPath = useLocation().pathname.startsWith('/admin');
-  return <CategoryProvider>{isAdminPath ? (
-      <AdminAuthProvider>
-        <AppContent />
-      </AdminAuthProvider>
-    ) : (
-    <AuthProvider>
-      <CartProvider>
-        <AppContent />
-      </CartProvider>
-    </AuthProvider>
-    )}</CategoryProvider>;
+  return isAdminPath ? (
+    <AdminAuthProvider>
+      <AppContent />
+    </AdminAuthProvider>
+  ) : (
+    <CategoryProvider>
+      <AuthProvider>
+        <CartProvider>
+          <AppContent />
+        </CartProvider>
+      </AuthProvider>
+    </CategoryProvider>
+  );
 }
 
 export default App;

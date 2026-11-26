@@ -109,8 +109,18 @@ const AdminOrders = () => {
       if (res.data.success) {
         setUpdateMessage({ type: 'success', text: res.data.message });
         setSelectedOrder(res.data.order);
-        // Refresh orders list in background
-        refreshOrders();
+        if (statusFilter === 'ALL' && !appliedSearch) {
+          setOrders((current) => current.map((order) =>
+            order.id === res.data.order.id ? {
+              ...order,
+              status: res.data.order.status,
+              courierName: res.data.order.courierName,
+              trackingNumber: res.data.order.trackingNumber,
+            } : order));
+        } else {
+          // The updated order may no longer match the active filter or search.
+          refreshOrders();
+        }
       } else {
         setUpdateMessage({ type: 'error', text: res.data.message || 'Update failed.' });
       }

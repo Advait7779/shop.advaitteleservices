@@ -85,16 +85,40 @@ const AdminProducts = () => {
   }, [stockFilter, appliedSearch, page, refreshKey]);
 
   useEffect(() => {
-    if (!hasNextPage || loading || loadingMore || !loadMoreRef.current) return undefined;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && !loadRequestedRef.current) {
-        loadRequestedRef.current = true;
-        setPage((current) => current + 1);
-      }
-    }, { rootMargin: '400px' });
-    observer.observe(loadMoreRef.current);
-    return () => observer.disconnect();
-  }, [hasNextPage, loading, loadingMore, page]);
+    if (!hasNextPage || loading || loadingMore || modalOpen) return undefined;
+    let frame = null;
+    const onScroll = () => {
+      if (frame !== null) return;
+      frame = window.requestAnimationFrame(() => {
+        frame = null;
+        const marker = loadMoreRef.current;
+        if (!marker || loadRequestedRef.current) return;
+        const top = marker.getBoundingClientRect().top;
+        // One page per scroll gesture. A marker visible on mount must not
+        // cascade through every page without admin interaction.
+        if (top >= 0 && top <= window.innerHeight + 160) {
+          loadRequestedRef.current = true;
+          setPage((current) => current + 1);
+        }
+      });
+    };
+    const onWheel = (event) => { if (event.deltaY > 0) onScroll(); };
+    const onKeyDown = (event) => {
+      if (['ArrowDown', 'PageDown', 'End', ' '].includes(event.key) &&
+          !document.activeElement?.matches('input, textarea, select, button, a, [role="button"]')) onScroll();
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('wheel', onWheel, { passive: true });
+    window.addEventListener('touchmove', onScroll, { passive: true });
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('touchmove', onScroll);
+      window.removeEventListener('keydown', onKeyDown);
+      if (frame !== null) window.cancelAnimationFrame(frame);
+    };
+  }, [hasNextPage, loading, loadingMore, modalOpen, page]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();

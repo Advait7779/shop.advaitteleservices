@@ -12,6 +12,22 @@ const adminCustomerController = require('../controllers/adminCustomerController'
 const adminUploadController = require('../controllers/adminUploadController');
 const quoteController = require('../controllers/quoteController');
 
+// Enable with ADMIN_SLOW_REQUEST_MS to identify slow admin endpoints without
+// logging request parameters, customer data, or authentication credentials.
+const slowRequestMs = Number(process.env.ADMIN_SLOW_REQUEST_MS);
+if (Number.isFinite(slowRequestMs) && slowRequestMs > 0) {
+  router.use((req, res, next) => {
+    const started = process.hrtime.bigint();
+    res.once('finish', () => {
+      const durationMs = Number(process.hrtime.bigint() - started) / 1e6;
+      if (durationMs >= slowRequestMs) {
+        console.warn(`[admin-api] ${req.method} ${req.route?.path || 'unmatched'} ${res.statusCode} ${durationMs.toFixed(1)}ms`);
+      }
+    });
+    next();
+  });
+}
+
 // Authentication
 router.post('/auth/login', rateLimit({ windowMs: 15 * 60 * 1000, max: 10 }), adminAuthController.adminLogin);
 router.get('/auth/me', verifyAdmin, adminAuthController.getAdminProfile);

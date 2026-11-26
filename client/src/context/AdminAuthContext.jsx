@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import api from '../services/api';
 
 const AdminAuthContext = createContext(null);
@@ -10,11 +10,16 @@ export const AdminAuthProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : null;
   });
   const [loading, setLoading] = useState(true);
+  const validatedTokenRef = useRef(null);
+  const sessionGenerationRef = useRef(0);
 
   useEffect(() => {
     const handleExpired = () => {
+      sessionGenerationRef.current += 1;
+      validatedTokenRef.current = null;
       setAdminToken(null);
       setAdminUser(null);
+      setLoading(false);
       localStorage.removeItem('advait_admin_token');
       localStorage.removeItem('advait_admin_user');
     };
@@ -25,11 +30,16 @@ export const AdminAuthProvider = ({ children }) => {
   // Validate session on load
   useEffect(() => {
     if (adminToken) {
+      // Login already returned a verified admin. Validate only restored sessions.
+      if (validatedTokenRef.current === adminToken) return;
+      validatedTokenRef.current = adminToken;
+      const generation = sessionGenerationRef.current;
       api
         .get('/admin/auth/me', {
           headers: { Authorization: `Bearer ${adminToken}` },
         })
         .then((res) => {
+          if (sessionGenerationRef.current !== generation) return;
           if (res.data.success) {
             setAdminUser(res.data.admin);
             localStorage.setItem('advait_admin_user', JSON.stringify(res.data.admin));
@@ -38,9 +48,11 @@ export const AdminAuthProvider = ({ children }) => {
           }
         })
         .catch(() => {
-          logout();
+          if (sessionGenerationRef.current === generation) logout();
         })
-        .finally(() => setLoading(false));
+        .finally(() => {
+          if (sessionGenerationRef.current === generation) setLoading(false);
+        });
     } else {
       setLoading(false);
     }
@@ -51,6 +63,8 @@ export const AdminAuthProvider = ({ children }) => {
       const res = await api.post('/admin/auth/login', { identifier, password });
       if (res.data.success) {
         const { token, admin } = res.data;
+        sessionGenerationRef.current += 1;
+        validatedTokenRef.current = token;
         setAdminToken(token);
         setAdminUser(admin);
         localStorage.setItem('advait_admin_token', token);
@@ -67,8 +81,11 @@ export const AdminAuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    sessionGenerationRef.current += 1;
+    validatedTokenRef.current = null;
     setAdminToken(null);
     setAdminUser(null);
+    setLoading(false);
     localStorage.removeItem('advait_admin_token');
     localStorage.removeItem('advait_admin_user');
   };

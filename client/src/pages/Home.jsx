@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import api from '../services/api';
 import ProductCard from '../components/common/ProductCard';
 import { 
-  ShieldCheck, MapPin, ArrowRight,
+  ShieldCheck, MapPin, Camera, ArrowRight,
   CheckCircle, Sparkles
 } from 'lucide-react';
 
@@ -192,30 +192,54 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ============ STATS COUNTER ============ */}
-      <section className="bg-[#172536] text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-xl mx-auto mb-10 reveal">
-            <span className="text-xs font-bold text-brand-400 uppercase tracking-widest">PROVEN TRACK RECORD</span>
-            <h3 className="text-2xl sm:text-3xl font-extrabold mt-2">
-              Trusted by Fleet Owners & Vehicle Drivers Across India
-            </h3>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center reveal-stagger">
-            {[
-              { value: '5,000+', label: 'Active Trackers' },
-              { value: '200+', label: 'CCTV Installations' },
-              { value: '150+', label: 'Commercial Fleets' },
-              { value: '1 Year', label: 'Doorstep Warranty' },
-            ].map((stat, i) => (
-              <div key={i} className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm card-hover">
-                <div className="text-3xl sm:text-4xl font-extrabold text-brand-400">{stat.value}</div>
-                <p className="text-xs text-brand-200 font-semibold mt-1 uppercase tracking-wider">{stat.label}</p>
+      {/* ============ CONNECTED MOBILE VIEWS ============ */}
+      <section className="w-full border-y border-[#d4e0eb] bg-[#e8eff6]" aria-labelledby="connected-views-title">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid items-center lg:grid-cols-[1.12fr_0.88fr]">
+            <div className="order-2 px-4 pb-5 pt-1 sm:px-8 lg:order-1 lg:py-10 lg:pl-10 lg:pr-0">
+              <img
+                src="/banners/connected-mobile-views.webp"
+                alt="Illustrative mobile views of fleet activity, live GPS tracking, and CCTV, shown with a GPS tracker and solar camera"
+                loading="lazy"
+                decoding="async"
+                className="mx-auto block h-auto w-full max-w-[720px]"
+              />
+            </div>
+
+            <div className="order-1 px-7 pt-10 text-[#172536] sm:px-12 sm:pt-14 lg:order-2 lg:px-10 lg:py-12 xl:pr-16">
+              <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#58738e]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#3f83b5]" aria-hidden="true" />
+                Advait Track / Connected view
+              </span>
+              <h2 id="connected-views-title" className="mt-5 max-w-[440px] text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl xl:text-[3.5rem]">
+                Every route.<br />Every view.
+              </h2>
+              <p className="mt-5 max-w-[425px] text-sm leading-7 text-[#52677c] sm:text-base">
+                Follow vehicle movement and keep an eye on your spaces with GPS tracking and solar CCTV.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  to="/shop?category=vehicle-gps"
+                  className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#293d54] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#172536] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#385775]"
+                >
+                  <MapPin className="h-4 w-4" aria-hidden="true" />
+                  GPS trackers
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+                <Link
+                  to="/shop?category=solar-cctv"
+                  className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-[#a9bed1] bg-white/75 px-4 py-2.5 text-sm font-semibold text-[#293d54] transition-colors hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#385775]"
+                >
+                  <Camera className="h-4 w-4" aria-hidden="true" />
+                  Solar CCTV
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
+
     </div>
   );
 };
