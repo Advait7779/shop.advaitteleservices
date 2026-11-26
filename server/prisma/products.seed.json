@@ -54,7 +54,7 @@
   {
     "slug": "cctv-trueview-solar-4g",
     "title": "CCTV TRUEVIEW SOLAR 4G",
-    "category": "vehicle-gps",
+    "category": "solar-cctv",
     "subtitle": "100% Wire-Free 4G SIM Solar Powered PTZ Security Camera",
     "originalPrice": 6400,
     "sellingPrice": 6199,
@@ -101,7 +101,7 @@
   {
     "slug": "fuel-sensor-ble",
     "title": "FUEL SENSOR(BLE)",
-    "category": "vehicle-gps",
+    "category": "fuel-sensors",
     "subtitle": "Wireless Bluetooth Ultra-Precision Capacitive Fuel Level Sensor",
     "originalPrice": 22000,
     "sellingPrice": 18500,
@@ -148,7 +148,7 @@
   {
     "slug": "magnetic-tracker",
     "title": "MAGNETIC TRACKER",
-    "category": "vehicle-gps",
+    "category": "magnetic-trackers",
     "subtitle": "Portable GPS Tracker with Strong Neodymium Magnet & Rechargeable Battery",
     "originalPrice": 6299,
     "sellingPrice": 5499,
@@ -194,7 +194,7 @@
   {
     "slug": "magnetic-tracker-voice",
     "title": "MAGNETIC TRACKER WITH VOICE",
-    "category": "vehicle-gps",
+    "category": "magnetic-trackers",
     "subtitle": "Heavy Magnetic Tracker with Remote Voice Listening & Recording",
     "originalPrice": 9000,
     "sellingPrice": 7499,
