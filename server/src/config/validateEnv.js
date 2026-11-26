@@ -1,6 +1,8 @@
 module.exports = function validateEnv() {
   if (process.env.NODE_ENV !== 'production') return;
-  const required = ['DATABASE_URL', 'JWT_SECRET', 'RAZORPAY_KEY_ID', 'RAZORPAY_KEY_SECRET', 'RAZORPAY_WEBHOOK_SECRET'];
+  const paymentsEnabled = process.env.PAYMENTS_ENABLED === 'true';
+  const required = ['DATABASE_URL', 'JWT_SECRET'];
+  if (paymentsEnabled) required.push('RAZORPAY_KEY_ID', 'RAZORPAY_KEY_SECRET', 'RAZORPAY_WEBHOOK_SECRET');
   for (const key of required) {
     if (!process.env[key]) throw new Error(`Missing required production setting: ${key}`);
   }
@@ -21,7 +23,7 @@ module.exports = function validateEnv() {
       !/\{mobile\}|\{phone\}/i.test(process.env.SMS_NOTIFICATION_URL) || !/\{message\}/i.test(process.env.SMS_NOTIFICATION_URL))) {
     throw new Error('SMS_NOTIFICATION_URL must use HTTPS with phone and message placeholders.');
   }
-  if (!process.env.RAZORPAY_KEY_ID.startsWith('rzp_live_') || process.env.RAZORPAY_KEY_SECRET.includes('placeholder')) {
+  if (paymentsEnabled && (!process.env.RAZORPAY_KEY_ID.startsWith('rzp_live_') || process.env.RAZORPAY_KEY_SECRET.includes('placeholder'))) {
     throw new Error('Live Razorpay credentials are required in production.');
   }
   if (process.env.DATABASE_URL.includes('localhost')) throw new Error('Use the Coolify PostgreSQL connection URL.');

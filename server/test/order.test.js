@@ -53,6 +53,19 @@ test('rejects incomplete payment evidence', async () => {
   assert.equal(order.status, 'PENDING');
 });
 
+test('pauses checkout before creating any order when payments are disabled', async () => {
+  process.env.PAYMENTS_ENABLED = 'false';
+  try {
+    const res = response();
+    await controller.createOrder(request({}), res);
+    assert.equal(res.statusCode, 503);
+    assert.match(res.body.message, /temporarily unavailable/);
+    assert.equal(order.status, 'PENDING');
+  } finally {
+    delete process.env.PAYMENTS_ENABLED;
+  }
+});
+
 test('rejects another customer and a mismatched Razorpay order', async () => {
   const body = { orderId: order.id, razorpayOrderId: order.razorpayOrderId, razorpayPaymentId: payment.id,
     razorpaySignature: signatureFor(order.razorpayOrderId, payment.id) };

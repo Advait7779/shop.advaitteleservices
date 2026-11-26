@@ -51,6 +51,9 @@ async function markPaid(order, paymentId, signature) {
 
 exports.createOrder = async (req, res) => {
   try {
+    if (process.env.PAYMENTS_ENABLED !== 'true') {
+      return res.status(503).json({ success: false, message: 'Online payments are temporarily unavailable.' });
+    }
     if (!razorpayInstance || !key_id || !key_secret) {
       return res.status(503).json({ success: false, message: 'Payment gateway is not configured.' });
     }

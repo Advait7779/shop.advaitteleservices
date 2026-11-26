@@ -23,7 +23,7 @@ async function start() {
     console.log(`🚀 Advait Teleservices Backend running on port ${PORT}`);
     console.log(`📦 Database: PostgreSQL`);
     console.log(`📱 SMS OTP Mode: ${process.env.SMS_DEV_MODE === 'true' ? 'Development Mode' : process.env.SMS_API_KEY ? 'Advait Digital' : process.env.SMS_GATEWAY_URL ? 'External Gateway' : 'Unconfigured'}`);
-    console.log(`💳 Razorpay: ${process.env.RAZORPAY_KEY_ID?.startsWith('rzp_live_') ? 'Live' : 'Test/Unconfigured'}`);
+    console.log(`💳 Razorpay: ${process.env.PAYMENTS_ENABLED !== 'true' ? 'Disabled' : process.env.RAZORPAY_KEY_ID?.startsWith('rzp_live_') ? 'Live' : 'Test/Unconfigured'}`);
     console.log(`======================================================\n`);
   });
 }
