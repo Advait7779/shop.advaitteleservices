@@ -12,7 +12,7 @@ async function start() {
   try {
     const adminStatus = await bootstrapAdmin(prisma);
     if (adminStatus === 'created') console.log('Administrator account created.');
-    if (adminStatus === 'incomplete') console.warn('Administrator bootstrap skipped: set ADMIN_EMAIL, ADMIN_MOBILE (10 digits), and ADMIN_PASSWORD (12+ characters).');
+    if (adminStatus === 'incomplete') console.warn('Administrator bootstrap skipped: set ADMIN_EMAIL, ADMIN_MOBILE (10 digits), and ADMIN_PASSWORD.');
     if (adminStatus === 'conflict') console.warn('Administrator bootstrap skipped: admin email or mobile is already assigned to another account.');
   } catch (error) {
     console.error('Administrator bootstrap failed:', error);

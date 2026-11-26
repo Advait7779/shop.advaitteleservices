@@ -17,7 +17,6 @@ test('admin bootstrap needs all three variables and leaves the database untouche
   assert.equal(await bootstrapAdmin(prisma, {}), 'disabled');
   assert.equal(await bootstrapAdmin(prisma, { ...adminEnv, ADMIN_PASSWORD: '' }), 'disabled');
   assert.equal(await bootstrapAdmin(prisma, { ...adminEnv, ADMIN_MOBILE: '' }), 'incomplete');
-  assert.equal(await bootstrapAdmin(prisma, { ...adminEnv, ADMIN_PASSWORD: 'short' }), 'incomplete');
 });
 
 test('admin bootstrap creates a new admin with a hashed password', async () => {
@@ -26,12 +25,13 @@ test('admin bootstrap creates a new admin with a hashed password', async () => {
     findFirst: async () => null,
     create: async ({ data }) => { created = data; },
   } };
-  assert.equal(await bootstrapAdmin(prisma, adminEnv), 'created');
+  const shortPasswordEnv = { ...adminEnv, ADMIN_PASSWORD: 'short' };
+  assert.equal(await bootstrapAdmin(prisma, shortPasswordEnv), 'created');
   assert.equal(created.email, 'admin@example.com');
   assert.equal(created.mobileNumber, adminEnv.ADMIN_MOBILE);
   assert.equal(created.role, 'ADMIN');
-  assert.notEqual(created.passwordHash, adminEnv.ADMIN_PASSWORD);
-  assert.equal(await bcrypt.compare(adminEnv.ADMIN_PASSWORD, created.passwordHash), true);
+  assert.notEqual(created.passwordHash, shortPasswordEnv.ADMIN_PASSWORD);
+  assert.equal(await bcrypt.compare(shortPasswordEnv.ADMIN_PASSWORD, created.passwordHash), true);
 });
 
 test('admin bootstrap never overwrites an existing admin or promotes a customer', async () => {

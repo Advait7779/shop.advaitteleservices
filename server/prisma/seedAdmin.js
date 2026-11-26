@@ -8,8 +8,8 @@ async function main() {
   const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
   const mobile = process.env.ADMIN_MOBILE?.trim();
   const password = process.env.ADMIN_PASSWORD;
-  if (!email || !/^[6-9]\d{9}$/.test(mobile || '') || !password || password.length < 12) {
-    throw new Error('Set ADMIN_EMAIL, a 10-digit ADMIN_MOBILE, and ADMIN_PASSWORD (12+ characters) before seeding.');
+  if (!email || !/^[6-9]\d{9}$/.test(mobile || '') || !password) {
+    throw new Error('Set ADMIN_EMAIL, a 10-digit ADMIN_MOBILE, and ADMIN_PASSWORD before seeding.');
   }
   const existing = await prisma.user.findFirst({ where: { OR: [{ email }, { mobileNumber: mobile }] } });
   if (existing && existing.role !== 'ADMIN') {

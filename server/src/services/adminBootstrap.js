@@ -8,7 +8,7 @@ async function bootstrapAdmin(prisma, env = process.env) {
   // Removing the one-time bootstrap password disables future attempts.
   if (!password) return 'disabled';
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
-      !/^[6-9]\d{9}$/.test(mobile || '') || !password || password.length < 12) {
+      !/^[6-9]\d{9}$/.test(mobile || '')) {
     return 'incomplete';
   }
 
