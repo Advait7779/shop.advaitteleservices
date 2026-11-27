@@ -1,0 +1,55 @@
+name: Shop security checks
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Scan Git history with redacted findings
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo:ro" \
+            -e GIT_CONFIG_COUNT=1 -e GIT_CONFIG_KEY_0=safe.directory -e GIT_CONFIG_VALUE_0=/repo \
+            ghcr.io/gitleaks/gitleaks@sha256:b109bc5f8f76a38196a3e413704fc5b9e3c32360bce4e4b603bd6f45b3721dbb \
+            git --redact=100 --config /repo/.gitleaks.toml --gitleaks-ignore-path /repo/.gitleaksignore /repo
+
+  dependencies:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [client, server]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - run: npm audit --package-lock-only --audit-level=high
+        working-directory: ${{ matrix.app }}
+
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - run: docker build --pull -t shop-advait:security-check .
+      - name: Check Node and Prisma in the runtime image
+        run: |
+          docker run --rm --entrypoint node shop-advait:security-check --version
+          docker run --rm --workdir /app/server --entrypoint ./node_modules/.bin/prisma shop-advait:security-check -v
+      - name: Scan the built image
+        run: |
+          docker save shop-advait:security-check -o "$RUNNER_TEMP/shop-image.tar"
+          docker run --rm -v "$RUNNER_TEMP/shop-image.tar:/shop-image.tar:ro" \
+            ghcr.io/aquasecurity/trivy@sha256:8f6bb947dbc528902e11f2f5be52f7b519f6a39d5d148f41166f2040499768fb \
+            image --scanners vuln --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 --input /shop-image.tar

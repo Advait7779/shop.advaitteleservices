@@ -24,6 +24,55 @@ exports.getCart = async (req, res) => {
   }
 };
 
+exports.mergeCart = async (req, res) => {
+  try {
+    const input = req.body?.items;
+    if (!Array.isArray(input) || input.length > 50) {
+      return res.status(400).json({ success: false, message: 'Invalid cart items.' });
+    }
+    const quantities = new Map();
+    for (const item of input) {
+      if (!item || typeof item.productId !== 'string' ||
+          typeof item.planDuration !== 'string' || !Number.isSafeInteger(item.quantity) ||
+          item.quantity < 1 || item.quantity > 100) {
+        return res.status(400).json({ success: false, message: 'Invalid cart item.' });
+      }
+      const key = `${item.productId}\u0000${item.planDuration}`;
+      const total = (quantities.get(key)?.quantity || 0) + item.quantity;
+      if (total > 100) return res.status(400).json({ success: false, message: 'Maximum quantity is 100 per item.' });
+      quantities.set(key, { productId: item.productId, planDuration: item.planDuration, quantity: total });
+    }
+    const items = [...quantities.values()];
+    await prisma.$transaction(async (tx) => {
+      for (const item of items) {
+        const product = await tx.product.findUnique({ where: { id: item.productId } });
+        if (!product || !product.inStock || !product.planOptions.includes(item.planDuration)) {
+          throw new Error('UNAVAILABLE_CART_ITEM');
+        }
+        const where = { userId_productId_planDuration: {
+          userId: req.user.id, productId: item.productId, planDuration: item.planDuration,
+        } };
+        const existing = await tx.cartItem.findUnique({ where });
+        if (existing) {
+          // Retried syncs must not add the guest quantity twice.
+          await tx.cartItem.update({ where: { id: existing.id }, data: {
+            quantity: Math.max(existing.quantity, item.quantity),
+          } });
+        } else {
+          await tx.cartItem.create({ data: { userId: req.user.id, ...item } });
+        }
+      }
+    });
+    return res.json({ success: true });
+  } catch (error) {
+    if (error.message === 'UNAVAILABLE_CART_ITEM') {
+      return res.status(409).json({ success: false, message: 'An item in your cart is no longer available. Please remove it and try again.' });
+    }
+    console.error('Merge cart error:', error);
+    return res.status(500).json({ success: false, message: 'Could not sync your cart. Please try again.' });
+  }
+};
+
 exports.addToCart = async (req, res) => {
   try {
     const { productId, planDuration = '1 Year', quantity = 1 } = req.body;

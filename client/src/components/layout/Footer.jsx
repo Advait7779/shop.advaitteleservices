@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail } from 'lucide-react';
+import { companyName } from '../../utils/branding';
+import StorefrontViews from './StorefrontViews';
 
 const Footer = () => {
   return (
@@ -8,17 +10,11 @@ const Footer = () => {
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-          <div className="md:col-span-5 space-y-4">
+          <div className="md:col-span-5">
             <div className="flex items-center gap-3">
-              <img src="/logo.png" alt="Advait Teleservices" className="w-11 h-11 rounded-lg bg-white p-0.5 object-contain shadow" />
-              <div>
-                <span className="text-xl font-bold tracking-tight text-white">ADVAIT TELESERVICES</span>
-                <p className="text-xs text-brand-400 font-semibold">Private Limited</p>
-              </div>
+              <img src="/logo.png" alt="" className="w-11 h-11 shrink-0 rounded-lg bg-white p-0.5 object-contain shadow" />
+              <span className="text-lg font-bold tracking-tight text-white sm:text-xl">{companyName}</span>
             </div>
-            <p className="text-xs text-brand-200 leading-relaxed max-w-sm">
-              Advait Teleservices Private Limited delivers commercial-grade GPS telematics, AIS-140 RTO-approved tracking, and capacitive fuel sensors backed by our Amanora Chambers, Pune engineering team.
-            </p>
           </div>
 
           <div className="md:col-span-3 space-y-3">
@@ -30,7 +26,6 @@ const Footer = () => {
                 { to: '/shop', label: 'Shop GPS Trackers' },
                 { to: '/cart', label: 'My Cart' },
                 { to: '/account', label: 'My Account' },
-                { to: '/quote', label: 'Get a Quote' },
               ].map((link) => (
                 <li key={link.to}>
                   <Link to={link.to} className="text-brand-300 hover:text-white transition-colors duration-200 flex items-center gap-1.5">
@@ -61,8 +56,9 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-brand-400 gap-4">
-          <p>© {new Date().getFullYear()} Advait Teleservices Private Limited. All rights reserved.</p>
+        <div className="mt-10 flex flex-col flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-brand-400 sm:flex-row">
+          <p className="text-center sm:text-left">© {new Date().getFullYear()} {companyName} All rights reserved.</p>
+          <StorefrontViews />
           <div className="flex items-center gap-4 text-[11px]">
             <span>Secured by Razorpay</span>
             <span>•</span>

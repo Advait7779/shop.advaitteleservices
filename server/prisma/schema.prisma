@@ -12,19 +12,45 @@ model User {
   mobileNumber String      @unique
   email        String?     @unique
   passwordHash String?
+  adminAccess  String?
+  totpSecret   String?
+  totpLastStep Int?
   fullName     String
-  addressLine1 String
+  addressLine1 String?
   addressLine2 String?
-  city         String
-  pincode      String
+  city         String?
+  pincode      String?
   role         String      @default("CUSTOMER") // CUSTOMER or ADMIN
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
   orders       Order[]
   cartItems    CartItem[]
+  sessions     AuthSession[]
 
   @@index([role, createdAt, id])
   @@map("users")
+}
+
+model AuthSession {
+  tokenHash String   @id
+  userId    String
+  kind      String
+  expiresAt DateTime
+  idleUntil DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, kind])
+  @@index([idleUntil])
+  @@map("auth_sessions")
+}
+
+model AuthRateLimit {
+  key       String   @id
+  count     Int
+  expiresAt DateTime
+
+  @@index([expiresAt])
+  @@map("auth_rate_limits")
 }
 
 model OtpVerification {
@@ -38,6 +64,7 @@ model OtpVerification {
 
   @@index([mobileNumber, otpCode])
   @@index([mobileNumber, createdAt])
+  @@index([expiresAt])
   @@map("otp_verifications")
 }
 
@@ -165,7 +192,23 @@ model SiteSetting {
   @@map("site_settings")
 }
 
-model QuoteRequest {
+model StorefrontViewCounter {
+  id       String @id
+  recorded Int    @default(0)
+
+  @@map("storefront_view_counters")
+}
+
+model StorefrontVisit {
+  id        String   @id @db.Uuid
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@map("storefront_visits")
+}
+
+/// Retains historical enquiries for existing databases and restores.
+model ArchivedQuoteRequest {
   id        String   @id @default(uuid())
   name      String
   email     String
@@ -179,4 +222,5 @@ model QuoteRequest {
   @@index([createdAt, id])
   @@index([status, createdAt, id])
   @@map("quote_requests")
+  @@ignore
 }

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 620" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <pattern id="neighbourhood" width="180" height="154" patternUnits="userSpaceOnUse" patternTransform="rotate(-13)">
+      <rect width="180" height="154" fill="#eaf0f0"/>
+      <path d="M14 14h52v47H14zM79 14h85v47H79zM14 74h37v65H14zM63 74h52v65H63zM128 74h36v65h-36z" fill="#fafcfb" stroke="#dce6e6" stroke-width="2"/>
+      <path d="M0 67h180M72 0v154M121 67v87M0 145h180" fill="none" stroke="#fff" stroke-width="11"/>
+      <path d="M22 30h36M22 41h36M87 31h69M87 43h69M22 91h21M70 91h37M70 103h37M135 92h22" stroke="#e4ebeb" stroke-width="3"/>
+    </pattern>
+    <filter id="shadow" x="-60%" y="-60%" width="220%" height="220%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#1c4661" flood-opacity=".22"/></filter>
+  </defs>
+  <rect width="430" height="620" fill="url(#neighbourhood)"/>
+  <path d="M-30 23 116-17l28 101-64 49-110 16zM308 429l126-32v157l-129 30-45-67zM-20 499l84-35 65 75-19 94H-20z" fill="#c8e7d7" opacity=".86"/>
+  <path d="M326-20c-28 78-17 123 32 176 37 40 44 83 21 130-12 25-19 53-11 81l72-11V-20z" fill="#d1e8ea" opacity=".88"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-30 527C46 509 75 459 85 384s-17-152 20-191c42-45 122-25 175-45 55-20 89-29 180-20" stroke="#d4e1e4" stroke-width="38"/>
+    <path d="M-30 527C46 509 75 459 85 384s-17-152 20-191c42-45 122-25 175-45 55-20 89-29 180-20" stroke="#fff" stroke-width="29"/>
+    <path d="M-40 277c86-29 151-5 211 32 64 40 113 49 297-13" stroke="#d4e1e4" stroke-width="30"/>
+    <path d="M-40 277c86-29 151-5 211 32 64 40 113 49 297-13" stroke="#fff" stroke-width="23"/>
+    <path d="M-20 573c95-42 152-17 234-2s142-6 240-47" stroke="#d4e1e4" stroke-width="31"/>
+    <path d="M-20 573c95-42 152-17 234-2s142-6 240-47" stroke="#fff" stroke-width="24"/>
+  </g>
+  <path d="M-30 527C46 509 75 459 85 384s-17-152 20-191c42-45 122-25 175-45 55-20 89-29 180-20" fill="none" stroke="#c8dadd" stroke-width="2" stroke-dasharray="6 8"/>
+  <!-- GPS to vehicle, directly along the road centre. -->
+  <path d="M46 478c20-25 33-54 39-94 10-75-17-152 20-191 42-45 122-25 175-45 31-11 55-19 88-21" fill="none" stroke="#fff" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M46 478c20-25 33-54 39-94 10-75-17-152 20-191 42-45 122-25 175-45 31-11 55-19 88-21" fill="none" stroke="#2788c5" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="46" cy="478" r="32" fill="#2788c5" opacity=".14"/>
+  <g transform="translate(46 478)" filter="url(#shadow)">
+    <path d="M0-23c-10.5 0-19 8.5-19 19 0 14 19 31 19 31S19 10 19-4C19-14.5 10.5-23 0-23Z" fill="#fff" stroke="#2788c5" stroke-width="3"/>
+    <circle cy="-4" r="7" fill="#2788c5"/><circle cy="-4" r="2.5" fill="#fff"/>
+  </g>
+  <circle cx="368" cy="127" r="35" fill="#2788c5" opacity=".14"/>
+  <circle cx="368" cy="127" r="27" fill="#fff" stroke="#2788c5" stroke-width="3" filter="url(#shadow)"/>
+  <g transform="translate(368 127) rotate(84)" fill="none" stroke="#205678" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="-9" y="-17" width="18" height="34" rx="6" fill="#e7f2f7" stroke-width="2"/>
+    <path d="M-7-6h14M-7 8h14" stroke-width="2"/>
+    <path d="M-11-10v5m22-5v5M-11 6v5m22-5v5" stroke-width="3"/>
+  </g>
+</svg>

@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import api from '../../services/api';
-import { useAdminAuth } from '../../context/AdminAuthContext';
 import { X, Upload, Image as ImageIcon, Loader2, Plus, Trash2, CheckCircle, AlertCircle } from 'lucide-react';
 import { useProductCategories } from '../../context/CategoryContext';
 import ThemeSelect from '../../components/common/ThemeSelect';
 
 const ProductEditorModal = ({ product, isOpen, onClose, onSaved }) => {
-  const { authHeaders } = useAdminAuth();
   const { categories, refreshCategories } = useProductCategories();
   const isEditing = !!product;
 
@@ -155,7 +153,7 @@ const ProductEditorModal = ({ product, isOpen, onClose, onSaved }) => {
     setSavingCategory(true);
     setCategoryError('');
     try {
-      const response = await api.post('/admin/categories', { label }, { headers: authHeaders });
+      const response = await api.post('/admin/categories', { label });
       if (response.data.success) {
         await refreshCategories();
         setFormData((current) => ({ ...current, category: response.data.category.id }));
@@ -208,7 +206,7 @@ const ProductEditorModal = ({ product, isOpen, onClose, onSaved }) => {
         const uploadForm = new FormData();
         uploadForm.append('image', pendingImage);
         const uploadResponse = await api.post('/admin/upload', uploadForm, {
-          headers: { ...authHeaders, 'Content-Type': 'multipart/form-data' },
+          headers: { 'Content-Type': 'multipart/form-data' },
         });
         if (!uploadResponse.data.success || !uploadResponse.data.imageUrl) {
           throw new Error(uploadResponse.data.message || 'Image upload failed.');
@@ -219,9 +217,9 @@ const ProductEditorModal = ({ product, isOpen, onClose, onSaved }) => {
       }
       let res;
       if (isEditing) {
-        res = await api.put(`/admin/products/${product.id}`, payload, { headers: authHeaders });
+        res = await api.put(`/admin/products/${product.id}`, payload);
       } else {
-        res = await api.post('/admin/products', payload, { headers: authHeaders });
+        res = await api.post('/admin/products', payload);
       }
 
       if (res.data.success) {
@@ -232,7 +230,7 @@ const ProductEditorModal = ({ product, isOpen, onClose, onSaved }) => {
       }
     } catch (err) {
       if (uploadedUrl) {
-        await api.delete('/admin/upload', { headers: authHeaders, data: { imageUrl: uploadedUrl } }).catch(() => {});
+        await api.delete('/admin/upload', { data: { imageUrl: uploadedUrl } }).catch(() => {});
       }
       setError(err.response?.data?.message || err.message || 'Error occurred while saving product.');
     } finally {

@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import api from '../services/api';
 import { formatMoney } from '../utils/money';
+import { companyName } from '../utils/branding';
 import { 
   ShoppingCart, 
   Trash2, 
@@ -43,12 +44,13 @@ const loadRazorpay = () => {
 
 const Cart = () => {
   const { user, isAuthenticated, openAuthModal, updateProfile } = useAuth();
-  const { cartItems, itemCount, subtotal, updateQuantity, removeItem, clearCart, refreshCart, showToast } = useCart();
+  const { cartItems, itemCount, subtotal, loading: cartLoading, syncError, syncGuestCart, updateQuantity, removeItem, clearCart, refreshCart, showToast } = useCart();
   const navigate = useNavigate();
 
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const checkoutKeyRef = useRef(null);
   const [isEditingAddress, setIsEditingAddress] = useState(false);
+  const hasSavedAddress = Boolean(user?.addressLine1 && user?.city && /^[0-9]{6}$/.test(user?.pincode || ''));
   const [addressForm, setAddressForm] = useState({
     fullName: user?.fullName || '',
     addressLine1: user?.addressLine1 || '',
@@ -85,6 +87,21 @@ const Cart = () => {
       showToast('Your cart is empty', 'error');
       return;
     }
+    if (syncError) {
+      const synced = await syncGuestCart();
+      if (!synced) return;
+    }
+    if (!addressForm.fullName.trim() || !addressForm.addressLine1.trim() ||
+        !addressForm.city.trim() || !/^[0-9]{6}$/.test(addressForm.pincode.trim())) {
+      setIsEditingAddress(true);
+      showToast('Enter your delivery address and 6-digit PIN first.', 'error');
+      return;
+    }
+    if (isEditingAddress || !hasSavedAddress) {
+      setIsEditingAddress(true);
+      showToast('Save your delivery address before payment.', 'error');
+      return;
+    }
     try {
       setIsProcessingPayment(true);
       await loadRazorpay();
@@ -111,7 +128,7 @@ const Cart = () => {
           key: keyId,
           amount: Math.round(amount * 100),
           currency: currency || 'INR',
-          name: 'Advait Teleservices Private Limited',
+          name: companyName,
           description: `Order #${orderNumber}`,
           image: '/logo.png',
           order_id: razorpayOrderId,
@@ -189,24 +206,7 @@ const Cart = () => {
       </section>
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {!isAuthenticated ? (
-          /* Guest Screen */
-          <div className="max-w-md mx-auto text-center bg-white p-8 rounded-3xl border border-gray-200/80 shadow-sm space-y-4 reveal-scale">
-            <div className="w-16 h-16 rounded-full bg-brand-100 text-[#385775] flex items-center justify-center mx-auto">
-              <ShoppingCart className="w-8 h-8" />
-            </div>
-            <h2 className="text-xl font-bold text-gray-900">Sign in to Access Your Cart</h2>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              Please log in with your mobile number to view saved products, select delivery address, and proceed with Razorpay checkout.
-            </p>
-            <button
-              onClick={() => openAuthModal()}
-              className="w-full py-3 bg-[#385775] hover:bg-[#293d54] text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-md transition-all duration-200 btn-press"
-            >
-              Login with Mobile OTP
-            </button>
-          </div>
-        ) : cartItems.length === 0 ? (
+        {cartItems.length === 0 ? (
           /* Empty Cart Screen */
           <div className="max-w-md mx-auto text-center bg-white p-10 rounded-3xl border border-gray-200/80 shadow-sm space-y-4 reveal-scale">
             <div className="w-16 h-16 rounded-full bg-brand-100 text-[#385775] flex items-center justify-center mx-auto">
@@ -231,7 +231,7 @@ const Cart = () => {
             <div className="min-w-0 lg:col-span-8 space-y-6">
               
               {/* Delivery Address Box */}
-              <div className="bg-white p-4 sm:p-6 rounded-2xl border border-gray-200/80 shadow-xs reveal">
+              {isAuthenticated ? <div className="bg-white p-4 sm:p-6 rounded-2xl border border-gray-200/80 shadow-xs reveal">
                 <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-gray-100">
                   <div className="flex items-center gap-2">
                     <MapPin className="w-5 h-5 text-brand-700" />
@@ -251,11 +251,11 @@ const Cart = () => {
                     className="text-xs font-bold text-[#385775] hover:underline flex items-center gap-1 transition-colors duration-150"
                   >
                     <Edit3 className="w-3.5 h-3.5" />
-                    <span>{isEditingAddress ? 'Cancel' : 'Change Address'}</span>
+                    <span>{isEditingAddress ? 'Cancel' : hasSavedAddress ? 'Change Address' : 'Add Address'}</span>
                   </button>
                 </div>
 
-                {!isEditingAddress ? (
+                {hasSavedAddress && !isEditingAddress ? (
                   <div className="pt-3 text-xs text-gray-700 space-y-1">
                     <p className="font-bold text-sm text-gray-900">{user.fullName}</p>
                     <p className="text-gray-600">{user.addressLine1}</p>
@@ -325,7 +325,7 @@ const Cart = () => {
                         onClick={() => setIsEditingAddress(false)}
                         className="px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-150"
                       >
-                        Cancel
+                        {hasSavedAddress ? 'Cancel' : 'Later'}
                       </button>
                       <button
                         type="submit"
@@ -336,7 +336,11 @@ const Cart = () => {
                     </div>
                   </form>
                 )}
-              </div>
+              </div> : <div className="rounded-2xl border border-brand-200 bg-white p-5 text-sm text-gray-700">
+                <p className="font-bold text-gray-900">Checkout with your mobile number</p>
+                <p className="mt-1">Your items are saved in this browser. Sign in to enter your delivery address and place the order.</p>
+                <button type="button" onClick={() => openAuthModal()} className="mt-3 text-xs font-bold text-[#385775] hover:underline">Continue with mobile</button>
+              </div>}
 
               {/* Items List */}
               <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs overflow-hidden reveal">
@@ -346,6 +350,7 @@ const Cart = () => {
                   </h3>
                   <button
                     onClick={clearCart}
+                    disabled={cartLoading}
                     className="text-xs font-semibold text-red-600 hover:underline flex items-center gap-1 transition-colors duration-150"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -384,6 +389,7 @@ const Cart = () => {
                         <button
                           type="button"
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          disabled={cartLoading}
                           className="px-2.5 py-1.5 text-gray-700 hover:bg-brand-200 transition-colors duration-150"
                         >
                           <Minus className="w-3 h-3" />
@@ -394,6 +400,7 @@ const Cart = () => {
                         <button
                           type="button"
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          disabled={cartLoading || item.quantity >= 100}
                           className="px-2.5 py-1.5 text-gray-700 hover:bg-brand-200 transition-colors duration-150"
                         >
                           <Plus className="w-3 h-3" />
@@ -407,6 +414,7 @@ const Cart = () => {
                         </span>
                         <button
                           onClick={() => removeItem(item.id)}
+                          disabled={cartLoading}
                           className="text-red-500 hover:text-red-700 p-1 rounded transition-colors duration-150 mt-1"
                           title="Remove item"
                         >
@@ -453,14 +461,15 @@ const Cart = () => {
                 </div>
 
                 {/* Razorpay Proceed Button */}
+                {syncError && <div role="alert" className="rounded-lg bg-red-50 p-3 text-xs text-red-700">{syncError} <button type="button" onClick={syncGuestCart} className="font-bold underline">Retry</button></div>}
                 <button
                   type="button"
                   onClick={handleProceedToRazorpay}
-                  disabled={isProcessingPayment}
+                  disabled={isProcessingPayment || cartLoading}
                   className="w-full py-3.5 px-4 bg-[#385775] hover:bg-[#293d54] active:scale-[0.98] text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 btn-press"
                 >
                   <CreditCard className="w-4 h-4" />
-                  <span>{isProcessingPayment ? 'Connecting Razorpay...' : 'PAY WITH RAZORPAY'}</span>
+                  <span>{isProcessingPayment ? 'Connecting Razorpay...' : cartLoading ? 'Updating cart...' : !isAuthenticated ? 'Continue with mobile' : !hasSavedAddress ? 'Add delivery address' : 'PAY WITH RAZORPAY'}</span>
                 </button>
 
                 <div className="space-y-2 pt-2 text-[11px] text-gray-500 border-t border-gray-100">

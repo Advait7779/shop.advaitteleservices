@@ -36,3 +36,31 @@ const cleanOldUploads = () => pruneUnusedUploads()
   .catch((error) => console.error('Could not clean old product images:', error));
 cleanOldUploads();
 setInterval(cleanOldUploads, 24 * 60 * 60 * 1000).unref();
+
+const cleanAuthRecords = async () => {
+  const now = new Date();
+  const dayMs = 24 * 60 * 60 * 1000;
+  try {
+    await Promise.all([
+      prisma.authSession.deleteMany({ where: { idleUntil: { lte: now } } }),
+      prisma.authRateLimit.deleteMany({ where: { expiresAt: { lte: now } } }),
+      prisma.otpVerification.deleteMany({ where: { expiresAt: { lt: new Date(now.getTime() - dayMs) } } }),
+      prisma.otpRequestQuota.deleteMany({
+        where: { day: { lt: new Date(now.getTime() - 2 * dayMs).toISOString().slice(0, 10) } },
+      }),
+    ]);
+  } catch (error) {
+    console.error('Could not clean expired authentication records:', error.code || error.name);
+  }
+};
+cleanAuthRecords();
+setInterval(cleanAuthRecords, 60 * 60 * 1000).unref();
+
+function cleanVisitIdentifiers() {
+  const before = new Date(Date.now() - 48 * 60 * 60 * 1000);
+  return prisma.storefrontVisit.deleteMany({ where: { createdAt: { lt: before } } }).catch((error) => {
+    console.error('Could not clean expired visit identifiers:', error.code || error.name);
+  });
+}
+cleanVisitIdentifiers();
+setInterval(cleanVisitIdentifiers, 60 * 60 * 1000).unref();

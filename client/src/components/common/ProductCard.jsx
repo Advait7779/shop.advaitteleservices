@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingBag, LoaderCircle, Check } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { companyName } from '../../utils/branding';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
@@ -32,7 +33,7 @@ const ProductCard = ({ product }) => {
     <article className="product-editorial group flex h-full flex-col">
       <div className="product-editorial__image-panel">
         <div className="product-editorial__topline">
-          <span className="product-editorial__code">ADVAIT TRACK</span>
+          <span className="product-editorial__code">{companyName}</span>
           {product.discountPercent > 0 && (
             <span className="product-editorial__discount">{product.discountPercent}% OFF</span>
           )}
@@ -79,19 +80,19 @@ const ProductCard = ({ product }) => {
         >
           {isAdding ? (
             <>
-              <LoaderCircle size={16} strokeWidth={2} className="animate-spin text-brand-200" />
+              <LoaderCircle size={14} strokeWidth={2} className="animate-spin text-brand-200" />
               <span>Adding to Cart...</span>
             </>
           ) : justAdded ? (
             <>
-              <Check size={16} strokeWidth={2.4} className="text-brand-200" />
+              <Check size={14} strokeWidth={2.4} className="text-brand-200" />
               <span>Added to Cart!</span>
             </>
           ) : product.inStock === false ? (
             <span>Out of Stock</span>
           ) : (
             <>
-              <ShoppingBag size={16} strokeWidth={1.8} />
+              <ShoppingBag size={14} strokeWidth={1.8} />
               <span>Add to Cart</span>
             </>
           )}

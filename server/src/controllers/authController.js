@@ -3,31 +3,26 @@ const jwt = require('jsonwebtoken');
 const prisma = require('../config/db');
 const smsService = require('../services/smsService');
 const otpQuota = require('../services/otpQuota');
-const { JWT_SECRET } = require('../middleware/authMiddleware');
+const { JWT_SECRET } = require('../config/sessionSecret');
+const { createSession } = require('../services/sessions');
 
-const normalizeMobile = (value) => {
-  if (typeof value !== 'string') return null;
-  const digits = value.replace(/\D/g, '');
-  const mobile = digits.length === 12 && digits.startsWith('91') ? digits.slice(2) : digits;
-  return /^[6-9]\d{9}$/.test(mobile) ? mobile : null;
-};
+const isIndianMobile = (value) =>
+  typeof value === 'string' && value.length === 10 && /^[6-9][0-9]{9}$/.test(value);
+const invalidMobileMessage = 'Enter a 10-digit Indian mobile number starting with 6, 7, 8 or 9.';
 const otpHash = (mobile, code) => crypto.createHmac('sha256', JWT_SECRET).update(`${mobile}:${code}`).digest('hex');
 const publicUser = (user) => ({
   id: user.id, fullName: user.fullName, mobileNumber: user.mobileNumber, email: user.email,
   addressLine1: user.addressLine1, addressLine2: user.addressLine2,
   city: user.city, pincode: user.pincode, role: user.role,
 });
-const validAddress = ({ fullName, addressLine1, city, pincode }) =>
-  typeof fullName === 'string' && !!fullName.trim() &&
-  typeof addressLine1 === 'string' && !!addressLine1.trim() &&
-  typeof city === 'string' && !!city.trim() &&
-  typeof pincode === 'string' && /^\d{6}$/.test(pincode.trim());
 
 exports.sendOtp = async (req, res) => {
   let quota;
   try {
-    const mobile = normalizeMobile(req.body.mobileNumber);
-    if (!mobile) return res.status(400).json({ success: false, message: 'Enter a valid 10-digit mobile number.' });
+    const mobile = req.body?.mobileNumber;
+    if (!isIndianMobile(mobile)) {
+      return res.status(400).json({ success: false, message: invalidMobileMessage });
+    }
     const user = await prisma.user.findUnique({ where: { mobileNumber: mobile } });
     // Administrators use the separate password login and can never get a customer OTP.
     if (user?.role === 'ADMIN') {
@@ -68,17 +63,19 @@ exports.sendOtp = async (req, res) => {
       res.set('Retry-After', String(otpQuota.secondsUntilReset(quota.day)));
       return res.status(429).json({ success: false, message: error.message });
     }
-    console.error('Send OTP error:', error);
+    console.error('Send OTP error:', error.code || error.name);
     return res.status(500).json({ success: false, message: 'Failed to send OTP.' });
   }
 };
 
 exports.verifyOtp = async (req, res) => {
   try {
-    const mobile = normalizeMobile(req.body.mobileNumber);
-    const code = req.body.otpCode;
-    if (!mobile || typeof code !== 'string' || !/^\d{6}$/.test(code)) {
-      return res.status(400).json({ success: false, message: 'Enter a valid mobile number and 6-digit OTP.' });
+    const { mobileNumber: mobile, otpCode: code } = req.body || {};
+    if (!isIndianMobile(mobile)) {
+      return res.status(400).json({ success: false, message: invalidMobileMessage });
+    }
+    if (typeof code !== 'string' || !/^\d{6}$/.test(code)) {
+      return res.status(400).json({ success: false, message: 'Enter a valid 6-digit OTP.' });
     }
     let user = await prisma.user.findUnique({ where: { mobileNumber: mobile } });
     if (user?.role === 'ADMIN') return res.status(403).json({ success: false, message: 'Use administrator sign-in.' });
@@ -107,40 +104,37 @@ exports.verifyOtp = async (req, res) => {
       const registrationToken = jwt.sign({ mobileNumber: mobile, purpose: 'CUSTOMER_REGISTRATION' }, JWT_SECRET, { expiresIn: '15m' });
       return res.json({ success: true, registrationRequired: true, registrationToken });
     }
-    const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '30d' });
-    return res.json({ success: true, token, user: publicUser(user) });
+    const setCookie = await prisma.$transaction((tx) => createSession(req, res, user, 'CUSTOMER', tx));
+    setCookie();
+    return res.json({ success: true, user: publicUser(user) });
   } catch (error) {
-    console.error('Verify OTP error:', error);
+    console.error('Verify OTP error:', error.code || error.name);
     return res.status(500).json({ success: false, message: 'Failed to verify OTP.' });
   }
 };
 
 exports.completeRegistration = async (req, res) => {
   try {
-    const { registrationToken, fullName, addressLine1, addressLine2, city, pincode } = req.body || {};
+    const { registrationToken, fullName } = req.body || {};
     if (typeof registrationToken !== 'string') return res.status(400).json({ success: false, message: 'Verify your mobile number first.' });
     let verified;
     try { verified = jwt.verify(registrationToken, JWT_SECRET); }
     catch { return res.status(401).json({ success: false, message: 'Registration expired. Request a new OTP.' }); }
-    if (verified.purpose !== 'CUSTOMER_REGISTRATION' || !normalizeMobile(verified.mobileNumber)) {
+    if (verified.purpose !== 'CUSTOMER_REGISTRATION' || !isIndianMobile(verified.mobileNumber)) {
       return res.status(401).json({ success: false, message: 'Verify your mobile number first.' });
     }
-    if (!validAddress({ fullName, addressLine1, city, pincode }) ||
-        fullName.trim().length > 100 || addressLine1.trim().length > 200 ||
-        city.trim().length > 100 || (typeof addressLine2 === 'string' && addressLine2.trim().length > 200)) {
-      return res.status(400).json({ success: false, message: 'Enter your name, delivery address, city and valid 6-digit PIN.' });
+    if (typeof fullName !== 'string' || !fullName.trim() || fullName.trim().length > 100) {
+      return res.status(400).json({ success: false, message: 'Enter your name to create your account.' });
     }
-    const user = await prisma.user.create({ data: {
-      mobileNumber: verified.mobileNumber,
-      fullName: fullName.trim(), addressLine1: addressLine1.trim(),
-      addressLine2: typeof addressLine2 === 'string' ? addressLine2.trim() : '',
-      city: city.trim(), pincode: pincode.trim(),
-    } });
-    const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '30d' });
-    return res.status(201).json({ success: true, token, user: publicUser(user) });
+    const { user, setCookie } = await prisma.$transaction(async (tx) => {
+      const user = await tx.user.create({ data: { mobileNumber: verified.mobileNumber, fullName: fullName.trim() } });
+      return { user, setCookie: await createSession(req, res, user, 'CUSTOMER', tx) };
+    });
+    setCookie();
+    return res.status(201).json({ success: true, user: publicUser(user) });
   } catch (error) {
     if (error.code === 'P2002') return res.status(409).json({ success: false, message: 'This mobile number is already registered. Please sign in.' });
-    console.error('Complete registration error:', error);
+    console.error('Complete registration error:', error.code || error.name);
     return res.status(500).json({ success: false, message: 'Could not create your account.' });
   }
 };
@@ -166,7 +160,7 @@ exports.updateProfile = async (req, res) => {
     const updated = await prisma.user.update({ where: { id: req.user.id }, data });
     return res.json({ success: true, user: publicUser(updated) });
   } catch (error) {
-    console.error('Update profile error:', error);
+    console.error('Update profile error:', error.code || error.name);
     return res.status(500).json({ success: false, message: 'Failed to update profile.' });
   }
 };

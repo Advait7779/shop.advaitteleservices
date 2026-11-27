@@ -21,8 +21,14 @@ async function main() {
     fullName: 'Advait Administrator', addressLine1: 'Advait Teleservices',
     city: 'Pune', pincode: '411028',
   };
-  if (existing) await prisma.user.update({ where: { id: existing.id }, data });
-  else await prisma.user.create({ data });
+  if (existing) {
+    await prisma.$transaction(async (tx) => {
+      await tx.user.update({ where: { id: existing.id, role: 'ADMIN' }, data });
+      await tx.authSession.deleteMany({ where: { userId: existing.id, kind: 'ADMIN' } });
+    });
+  } else {
+    await prisma.user.create({ data });
+  }
   console.log('Administrator account configured.');
 }
 

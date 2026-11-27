@@ -1,118 +1,58 @@
-import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import api from '../services/api';
 
 const AdminAuthContext = createContext(null);
 
-export const AdminAuthProvider = ({ children }) => {
-  const [adminToken, setAdminToken] = useState(() => localStorage.getItem('advait_admin_token') || null);
-  const [adminUser, setAdminUser] = useState(() => {
-    const saved = localStorage.getItem('advait_admin_user');
-    return saved ? JSON.parse(saved) : null;
-  });
+export function AdminAuthProvider({ children }) {
+  const [adminUser, setAdminUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const validatedTokenRef = useRef(null);
-  const sessionGenerationRef = useRef(0);
+  const generation = useRef(0);
 
   useEffect(() => {
-    const handleExpired = () => {
-      sessionGenerationRef.current += 1;
-      validatedTokenRef.current = null;
-      setAdminToken(null);
+    const abort = new AbortController();
+    const initial = generation.current;
+    const expire = () => {
+      generation.current += 1;
       setAdminUser(null);
-      setLoading(false);
-      localStorage.removeItem('advait_admin_token');
-      localStorage.removeItem('advait_admin_user');
     };
-    window.addEventListener('advait-admin-session-expired', handleExpired);
-    return () => window.removeEventListener('advait-admin-session-expired', handleExpired);
+    window.addEventListener('advait-admin-session-expired', expire);
+    api.get('/admin/auth/me', { signal: abort.signal, skipSessionExpiry: true }).then(({ data }) => {
+      if (!abort.signal.aborted && initial === generation.current) setAdminUser(data.admin);
+    }).catch(() => {}).finally(() => {
+      if (!abort.signal.aborted) setLoading(false);
+    });
+    return () => {
+      abort.abort();
+      window.removeEventListener('advait-admin-session-expired', expire);
+    };
   }, []);
 
-  // Validate session on load
-  useEffect(() => {
-    if (adminToken) {
-      // Login already returned a verified admin. Validate only restored sessions.
-      if (validatedTokenRef.current === adminToken) return;
-      validatedTokenRef.current = adminToken;
-      const generation = sessionGenerationRef.current;
-      api
-        .get('/admin/auth/me', {
-          headers: { Authorization: `Bearer ${adminToken}` },
-        })
-        .then((res) => {
-          if (sessionGenerationRef.current !== generation) return;
-          if (res.data.success) {
-            setAdminUser(res.data.admin);
-            localStorage.setItem('advait_admin_user', JSON.stringify(res.data.admin));
-          } else {
-            logout();
-          }
-        })
-        .catch(() => {
-          if (sessionGenerationRef.current === generation) logout();
-        })
-        .finally(() => {
-          if (sessionGenerationRef.current === generation) setLoading(false);
-        });
-    } else {
-      setLoading(false);
-    }
-  }, [adminToken]);
-
-  const login = async (identifier, password) => {
+  const login = async (identifier, password, code) => {
     try {
-      const res = await api.post('/admin/auth/login', { identifier, password });
-      if (res.data.success) {
-        const { token, admin } = res.data;
-        sessionGenerationRef.current += 1;
-        validatedTokenRef.current = token;
-        setAdminToken(token);
-        setAdminUser(admin);
-        localStorage.setItem('advait_admin_token', token);
-        localStorage.setItem('advait_admin_user', JSON.stringify(admin));
-        return { success: true };
-      }
-      return { success: false, message: res.data.message || 'Login failed.' };
-    } catch (err) {
-      return {
-        success: false,
-        message: err.response?.data?.message || 'Authentication error. Please check credentials.',
-      };
+      const { data } = await api.post('/admin/auth/login', { identifier, password, code }, { skipSessionExpiry: true });
+      generation.current += 1;
+      setAdminUser(data.admin);
+      return { success: true };
+    } catch (error) {
+      return { success: false, message: error.response?.data?.message || 'Could not sign in. Please try again.' };
     }
   };
 
-  const logout = () => {
-    sessionGenerationRef.current += 1;
-    validatedTokenRef.current = null;
-    setAdminToken(null);
+  const logout = async () => {
+    await api.post('/admin/auth/logout');
+    generation.current += 1;
     setAdminUser(null);
-    setLoading(false);
-    localStorage.removeItem('advait_admin_token');
-    localStorage.removeItem('advait_admin_user');
   };
-
-  const authHeaders = adminToken ? { Authorization: `Bearer ${adminToken}` } : {};
 
   return (
-    <AdminAuthContext.Provider
-      value={{
-        adminToken,
-        adminUser,
-        isAuthenticated: !!adminToken && !!adminUser,
-        loading,
-        login,
-        logout,
-        authHeaders,
-      }}
-    >
+    <AdminAuthContext.Provider value={{ adminUser, isAuthenticated: Boolean(adminUser), loading, login, logout }}>
       {children}
     </AdminAuthContext.Provider>
   );
-};
+}
 
 export const useAdminAuth = () => {
   const context = useContext(AdminAuthContext);
-  if (!context) {
-    throw new Error('useAdminAuth must be used within an AdminAuthProvider');
-  }
+  if (!context) throw new Error('useAdminAuth must be used within an AdminAuthProvider');
   return context;
 };

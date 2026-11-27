@@ -15,6 +15,9 @@ let deliverySucceeds = true;
 let releasedSlots = 0;
 const prisma = {
   $transaction: async (work) => work(prisma),
+  authSession: {
+    create: async () => {},
+  },
   user: {
     findUnique: async () => user,
     update: async () => { userUpdates += 1; return user; },
@@ -45,6 +48,7 @@ const response = () => ({
   statusCode: 200,
   status(code) { this.statusCode = code; return this; },
   set(name, value) { this.headers = { ...this.headers, [name]: value }; return this; },
+  cookie(name, value, options) { this.sessionCookie = { name, value, options }; return this; },
   json(body) { this.body = body; return this; },
 });
 
@@ -58,6 +62,38 @@ test('customer OTP is not returned in production and is stored as a hash', async
   assert.match(sentCode, /^\d{6}$/);
   assert.match(storedOtp.otpCode, /^[a-f0-9]{64}$/);
   assert.notEqual(storedOtp.otpCode, sentCode);
+});
+
+test('customer OTP endpoints reject mobile numbers outside the 10-digit Indian format', async () => {
+  user = null;
+  sentCode = null;
+  const previousOtp = storedOtp;
+  const invalidNumbers = [
+    '987654321',
+    '98765432100',
+    '+919876543210',
+    '919876543210',
+    '+447911123456',
+    '98765-43210',
+    '9876543210\n',
+    '5876543210',
+    9876543210,
+  ];
+
+  for (const mobileNumber of invalidNumbers) {
+    const send = response();
+    await controller.sendOtp({ body: { mobileNumber } }, send);
+    assert.equal(send.statusCode, 400, JSON.stringify(mobileNumber));
+    assert.match(send.body.message, /10-digit Indian mobile number/);
+
+    const verify = response();
+    await controller.verifyOtp({ body: { mobileNumber, otpCode: '123456' } }, verify);
+    assert.equal(verify.statusCode, 400, JSON.stringify(mobileNumber));
+    assert.match(verify.body.message, /10-digit Indian mobile number/);
+  }
+
+  assert.equal(sentCode, null);
+  assert.equal(storedOtp, previousOtp);
 });
 
 test('administrator phone cannot receive a customer OTP', async () => {
@@ -105,7 +141,8 @@ test('returning customer signs in with mobile and OTP without changing saved det
   await controller.verifyOtp({ body: { mobileNumber: '9876543210', otpCode: sentCode,
     fullName: 'Wrong Name', addressLine1: 'Wrong Address' } }, verified);
   assert.equal(verified.statusCode, 200);
-  assert.ok(verified.body.token);
+  assert.equal(verified.body.token, undefined);
+  assert.equal(verified.sessionCookie.options.httpOnly, true);
   assert.equal(verified.body.user.fullName, 'Saved Name');
   assert.equal(userUpdates, 0);
 });
@@ -123,15 +160,17 @@ test('new customer verifies OTP before registering once', async () => {
 
   const invalid = response();
   await controller.completeRegistration({ body: { registrationToken: verified.body.registrationToken,
-    fullName: 'New Customer', addressLine1: 'Home', city: 'Pune', pincode: '12' } }, invalid);
+    fullName: ' ' } }, invalid);
   assert.equal(invalid.statusCode, 400);
   assert.equal(userCreates, 0);
 
   const registered = response();
   await controller.completeRegistration({ body: { registrationToken: verified.body.registrationToken,
-    fullName: 'New Customer', addressLine1: 'Home', addressLine2: '', city: 'Pune', pincode: '411028' } }, registered);
+    fullName: 'New Customer' } }, registered);
   assert.equal(registered.statusCode, 201);
   assert.equal(registered.body.user.mobileNumber, '9876543210');
-  assert.ok(registered.body.token);
+  assert.equal(registered.body.user.addressLine1, undefined);
+  assert.equal(registered.body.token, undefined);
+  assert.equal(registered.sessionCookie.options.httpOnly, true);
   assert.equal(userCreates, 1);
 });

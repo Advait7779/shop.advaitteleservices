@@ -6,7 +6,7 @@ import { useCart } from '../../context/CartContext';
 import { shopCategoryLink } from '../../data/productCategories';
 import { useProductCategories } from '../../context/CategoryContext';
 import { 
-  ShoppingCart, User, LogOut, FileText, Menu, X, ChevronDown, MapPin, Search
+  ShoppingCart, User, LogOut, Menu, X, ChevronDown, MapPin, Search
 } from 'lucide-react';
 
 const accountInitials = (fullName) => {
@@ -20,7 +20,7 @@ const Navbar = () => {
   const { categories } = useProductCategories();
   const mainCategories = categories.slice(0, 5);
   const moreCategories = categories.slice(5);
-  const { itemCount } = useCart();
+  const { itemCount, showToast } = useCart();
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -38,9 +38,13 @@ const Navbar = () => {
     setShowSignOutConfirm(true);
   };
 
-  const confirmSignOut = () => {
-    logout();
-    setShowSignOutConfirm(false);
+  const confirmSignOut = async () => {
+    try {
+      await logout();
+      setShowSignOutConfirm(false);
+    } catch {
+      showToast('Could not sign out. Please try again.', 'error');
+    }
   };
 
   useEffect(() => {
@@ -108,26 +112,23 @@ const Navbar = () => {
     <>
     <header className={`fixed inset-x-0 top-0 z-40 w-full text-white ${scrolled ? 'shadow-xl' : ''}`}>
       <div className="bg-[#293d54]">
-        <div className="grid h-[70px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 sm:px-6 md:grid-cols-[minmax(210px,1fr)_minmax(0,590px)_minmax(210px,1fr)] lg:h-[76px] lg:gap-8 lg:px-9">
+        <div className="grid h-[70px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 px-4 sm:gap-3 sm:px-6 md:grid-cols-[minmax(210px,1fr)_minmax(0,590px)_minmax(210px,1fr)] lg:h-[76px] lg:gap-8 lg:px-9">
           {/* Brand at the left of the main header */}
           <Link to="/" className="group flex min-w-0 items-center gap-2 lg:gap-2.5">
             <img 
               src="/logo.png" 
-              alt="Advait Teleservices Logo" 
-              className="h-9 w-9 shrink-0 object-contain transition-transform duration-200 group-hover:scale-105 sm:h-10 sm:w-10 xl:h-11 xl:w-11" 
+              alt=""
+              className="h-8 w-8 shrink-0 object-contain transition-transform duration-200 group-hover:scale-105 sm:h-10 sm:w-10 xl:h-11 xl:w-11"
             />
             <div>
-              <div className="flex items-center gap-1 leading-tight">
-                <span className="text-sm font-extrabold tracking-tight text-white drop-shadow-sm sm:text-lg md:text-base xl:text-xl">ADVAIT</span>
-                <span className="text-sm font-bold tracking-tight text-brand-400 drop-shadow-sm sm:text-lg md:text-base xl:text-xl">TRACK</span>
-              </div>
-              <p className="text-[7px] font-bold uppercase tracking-[0.1em] text-brand-200 sm:text-[8px] xl:text-[9px]">Teleservices Pvt. Ltd.</p>
+              <span className="block whitespace-nowrap text-[clamp(10px,3.2vw,13px)] font-extrabold uppercase leading-tight tracking-tight text-white drop-shadow-sm sm:text-base xl:text-lg">Advait Teleservices</span>
+              <span className="block text-[8px] font-bold uppercase tracking-[0.1em] text-brand-200 sm:text-[9px]">Pvt. Ltd.</span>
             </div>
           </Link>
 
           <div className="hidden min-w-0 justify-center md:flex">{searchForm()}</div>
 
-          {/* Quote, account, and cart */}
+          {/* Account and cart */}
           <div className="col-start-3 flex items-center justify-self-end gap-1 sm:gap-3">
             
             {/* User Profile / Login */}
@@ -154,10 +155,10 @@ const Navbar = () => {
                         <p className="text-sm font-bold">Your account</p>
                       </div>
                       <p className="mt-2 text-xs font-medium text-brand-200">+91 {user.mobileNumber}</p>
-                      <div className="mt-1 flex items-start gap-1 text-[11px] text-white/75">
+                      {user.city && user.pincode && <div className="mt-1 flex items-start gap-1 text-[11px] text-white/75">
                         <MapPin className="mt-0.5 h-3 w-3 shrink-0 text-brand-300" />
                         <span className="truncate">{user.city}, {user.pincode}</span>
-                      </div>
+                      </div>}
                     </div>
                     <Link to="/account" onClick={() => setUserDropdownOpen(false)} className="flex items-center gap-2 px-4 py-3 text-xs font-semibold text-[#2a435d] transition-colors duration-150 hover:bg-[#eaf0f6]">
                       <User className="h-4 w-4 text-[#385775]" />
@@ -177,16 +178,9 @@ const Navbar = () => {
             ) : (
               <div className="hidden items-center gap-1 whitespace-nowrap text-xs font-medium text-white/90 lg:flex sm:text-[13px]">
                 <User className="h-3.5 w-3.5 text-white/80" aria-hidden="true" />
-                <button type="button" onClick={() => openAuthModal()} className="rounded px-1 py-1.5 hover:text-white focus-visible:outline-2 focus-visible:outline-brand-300">Login</button>
-                <span aria-hidden="true" className="text-white/50">/</span>
-                <button type="button" onClick={() => openAuthModal(null, 'register')} className="rounded px-1 py-1.5 hover:text-white focus-visible:outline-2 focus-visible:outline-brand-300">Register</button>
+                <button type="button" onClick={() => openAuthModal()} className="rounded px-1 py-1.5 hover:text-white focus-visible:outline-2 focus-visible:outline-brand-300">Account</button>
               </div>
             )}
-
-            <Link to="/quote" aria-label="Get a quote" aria-current={location.pathname === '/quote' ? 'page' : undefined} className="group flex min-w-10 flex-col items-center justify-center rounded-md px-1 py-1 text-white/90 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-brand-300 sm:min-w-12">
-              <FileText className="h-5 w-5 text-brand-300 transition-transform group-hover:-translate-y-0.5" aria-hidden="true" />
-              <span className="mt-0.5 text-[9px] font-semibold sm:text-[10px]">Quote</span>
-            </Link>
 
             {/* Cart Button — Icon Only, Transparent BG */}
             <Link
@@ -280,14 +274,11 @@ const Navbar = () => {
             ) : (
               <div className="flex items-center gap-2 px-3 py-2.5 text-sm font-semibold text-brand-300">
                 <User className="h-4 w-4 text-brand-400" aria-hidden="true" />
-                <button type="button" onClick={() => { openAuthModal(); setMobileMenuOpen(false); }} className="rounded py-1 hover:text-white focus-visible:outline-2 focus-visible:outline-brand-300">Login</button>
-                <span aria-hidden="true" className="text-white/50">/</span>
-                <button type="button" onClick={() => { openAuthModal(null, 'register'); setMobileMenuOpen(false); }} className="rounded py-1 hover:text-white focus-visible:outline-2 focus-visible:outline-brand-300">Register</button>
+                <button type="button" onClick={() => { openAuthModal(); setMobileMenuOpen(false); }} className="rounded py-1 hover:text-white focus-visible:outline-2 focus-visible:outline-brand-300">Account</button>
               </div>
             )}
           </div>
 
-          <Link to="/quote" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 border-t border-white/10 px-3 pt-3 text-sm font-semibold text-brand-300"><FileText className="h-4 w-4" aria-hidden="true" />Get a Quote</Link>
         </div>
       </div>
     </header>

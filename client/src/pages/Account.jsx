@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, FileText, Mail, MapPin, Package, Phone, ShoppingCart, UserRound } from 'lucide-react';
+import { ArrowRight, Mail, MapPin, Package, Phone, ShoppingCart, UserRound } from 'lucide-react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { formatMoney } from '../utils/money';
+import { companyName } from '../utils/branding';
 
 const profileFields = ['fullName', 'addressLine1', 'addressLine2', 'city', 'pincode'];
 const formFromUser = (user) => Object.fromEntries(profileFields.map((key) => [key, user?.[key] || '']));
@@ -49,7 +50,8 @@ export default function Account() {
     event.preventDefault();
     setSaving(true);
     setProfileNotice('');
-    const result = await updateProfile(form);
+    const hasAddress = Boolean(form.addressLine1.trim() || form.city.trim() || form.pincode.trim());
+    const result = await updateProfile(hasAddress ? form : { fullName: form.fullName.trim() });
     setSaving(false);
     if (result.success) {
       setEditing(false);
@@ -73,7 +75,7 @@ export default function Account() {
   return (
     <div className="mx-auto max-w-6xl space-y-7 px-4 pb-20 pt-40 sm:px-6 md:pt-28 lg:pt-40 lg:px-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
-        <div><p className="text-xs font-bold uppercase tracking-[0.18em] text-[#385775]">Advait Track</p><h1 className="mt-1 text-3xl font-bold tracking-tight">My Account</h1><p className="mt-1 text-sm text-gray-600">Your details and orders in one place.</p></div>
+        <div><p className="text-xs font-bold uppercase tracking-[0.18em] text-[#385775]">{companyName}</p><h1 className="mt-1 text-3xl font-bold tracking-tight">My Account</h1><p className="mt-1 text-sm text-gray-600">Your details and orders in one place.</p></div>
         <div className="flex flex-wrap gap-2"><Link to="/shop" className="rounded-lg border border-brand-200 bg-white px-4 py-2.5 text-xs font-bold text-[#385775] hover:bg-brand-50">Shop Products</Link><Link to="/cart" className="rounded-lg bg-[#385775] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#2a435d]">My Cart</Link></div>
       </div>
 
@@ -84,19 +86,22 @@ export default function Account() {
           {editing ? (
             <form onSubmit={saveProfile} className="mt-5 space-y-4">
               <label className="block text-xs font-bold text-gray-700">Full Name<input name="fullName" value={form.fullName} onChange={(event) => setForm((current) => ({ ...current, fullName: event.target.value }))} className={inputClass} maxLength={100} required /></label>
-              <label className="block text-xs font-bold text-gray-700">Address Line 1<input name="addressLine1" value={form.addressLine1} onChange={(event) => setForm((current) => ({ ...current, addressLine1: event.target.value }))} className={inputClass} maxLength={200} required /></label>
+              <label className="block text-xs font-bold text-gray-700">Address Line 1<input name="addressLine1" value={form.addressLine1} onChange={(event) => setForm((current) => ({ ...current, addressLine1: event.target.value }))} className={inputClass} maxLength={200} required={Boolean(form.addressLine1 || form.city || form.pincode)} /></label>
               <label className="block text-xs font-bold text-gray-700">Address Line 2<input name="addressLine2" value={form.addressLine2} onChange={(event) => setForm((current) => ({ ...current, addressLine2: event.target.value }))} className={inputClass} maxLength={200} /></label>
-              <div className="grid grid-cols-2 gap-3"><label className="block text-xs font-bold text-gray-700">City<input name="city" value={form.city} onChange={(event) => setForm((current) => ({ ...current, city: event.target.value }))} className={inputClass} maxLength={100} required /></label><label className="block text-xs font-bold text-gray-700">PIN Code<input name="pincode" value={form.pincode} onChange={(event) => setForm((current) => ({ ...current, pincode: event.target.value }))} className={inputClass} inputMode="numeric" pattern="[0-9]{6}" maxLength={6} required /></label></div>
+              <div className="grid grid-cols-2 gap-3"><label className="block text-xs font-bold text-gray-700">City<input name="city" value={form.city} onChange={(event) => setForm((current) => ({ ...current, city: event.target.value }))} className={inputClass} maxLength={100} required={Boolean(form.addressLine1 || form.city || form.pincode)} /></label><label className="block text-xs font-bold text-gray-700">PIN Code<input name="pincode" value={form.pincode} onChange={(event) => setForm((current) => ({ ...current, pincode: event.target.value }))} className={inputClass} inputMode="numeric" pattern="[0-9]{6}" maxLength={6} required={Boolean(form.addressLine1 || form.city || form.pincode)} /></label></div>
               <div className="flex gap-2"><button type="submit" disabled={saving} className="rounded-lg bg-[#385775] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#2a435d] disabled:opacity-50">{saving ? 'Saving…' : 'Save Changes'}</button><button type="button" onClick={() => { setEditing(false); setForm(formFromUser(user)); setProfileNotice(''); }} className="rounded-lg border border-brand-200 px-4 py-2.5 text-xs font-bold text-[#385775]">Cancel</button></div>
             </form>
           ) : (
-            <div className="mt-5 space-y-4 text-sm"><div className="flex items-start gap-3"><UserRound className="mt-0.5 h-4 w-4 shrink-0 text-[#385775]" /><div><p className="text-xs text-gray-500">Name</p><p className="font-semibold">{user.fullName}</p></div></div><div className="flex items-start gap-3"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-[#385775]" /><div><p className="text-xs text-gray-500">Verified Mobile</p><p className="font-semibold">+91 {user.mobileNumber}</p></div></div>{user.email && <div className="flex items-start gap-3"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#385775]" /><div><p className="text-xs text-gray-500">Email</p><p className="font-semibold">{user.email}</p></div></div>}<div className="flex items-start gap-3"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#385775]" /><div><p className="text-xs text-gray-500">Delivery Address</p><p className="font-semibold">{user.addressLine1}{user.addressLine2 && `, ${user.addressLine2}`}</p><p>{user.city} - {user.pincode}</p></div></div></div>
+            <div className="mt-5 space-y-4 text-sm"><div className="flex items-start gap-3"><UserRound className="mt-0.5 h-4 w-4 shrink-0 text-[#385775]" /><div><p className="text-xs text-gray-500">Name</p><p className="font-semibold">{user.fullName}</p></div></div><div className="flex items-start gap-3"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-[#385775]" /><div><p className="text-xs text-gray-500">Verified Mobile</p><p className="font-semibold">+91 {user.mobileNumber}</p></div></div>{user.email && <div className="flex items-start gap-3"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#385775]" /><div><p className="text-xs text-gray-500">Email</p><p className="font-semibold">{user.email}</p></div></div>}<div className="flex items-start gap-3"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#385775]" /><div><p className="text-xs text-gray-500">Delivery Address</p>{user.addressLine1 ? <><p className="font-semibold">{user.addressLine1}{user.addressLine2 && `, ${user.addressLine2}`}</p><p>{user.city} - {user.pincode}</p></> : <p className="text-gray-500">Add an address when you check out.</p>}</div></div></div>
           )}
         </div>
 
         <div className="min-w-0 rounded-2xl border border-brand-200 bg-[#172536] p-6 text-white shadow-sm">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-300">Your Store</p><h2 className="mt-2 text-2xl font-bold">Everything connected.</h2><p className="mt-2 max-w-sm text-sm leading-relaxed text-white/70">View your purchases, check shipment status, and keep your delivery address ready for checkout.</p>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2"><Link to="/cart" className="flex items-center justify-between rounded-xl border border-white/20 bg-white/10 p-4 text-sm font-semibold hover:bg-white/20"><span className="flex items-center gap-2"><ShoppingCart className="h-4 w-4" />My Cart</span><ArrowRight className="h-4 w-4" /></Link><Link to="/quote" className="flex items-center justify-between rounded-xl border border-white/20 bg-white/10 p-4 text-sm font-semibold hover:bg-white/20"><span className="flex items-center gap-2"><FileText className="h-4 w-4" />Get a Quote</span><ArrowRight className="h-4 w-4" /></Link></div>
+          <Link to="/cart" className="mt-8 flex max-w-xs items-center justify-between rounded-xl border border-white/20 bg-white/10 p-4 text-sm font-semibold hover:bg-white/20">
+            <span className="flex items-center gap-2"><ShoppingCart className="h-4 w-4" />My Cart</span>
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </section>
 

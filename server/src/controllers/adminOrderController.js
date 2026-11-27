@@ -1,8 +1,8 @@
 const prisma = require('../config/db');
 const smsService = require('../services/smsService');
 const { parsePagination } = require('../utils/pagination');
-const publicUserFields = { id: true, email: true, fullName: true, mobileNumber: true,
-  addressLine1: true, addressLine2: true, city: true, pincode: true, role: true };
+const maskMobile = require('../utils/maskMobile');
+const publicUserFields = { id: true, fullName: true, mobileNumber: true };
 const safeOrder = ({ checkoutKey, cartSnapshot, razorpaySignature, ...order }) => order;
 
 // GET all orders
@@ -40,9 +40,6 @@ exports.getAllOrdersAdmin = async (req, res) => {
               id: true,
               fullName: true,
               mobileNumber: true,
-              email: true,
-              city: true,
-              pincode: true,
             },
           },
           items: {
@@ -58,14 +55,17 @@ exports.getAllOrdersAdmin = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      orders,
+      orders: orders.map((order) => ({
+        ...order,
+        user: order.user && { ...order.user, mobileNumber: maskMobile(order.user.mobileNumber) },
+      })),
       totalCount,
       page,
       totalPages: Math.max(1, Math.ceil(totalCount / limit)),
       hasNextPage: page * limit < totalCount,
     });
   } catch (error) {
-    console.error('Admin get orders error:', error);
+    console.error('Admin get orders error:', error.code || error.name);
     return res.status(500).json({ success: false, message: 'Failed to retrieve orders.' });
   }
 };
@@ -156,10 +156,10 @@ exports.updateOrderStatusAdmin = async (req, res) => {
         const msg = `Your Advait Teleservices order #${updated.orderNumber} has shipped via ${updated.courierName || 'Courier'}. Tracking No: ${updated.trackingNumber}. Thank you!`;
         const result = await smsService.sendCustomSms(existing.user.mobileNumber, msg);
         shipmentSmsSent = result.success;
-        if (!result.success) console.warn('Shipment SMS delivery failed:', result.error);
-      } catch (err) {
+        if (!result.success) console.warn('Shipment SMS delivery failed.');
+      } catch {
         shipmentSmsSent = false;
-        console.warn('SMS dispatch failed (non-blocking):', err.message);
+        console.warn('Shipment SMS dispatch failed.');
       }
     }
 
@@ -170,7 +170,7 @@ exports.updateOrderStatusAdmin = async (req, res) => {
       order: safeOrder(updated),
     });
   } catch (error) {
-    console.error('Update order status error:', error);
+    console.error('Update order status error:', error.code || error.name);
     return res.status(500).json({ success: false, message: 'Failed to update order status.' });
   }
 };

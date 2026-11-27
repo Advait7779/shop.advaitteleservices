@@ -1,11 +1,11 @@
-FROM node:22-bookworm-slim AS client-build
+FROM node:22-trixie-slim AS client-build
 WORKDIR /app/client
 COPY client/package*.json ./
 RUN npm ci
 COPY client/ ./
 RUN npm run build
 
-FROM node:22-bookworm-slim AS server-build
+FROM node:22-trixie-slim AS server-build
 RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
 WORKDIR /app/server
 COPY server/package*.json ./
@@ -13,8 +13,14 @@ RUN npm ci
 COPY server/prisma ./prisma
 RUN npx prisma generate
 
-FROM node:22-bookworm-slim
-RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates curl && rm -rf /var/lib/apt/lists/*
+FROM debian:trixie-slim
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends openssl ca-certificates curl libstdc++6 \
+    && rm -rf /var/lib/apt/lists/* \
+    && groupadd --gid 1000 node \
+    && useradd --uid 1000 --gid 1000 --create-home --shell /bin/sh node
+COPY --from=server-build /usr/local/bin/node /usr/local/bin/node
 ENV NODE_ENV=production PORT=6005 UPLOAD_DIR=/app/uploads/products
 WORKDIR /app
 COPY --from=server-build /app/server /app/server

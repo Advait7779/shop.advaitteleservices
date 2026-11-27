@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const prisma = require('../config/db');
 const { parsePagination } = require('../utils/pagination');
 const { razorpayInstance, key_id, key_secret } = require('../config/razorpay');
+const audit = require('../services/securityAudit');
 
 const moneyPaise = (price) => Math.round(price * 100);
 const publicOrder = ({ checkoutKey, cartSnapshot, razorpaySignature, ...order }) => order;
@@ -119,13 +120,13 @@ exports.createOrder = async (req, res) => {
       });
       return res.json(checkoutResponse(updated, req.user));
     } catch (gatewayError) {
-      console.error('Razorpay order creation failed:', gatewayError);
+      console.error('Razorpay order creation failed:', gatewayError.statusCode || gatewayError.code || 'unknown');
       await prisma.order.update({ where: { id: order.id }, data: { status: 'FAILED' } });
       return res.status(502).json({ success: false, message: 'Payment gateway is unavailable. Please retry.' });
     }
   } catch (error) {
     if (error.code === 'P2002') return res.status(409).json({ success: false, message: 'Checkout already started. Please retry.' });
-    console.error('Create order error:', error);
+    console.error('Create order error:', error.code || error.name);
     return res.status(500).json({ success: false, message: 'Failed to create order.' });
   }
 };
@@ -139,7 +140,7 @@ exports.verifyPayment = async (req, res) => {
     const order = await prisma.order.findUnique({ where: { id: orderId }, include: { items: true } });
     if (!order) return res.status(404).json({ success: false, message: 'Order not found.' });
     if (order.userId !== req.user.id) return res.status(403).json({ success: false, message: 'Access denied.' });
-    if (order.status === 'PAID') {
+    if (order.razorpayPaymentId) {
       return order.razorpayPaymentId === razorpayPaymentId
         ? res.json({ success: true, order: publicOrder(order) })
         : res.status(409).json({ success: false, message: 'Order was already paid.' });
@@ -154,16 +155,21 @@ exports.verifyPayment = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid payment signature.' });
     }
     const payment = await razorpayInstance.payments.fetch(razorpayPaymentId);
-    if (payment.order_id !== order.razorpayOrderId || payment.amount !== moneyPaise(order.totalAmount) || payment.currency !== 'INR') {
+    if (payment.id !== razorpayPaymentId || payment.order_id !== order.razorpayOrderId ||
+        payment.amount !== moneyPaise(order.totalAmount) || payment.currency !== order.currency) {
       return res.status(400).json({ success: false, message: 'Payment amount or order does not match.' });
     }
     if (payment.status !== 'captured') {
       return res.status(202).json({ success: false, pending: true, message: 'Payment is awaiting capture. Your order will update automatically.' });
     }
     const updated = await markPaid(order, razorpayPaymentId, razorpaySignature);
+    if (updated?.razorpayPaymentId !== razorpayPaymentId) {
+      audit('payment_needs_reconciliation', { route: '/api/orders/verify' });
+      return res.status(409).json({ success: false, message: 'Payment needs reconciliation. Check your order status.' });
+    }
     return res.json({ success: true, message: 'Payment verified.', order: publicOrder(updated) });
   } catch (error) {
-    console.error('Verify payment error:', error);
+    console.error('Verify payment error:', error.statusCode || error.code || error.name || 'unknown');
     return res.status(502).json({ success: false, message: 'Could not verify payment. Please check your order shortly.' });
   }
 };
@@ -183,10 +189,16 @@ exports.paymentWebhook = async (req, res) => {
     if (!payment?.id || !payment?.order_id || payment.status !== 'captured') return res.sendStatus(400);
     const order = await prisma.order.findUnique({ where: { razorpayOrderId: payment.order_id } });
     if (!order || payment.amount !== moneyPaise(order.totalAmount) || payment.currency !== order.currency) return res.sendStatus(400);
-    if (['PENDING', 'CANCELLED'].includes(order.status)) await markPaid(order, payment.id, signature);
+    const settled = ['PENDING', 'CANCELLED'].includes(order.status)
+      ? await markPaid(order, payment.id, signature)
+      : order;
+    if (settled?.razorpayPaymentId !== payment.id) {
+      audit('payment_needs_reconciliation', { route: '/api/orders/webhook' });
+      return res.sendStatus(409);
+    }
     return res.sendStatus(200);
   } catch (error) {
-    console.error('Payment webhook error:', error);
+    console.error('Payment webhook error:', error.code || error.name);
     return res.sendStatus(500);
   }
 };
@@ -202,7 +214,7 @@ exports.getOrderById = async (req, res) => {
     }
     return res.json({ success: true, order: publicOrder(order) });
   } catch (error) {
-    console.error('Get order error:', error);
+    console.error('Get order error:', error.code || error.name);
     return res.status(500).json({ success: false, message: 'Failed to retrieve order.' });
   }
 };
@@ -231,7 +243,7 @@ exports.getMyOrders = async (req, res) => {
       totalPages: Math.max(1, Math.ceil(totalCount / pagination.limit)),
       hasNextPage: pagination.page * pagination.limit < totalCount });
   } catch (error) {
-    console.error('Get orders error:', error);
+    console.error('Get orders error:', error.code || error.name);
     return res.status(500).json({ success: false, message: 'Failed to retrieve orders.' });
   }
 };
