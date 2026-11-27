@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { JWT_SECRET } = require('../middleware/authMiddleware');
+const { JWT_SECRET } = require('../config/sessionSecret');
 
 const DAILY_LIMIT = 5;
 const IST_OFFSET_MS = 330 * 60 * 1000;

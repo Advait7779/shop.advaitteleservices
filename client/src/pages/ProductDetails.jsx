@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../services/api';
 import { formatMoney } from '../utils/money';
+import { companyName } from '../utils/branding';
 import { useCart } from '../context/CartContext';
 import { 
   ShoppingCart, ShieldCheck, Check, Truck, PhoneCall,
@@ -128,7 +129,7 @@ const ProductDetails = () => {
             
             {/* Inline status badges */}
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-[11px] font-bold text-brand-800 bg-brand-100 px-2.5 py-0.5 rounded-full">OFFICIAL ADVAIT PRODUCT</span>
+              <span className="text-[11px] font-bold text-brand-800 bg-brand-100 px-2.5 py-0.5 rounded-full">{companyName}</span>
               <span className="text-[11px] font-bold text-brand-700 bg-brand-50 px-2.5 py-0.5 rounded-full flex items-center gap-1">
                 <Check className="w-3 h-3" /> In Stock & Ready to Dispatch
               </span>
@@ -296,7 +297,7 @@ const ProductDetails = () => {
 
           {activeTab === 'manufacturer' && (
             <div className="space-y-3 text-sm text-gray-700 max-w-lg">
-              <p><strong>Brand:</strong> Advait Teleservices Private Limited</p>
+              <p><strong>Brand:</strong> {companyName}</p>
               <p><strong>Country of Origin:</strong> India</p>
               <p><strong>Warranty:</strong> 1 Year Full Replacement Guarantee</p>
               <p><strong>Support Helpline:</strong> 082829 82829 / sales@advaitteleservices.com</p>

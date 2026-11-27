@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
-import { useAdminAuth } from '../../context/AdminAuthContext';
+import { companyName } from '../../utils/branding';
 import { 
   DollarSign, ShoppingBag, Package, Users, ArrowUpRight, 
   Clock, CheckCircle, Truck, AlertCircle
 } from 'lucide-react';
 
 const AdminDashboard = () => {
-  const { authHeaders } = useAdminAuth();
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const fetchStats = () => {
     setLoading(true);
     api
-      .get('/admin/analytics/overview', { headers: authHeaders })
+      .get('/admin/analytics/overview')
       .then((res) => {
         if (res.data.success) {
           setStats(res.data.stats);
@@ -69,7 +68,7 @@ const AdminDashboard = () => {
             Store Command Dashboard
           </span>
           <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white mt-2">
-            Welcome to Advait Teleservices Control
+            {companyName}
           </h2>
           <p className="text-xs sm:text-sm text-brand-200 max-w-2xl">
             Live telemetry of customer orders, payments via Razorpay, device catalog availability, and shipping fulfillment.

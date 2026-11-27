@@ -116,4 +116,17 @@ test('requires a signed captured-payment webhook', async () => {
   await controller.paymentWebhook({ body: raw, get: () => sig }, good);
   assert.equal(good.statusCode, 200);
   assert.equal(order.status, 'PAID');
+  const repeat = response();
+  await controller.paymentWebhook({ body: raw, get: () => sig }, repeat);
+  assert.equal(repeat.statusCode, 200);
+  assert.equal(deletedCartRows, 1);
+  const conflict = response();
+  const conflictingBody = Buffer.from(JSON.stringify({
+    event: 'payment.captured', payload: { payment: { entity: { ...payment, id: 'pay_different' } } },
+  }));
+  const conflictingSig = crypto.createHmac('sha256', process.env.RAZORPAY_WEBHOOK_SECRET).update(conflictingBody).digest('hex');
+  await controller.paymentWebhook({ body: conflictingBody, get: () => conflictingSig }, conflict);
+  assert.equal(conflict.statusCode, 409);
+  assert.equal(order.razorpayPaymentId, payment.id);
+  assert.equal(deletedCartRows, 1);
 });

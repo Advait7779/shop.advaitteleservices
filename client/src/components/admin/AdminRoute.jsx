@@ -3,8 +3,8 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { Loader2 } from 'lucide-react';
 
-const AdminRoute = ({ children }) => {
-  const { isAuthenticated, loading } = useAdminAuth();
+const AdminRoute = ({ children, permission }) => {
+  const { isAuthenticated, loading, adminUser } = useAdminAuth();
   const location = useLocation();
 
   if (loading) {
@@ -20,6 +20,10 @@ const AdminRoute = ({ children }) => {
 
   if (!isAuthenticated) {
     return <Navigate to="/admin/login" state={{ from: location }} replace />;
+  }
+
+  if (permission && !adminUser.permissions.includes(permission)) {
+    return <Navigate to="/admin" replace />;
   }
 
   return children;

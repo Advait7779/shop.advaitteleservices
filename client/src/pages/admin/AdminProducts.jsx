@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import api from '../../services/api';
-import { useAdminAuth } from '../../context/AdminAuthContext';
 import ProductEditorModal from './ProductEditorModal';
 import { 
   Package, Plus, Search, Edit2, Trash2, Check, X, 
@@ -8,7 +7,6 @@ import {
 } from 'lucide-react';
 
 const AdminProducts = () => {
-  const { authHeaders } = useAdminAuth();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -51,7 +49,7 @@ const AdminProducts = () => {
     if (stockFilter === 'OUT_OF_STOCK') params.stock = 'out_of_stock';
 
     api
-      .get('/admin/products', { headers: authHeaders, params, signal: controller.signal })
+      .get('/admin/products', { params, signal: controller.signal })
       .then((res) => {
         if (res.data.success) {
           setProducts((previous) => {
@@ -131,7 +129,7 @@ const AdminProducts = () => {
 
   const handleToggleStock = async (product) => {
     try {
-      const res = await api.patch(`/admin/products/${product.id}/stock`, {}, { headers: authHeaders });
+      const res = await api.patch(`/admin/products/${product.id}/stock`, {});
       if (res.data.success) {
         const matchesFilter = stockFilter === 'ALL' ||
           (stockFilter === 'IN_STOCK' && res.data.product.inStock) ||
@@ -153,7 +151,7 @@ const AdminProducts = () => {
     setDeleting(true);
 
     try {
-      const res = await api.delete(`/admin/products/${deleteId}`, { headers: authHeaders });
+      const res = await api.delete(`/admin/products/${deleteId}`);
       if (res.data.success) {
         setNotice({ type: 'success', text: res.data.message });
         setDeleteId(null);
@@ -178,7 +176,7 @@ const AdminProducts = () => {
     if (editingId) return;
     setEditingId(product.id);
     try {
-      const res = await api.get(`/admin/products/${product.id}`, { headers: authHeaders });
+      const res = await api.get(`/admin/products/${product.id}`);
       if (res.data.success) {
         setEditingProduct(res.data.product);
         setModalOpen(true);

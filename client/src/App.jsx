@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
-import { AdminAuthProvider } from './context/AdminAuthContext';
+import { AdminAuthProvider, useAdminAuth } from './context/AdminAuthContext';
 import { CategoryProvider } from './context/CategoryContext';
 import { useScrollReveal, useScrollToTop } from './hooks/useAnimations';
 
@@ -18,9 +18,7 @@ const Shop = lazy(() => import('./pages/Shop'));
 const ProductDetails = lazy(() => import('./pages/ProductDetails'));
 const Cart = lazy(() => import('./pages/Cart'));
 const OrderSuccess = lazy(() => import('./pages/OrderSuccess'));
-const Quote = lazy(() => import('./pages/Quote'));
 const Account = lazy(() => import('./pages/Account'));
-const AdminQuotes = lazy(() => import('./pages/admin/AdminQuotes'));
 
 // Admin Portal Components & Pages
 import AdminRoute from './components/admin/AdminRoute';
@@ -30,6 +28,16 @@ const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 const AdminOrders = lazy(() => import('./pages/admin/AdminOrders'));
 const AdminProducts = lazy(() => import('./pages/admin/AdminProducts'));
 const AdminCustomers = lazy(() => import('./pages/admin/AdminCustomers'));
+
+function AdminHome() {
+  const { adminUser } = useAdminAuth();
+  const permissions = adminUser.permissions;
+  if (permissions.includes('analytics')) return <AdminDashboard />;
+  const section = [['orders', 'orders'], ['catalog', 'products'], ['customers', 'customers']]
+    .find(([permission]) => permissions.includes(permission));
+  if (section) return <Navigate replace to={'/admin/' + section[1]} />;
+  return <p role="status">No admin sections have been assigned to this account.</p>;
+}
 
 const RouteLoading = ({ admin = false }) => (
   <div className={`flex items-center justify-center text-sm ${admin ? 'min-h-screen bg-[#172536] text-white' : 'min-h-[40vh] bg-[#f6f8fb] text-[#293d54]'}`} role="status">
@@ -58,14 +66,13 @@ function AppContent() {
             </AdminRoute>
           }
         >
-          <Route index element={<AdminDashboard />} />
-          <Route path="orders" element={<AdminOrders />} />
+          <Route index element={<AdminHome />} />
+          <Route path="orders" element={<AdminRoute permission="orders"><AdminOrders /></AdminRoute>} />
           <Route
             path="products"
-            element={<CategoryProvider><AdminProducts /></CategoryProvider>}
+            element={<AdminRoute permission="catalog"><CategoryProvider><AdminProducts /></CategoryProvider></AdminRoute>}
           />
-          <Route path="customers" element={<AdminCustomers />} />
-          <Route path="quotes" element={<AdminQuotes />} />
+          <Route path="customers" element={<AdminRoute permission="customers"><AdminCustomers /></AdminRoute>} />
         </Route>
         <Route path="/admin/*" element={<Navigate to="/admin" replace />} />
       </Routes></Suspense>
@@ -84,7 +91,6 @@ function AppContent() {
             <Route path="/shop" element={<Shop key={location.search} />} />
             <Route path="/product/:slug" element={<ProductDetails />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/quote" element={<Quote />} />
             <Route path="/account" element={<Account />} />
             <Route path="/order-success/:orderId" element={<OrderSuccess />} />
             <Route path="*" element={<Navigate to="/" replace />} />

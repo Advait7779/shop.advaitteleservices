@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../services/api';
 import { formatMoney } from '../utils/money';
+import { companyName } from '../utils/branding';
 import { CheckCircle2, Package, Printer, ArrowRight, ShieldCheck, MapPin } from 'lucide-react';
 
 const OrderSuccess = () => {
@@ -145,7 +146,7 @@ const OrderSuccess = () => {
           <div className="flex items-center gap-3">
             <img src="/logo.png" alt="Advait Logo" className="w-10 h-10 object-contain rounded-xl p-0.5 border border-brand-200" />
             <div>
-              <h3 className="text-base font-bold text-gray-900">Advait Teleservices Pvt. Ltd.</h3>
+              <h3 className="text-base font-bold text-gray-900">{companyName}</h3>
               <p className="text-xs text-gray-500">Order receipt</p>
             </div>
           </div>

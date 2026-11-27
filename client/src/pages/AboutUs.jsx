@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { companyName } from '../utils/branding';
 import { 
   ShieldCheck, 
   Target, 
@@ -54,7 +55,7 @@ const AboutUs = () => {
     <div className="space-y-16 pb-20">
       
       {/* Short Subpage Banner with Real Product Photography */}
-      <section className="subpage-hero" aria-label="About Advait Teleservices">
+      <section className="subpage-hero" aria-label={'About ' + companyName}>
         <img
           src="/banners/hero-fleet-editorial.webp"
           alt="Advait Fleet Solutions"
@@ -63,10 +64,10 @@ const AboutUs = () => {
         <div className="subpage-hero__shade" aria-hidden="true" />
         <div className="subpage-hero__content space-y-2">
           <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-300">
-            ADVAIT TRACK / COMPANY STORY
+            Company story
           </p>
           <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
-            About Advait Teleservices
+            About {companyName}
           </h1>
           <p className="text-xs sm:text-sm text-brand-200/90 max-w-lg mx-auto">
             Maharashtra&apos;s leading telematics and vehicle security partner since 2018.
@@ -91,7 +92,7 @@ const AboutUs = () => {
             </h2>
 
             <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-              <strong>Advait Teleservices Private Limited</strong> is a specialized Indian telematics provider headquartered at Amanora Chambers, Pune. We engineer, supply, and support commercial-grade satellite GPS tracking units, AIS-140 certified RTO telematics, high-accuracy capacitive fuel sensors, and standalone 4G solar surveillance systems.
+              <strong>{companyName}</strong> is a specialized Indian telematics provider headquartered at Amanora Chambers, Pune. We engineer, supply, and support commercial-grade satellite GPS tracking units, AIS-140 certified RTO telematics, high-accuracy capacitive fuel sensors, and standalone 4G solar surveillance systems.
             </p>
 
             <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
@@ -128,7 +129,7 @@ const AboutUs = () => {
                 className="w-24 h-24 mx-auto object-contain rounded-2xl p-2 bg-white shadow-sm border border-brand-200"
               />
               <div>
-                <h3 className="text-lg font-bold text-gray-900">Advait Teleservices Pvt. Ltd.</h3>
+                <h3 className="text-lg font-bold text-gray-900">{companyName}</h3>
                 <p className="text-xs text-brand-700 font-semibold mt-1">Pune, Maharashtra, India</p>
               </div>
               <div className="border-t border-brand-100 pt-4 grid grid-cols-2 gap-3 text-left">

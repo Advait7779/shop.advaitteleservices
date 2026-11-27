@@ -19,7 +19,7 @@ const prisma = {
   user: {
     findMany: async (args) => {
       calls.customers = args;
-      return [{ id: 'user-1', fullName: 'Customer', createdAt: new Date('2026-01-01') }];
+      return [{ id: 'user-1', fullName: 'Customer', mobileNumber: '9876543210', createdAt: new Date('2026-01-01') }];
     },
     count: async () => 26,
   },
@@ -86,6 +86,9 @@ test('customer page aggregates only the displayed customer IDs', async () => {
   assert.deepEqual(calls.groups[1].where.userId.in, ['user-1']);
   assert.equal(res.body.customers[0].totalOrders, 3);
   assert.equal(res.body.customers[0].totalSpent, 1500);
+  assert.equal(res.body.customers[0].mobileNumber, '••••••3210');
+  assert.equal(calls.customers.select.addressLine1, undefined);
+  assert.equal(calls.customers.select.email, undefined);
 });
 
 test('admin orders list omits detail-only and payment fields', async () => {

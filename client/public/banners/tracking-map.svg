@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 620" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <pattern id="blocks" width="270" height="210" patternUnits="userSpaceOnUse" patternTransform="rotate(-12)">
+      <rect width="270" height="210" fill="#e9eff0"/>
+      <path d="M22 16h84v54H22zM123 16h126v54H123zM22 88h47v101H22zM87 88h79v43H87zM87 148h79v41H87zM184 88h65v101h-65z" fill="#f9fbfa"/>
+      <path d="M0 79h270M78 0v210M175 0v210M0 199h270M114 79v130" stroke="#ffffff" stroke-width="15"/>
+      <path d="M21 16h84v54H21zM123 16h126v54H123zM21 88h47v101H21zM87 88h79v43H87zM87 148h79v41H87zM184 88h65v101h-65z" fill="none" stroke="#dce5e4" stroke-width="2"/>
+      <path d="M28 45h70M132 36h109M132 48h109M96 107h60M96 118h60M96 167h60M192 112h47M192 127h47M192 161h47M33 110h26M33 125h26M33 140h26M33 155h26" stroke="#e6eceb" stroke-width="3"/>
+    </pattern>
+    <linearGradient id="water" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#d1e9ea"/>
+      <stop offset="1" stop-color="#bcdfe5"/>
+    </linearGradient>
+    <filter id="marker-shadow" x="-60%" y="-60%" width="220%" height="220%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#1c4661" flood-opacity=".22"/></filter>
+  </defs>
+  <rect width="1440" height="620" fill="url(#blocks)"/>
+  <path d="M-45 65 194 4l70 100-51 70-258 17zM1044-25l216 10 38 130-106 91-115-27-49-85zM1325 420l161-31v220l-228 63-38-126zM220 464l150-68 116 93-82 140-175 26-63-88z" fill="#c6e6d4" opacity=".82"/>
+  <path d="M-20 66 181 16l49 87-38 48-211 17M1064 0l174 6 24 99-84 76-86-23-39-71M1333 445l107-18v193l-153 32-31-106M242 479l120-59 96 75-67 113-143 24-57-65" fill="none" stroke="#add8bf" stroke-width="5" opacity=".7"/>
+  <path d="M1315-30c-67 97-70 195 6 265 65 60 65 141 4 195-47 43-48 122-4 220h140V-30z" fill="url(#water)" opacity=".78"/>
+  <path d="M1314-30c-68 97-69 193 7 265 65 60 65 141 4 195-47 43-48 122-4 220" fill="none" stroke="#ffffff" stroke-width="18" opacity=".9"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-70 325C142 293 230 329 380 260C500 206 682 226 804 148C910 145 1030 125 1188 188c137 97 202 67 322 14" stroke="#d6e1e3" stroke-width="39"/>
+    <path d="M-70 325C142 293 230 329 380 260C500 206 682 226 804 148C910 145 1030 125 1188 188c137 97 202 67 322 14" stroke="#ffffff" stroke-width="30"/>
+    <path d="M76-80c-5 145 23 239 158 294 91 38 176 113 191 226 13 96 70 144 162 227" stroke="#d6e1e3" stroke-width="32"/>
+    <path d="M76-80c-5 145 23 239 158 294 91 38 176 113 191 226 13 96 70 144 162 227" stroke="#ffffff" stroke-width="24"/>
+    <path d="M908-65c-42 107-32 176 59 243 89 65 90 147 17 219-64 63-82 138-68 288" stroke="#d6e1e3" stroke-width="36"/>
+    <path d="M908-65c-42 107-32 176 59 243 89 65 90 147 17 219-64 63-82 138-68 288" stroke="#ffffff" stroke-width="27"/>
+    <path d="M-40 565c219-38 320-82 494-40s306 1 435-73 274-40 555-97" stroke="#d6e1e3" stroke-width="37"/>
+    <path d="M-40 565c219-38 320-82 494-40s306 1 435-73 274-40 555-97" stroke="#ffffff" stroke-width="28"/>
+  </g>
+  <g fill="none" stroke="#c5d5d9" stroke-width="2" stroke-dasharray="7 8" opacity=".8">
+    <path d="M-70 325C142 293 230 329 380 260C500 206 682 226 804 148C910 145 1030 125 1188 188c137 97 202 67 322 14"/>
+    <path d="M-40 565c219-38 320-82 494-40s306 1 435-73 274-40 555-97"/>
+  </g>
+  <!-- The highlighted journey follows the centre line of the avenue above. -->
+  <path d="M380 260C500 206 682 226 804 148C910 145 1030 125 1188 188" fill="none" stroke="#ffffff" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M380 260C500 206 682 226 804 148C910 145 1030 125 1188 188" fill="none" stroke="#2788c5" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="380" cy="260" r="27" fill="#2788c5" opacity=".13"/>
+  <g transform="translate(380 260)" filter="url(#marker-shadow)">
+    <path d="M0-23c-10.5 0-19 8.5-19 19 0 14 19 31 19 31S19 10 19-4C19-14.5 10.5-23 0-23Z" fill="#fff" stroke="#2788c5" stroke-width="3"/>
+    <circle cy="-4" r="7" fill="#2788c5"/>
+    <circle cy="-4" r="2.5" fill="#fff"/>
+  </g>
+  <circle cx="1188" cy="188" r="34" fill="#2788c5" opacity=".13"/>
+  <circle cx="1188" cy="188" r="27" fill="#fff" stroke="#2788c5" stroke-width="3" filter="url(#marker-shadow)"/>
+  <g transform="translate(1188 188) rotate(34)" fill="none" stroke="#205678" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="-9" y="-17" width="18" height="34" rx="6" fill="#e7f2f7" stroke-width="2"/>
+    <path d="M-7-6h14M-7 8h14" stroke-width="2"/>
+    <path d="M-11-10v5m22-5v5M-11 6v5m22-5v5" stroke-width="3"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#90a6aa" opacity=".8">
+    <text x="187" y="62" transform="rotate(-12 187 62)">NORTH AVENUE</text>
+    <text x="1025" y="505" transform="rotate(-12 1025 505)">RIVER ROAD</text>
+    <text x="266" y="589" transform="rotate(-12 266 589)">WEST DISTRICT</text>
+  </g>
+</svg>

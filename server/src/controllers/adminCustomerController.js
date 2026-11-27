@@ -1,9 +1,10 @@
 const prisma = require('../config/db');
 const { parsePagination } = require('../utils/pagination');
+const maskMobile = require('../utils/maskMobile');
 
 exports.getAllCustomersAdmin = async (req, res) => {
   try {
-    const { search } = req.query;
+    const search = typeof req.query.search === 'string' ? req.query.search.trim().slice(0, 100) : '';
     let pagination;
     try { pagination = parsePagination(req.query, { defaultLimit: 25 }); }
     catch (error) { return res.status(400).json({ success: false, message: error.message }); }
@@ -13,7 +14,7 @@ exports.getAllCustomersAdmin = async (req, res) => {
     if (search) {
       where.OR = [
         { fullName: { contains: search, mode: 'insensitive' } },
-        { mobileNumber: { contains: search } },
+        ...(/^[0-9]{4,10}$/.test(search) ? [{ mobileNumber: { endsWith: search } }] : []),
         { city: { contains: search, mode: 'insensitive' } },
         { pincode: { contains: search } },
       ];
@@ -26,8 +27,7 @@ exports.getAllCustomersAdmin = async (req, res) => {
         take: limit,
         skip,
         select: {
-          id: true, fullName: true, mobileNumber: true, email: true,
-          addressLine1: true, addressLine2: true, city: true, pincode: true,
+          id: true, fullName: true, mobileNumber: true, city: true,
           createdAt: true,
         },
       }),
@@ -53,22 +53,15 @@ exports.getAllCustomersAdmin = async (req, res) => {
     const countByUser = new Map(orderCounts.map((row) => [row.userId, row._count.id]));
     const spendByUser = new Map(paidTotals.map((row) => [row.userId, row._sum.totalAmount || 0]));
 
-    const formatted = customers.map((c) => {
-
-      return {
+    const formatted = customers.map((c) => ({
         id: c.id,
         fullName: c.fullName,
-        mobileNumber: c.mobileNumber,
-        email: c.email,
-        addressLine1: c.addressLine1,
-        addressLine2: c.addressLine2,
+        mobileNumber: maskMobile(c.mobileNumber),
         city: c.city,
-        pincode: c.pincode,
         registeredAt: c.createdAt,
         totalOrders: countByUser.get(c.id) || 0,
         totalSpent: spendByUser.get(c.id) || 0,
-      };
-    });
+    }));
 
     return res.status(200).json({
       success: true,
@@ -79,7 +72,7 @@ exports.getAllCustomersAdmin = async (req, res) => {
       customers: formatted,
     });
   } catch (error) {
-    console.error('Admin get customers error:', error);
+    console.error('Admin get customers error:', error.code || error.name);
     return res.status(500).json({ success: false, message: 'Failed to retrieve customers.' });
   }
 };

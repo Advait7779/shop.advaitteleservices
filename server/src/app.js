@@ -1,10 +1,10 @@
 const express = require('express');
 const cors = require('cors');
-const morgan = require('morgan');
 const path = require('path');
 const fs = require('fs');
 const prisma = require('./config/db');
 const orderController = require('./controllers/orderController');
+const { browserSecurity, protectBrowserWrites } = require('./middleware/browserSecurity');
 
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
@@ -12,28 +12,31 @@ const categoryRoutes = require('./routes/categoryRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const adminRoutes = require('./routes/adminRoutes');
-const quoteRoutes = require('./routes/quoteRoutes');
+const storefrontRoutes = require('./routes/storefrontRoutes');
 
 const app = express();
 app.set('trust proxy', 1);
 
 // Middlewares
 if (process.env.CLIENT_URL) {
-  app.use(cors({ origin: process.env.CLIENT_URL.split(',').map((url) => url.trim()), methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], allowedHeaders: ['Content-Type', 'Authorization'] }));
+  app.use(cors({
+    origin: process.env.CLIENT_URL.split(',').map((url) => url.trim()).filter(Boolean),
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'X-Advait-Request'],
+  }));
 }
-app.use((req, res, next) => {
-  res.set({ 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'X-Frame-Options': 'DENY' });
-  next();
-});
+app.disable('x-powered-by');
+app.use(browserSecurity);
 
 // Razorpay signs the exact raw bytes. Register this route before JSON parsing.
 app.post('/api/orders/webhook', express.raw({ type: 'application/json', limit: '256kb' }), orderController.paymentWebhook);
 
+app.use(['/api/auth', '/api/admin', '/api/cart', '/api/orders', '/api/storefront'], (req, res, next) => {
+  res.set('Cache-Control', 'no-store');
+  return protectBrowserWrites(req, res, next);
+});
 app.use(express.json({ limit: '128kb' }));
 app.use(express.urlencoded({ extended: true }));
-if (process.env.NODE_ENV !== 'production') {
-  app.use(morgan('dev'));
-}
 
 const uploadDir = process.env.UPLOAD_DIR || path.resolve(__dirname, '../../uploads/products');
 const clientDist = path.resolve(__dirname, '../../client/dist');
@@ -57,7 +60,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
-app.use('/api/quotes', quoteRoutes);
+app.use('/api/storefront', storefrontRoutes);
 app.use('/api/admin', adminRoutes);
 
 app.use('/api', (req, res) => res.status(404).json({ success: false, message: 'API route not found.' }));
@@ -68,7 +71,7 @@ app.use((req, res, next) => {
 
 // Global Error Handler
 app.use((err, req, res, next) => {
-  console.error('Unhandled Server Error:', err);
+  console.error('Unhandled request error:', err.code || err.name || 'unknown');
   res.status(err.code === 'LIMIT_FILE_SIZE' || err.code === 'LIMIT_UNEXPECTED_FILE' ? 400 : 500).json({
     success: false,
     message: process.env.NODE_ENV === 'production' ? 'Request failed.' : (err.message || 'Internal Server Error'),

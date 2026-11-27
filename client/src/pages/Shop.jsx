@@ -132,9 +132,9 @@ const Shop = () => {
           </div>
         </div>
         {loading ? (
-          <div className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-x-5 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
-            {[...Array(9)].map((_, i) => (
-              <div key={i} className="h-[420px] bg-brand-100/30 rounded-2xl animate-pulse"></div>
+          <div className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="h-[360px] bg-brand-100/30 rounded-2xl animate-pulse"></div>
             ))}
           </div>
         ) : loadError && products.length === 0 ? (
@@ -147,7 +147,7 @@ const Shop = () => {
             <p className="text-base font-semibold text-gray-700">{searchQuery || activeCategory ? 'No products match this selection.' : 'No products available currently.'}</p>
           </div>
         ) : (
-          <div className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-x-5 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
             {products.map((product, idx) => (
               <div
                 key={product.id}

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAdminAuth } from '../../context/AdminAuthContext';
+import { companyName } from '../../utils/branding';
 import { 
   LayoutDashboard, ShoppingBag, Package, Users, 
-  LogOut, Menu, X, Shield, ChevronRight, Calendar, FileText
+  LogOut, Menu, X, Shield, ChevronRight, Calendar
 } from 'lucide-react';
 
 const AdminLayout = () => {
@@ -12,6 +13,7 @@ const AdminLayout = () => {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [logoutError, setLogoutError] = useState('');
   const [currentDate, setCurrentDate] = useState(() =>
     new Date().toLocaleDateString('en-IN', {
       weekday: 'long',
@@ -46,26 +48,28 @@ const AdminLayout = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [showLogoutModal]);
 
-  const handleConfirmLogout = () => {
-    setShowLogoutModal(false);
-    logout();
-    navigate('/admin/login');
+  const handleConfirmLogout = async () => {
+    try {
+      await logout();
+      setShowLogoutModal(false);
+      navigate('/admin/login');
+    } catch {
+      setLogoutError('Could not sign out. Please try again.');
+    }
   };
 
   const navLinks = [
-    { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
-    { to: '/admin/orders', label: 'Orders & Shipments', icon: ShoppingBag },
-    { to: '/admin/products', label: 'GPS Products', icon: Package },
-    { to: '/admin/customers', label: 'Customers', icon: Users },
-    { to: '/admin/quotes', label: 'Quote Requests', icon: FileText },
-  ];
+    { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true, permission: 'analytics' },
+    { to: '/admin/orders', label: 'Orders & Shipments', icon: ShoppingBag, permission: 'orders' },
+    { to: '/admin/products', label: 'GPS Products', icon: Package, permission: 'catalog' },
+    { to: '/admin/customers', label: 'Customers', icon: Users, permission: 'customers' },
+  ].filter((link) => adminUser.permissions.includes(link.permission));
 
   const getPageTitle = () => {
     if (location.pathname === '/admin') return 'Dashboard Overview';
     if (location.pathname.startsWith('/admin/orders')) return 'Order Fulfillment & Tracking';
     if (location.pathname.startsWith('/admin/products')) return 'Product Catalog & Pricing';
     if (location.pathname.startsWith('/admin/customers')) return 'Customer Directory';
-    if (location.pathname.startsWith('/admin/quotes')) return 'Quote Requests';
     return 'Admin Portal';
   };
 
@@ -75,8 +79,8 @@ const AdminLayout = () => {
       {/* ================= MOBILE HEADER ================= */}
       <div className="lg:hidden bg-[#293d54] text-white px-4 py-3 flex items-center justify-between border-b border-brand-900 sticky top-0 z-50">
         <Link to="/admin" className="flex items-center gap-2.5">
-          <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain" />
-          <span className="font-extrabold text-base tracking-tight">ADVAIT <span className="text-brand-400">ADMIN</span></span>
+          <img src="/logo.png" alt="" className="w-8 h-8 object-contain" />
+          <span className="text-sm font-extrabold tracking-tight">{companyName}</span>
         </Link>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -99,14 +103,11 @@ const AdminLayout = () => {
             <Link to="/admin" className="flex items-center gap-3">
               <img
                 src="/logo.png"
-                alt="Advait Teleservices Logo"
+                alt=""
                 className="w-10 h-10 object-contain"
               />
               <div>
-                <div className="flex items-center gap-1 leading-tight">
-                  <span className="text-lg font-black tracking-tight text-white">ADVAIT</span>
-                  <span className="text-lg font-bold tracking-tight text-brand-400">TRACK</span>
-                </div>
+                <div className="text-base font-black leading-tight tracking-tight text-white">{companyName}</div>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <Shield className="w-2.5 h-2.5 text-brand-300" />
                   <span className="text-[10px] font-bold uppercase tracking-widest text-brand-200">Admin Control</span>
@@ -154,7 +155,7 @@ const AdminLayout = () => {
         <div className="p-4 sm:p-6 border-t border-white/10">
           <button
             type="button"
-            onClick={() => setShowLogoutModal(true)}
+            onClick={() => { setLogoutError(''); setShowLogoutModal(true); }}
             className="flex items-center gap-3 w-full px-4 py-2.5 rounded-md text-sm font-semibold text-brand-100/90 hover:bg-red-500/15 hover:text-red-300 transition-all duration-200 cursor-pointer"
           >
             <LogOut className="w-4 h-4 text-red-400" />
@@ -197,6 +198,7 @@ const AdminLayout = () => {
               </div>
             </div>
 
+            {logoutError && <p role="alert" className="text-xs text-red-200">{logoutError}</p>}
             {/* Actions */}
             <div className="flex items-center justify-end gap-2 pt-1">
               <button

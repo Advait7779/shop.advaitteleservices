@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
-import { useAdminAuth } from '../../context/AdminAuthContext';
 import { Users, Search, Phone, MapPin, Calendar, ShoppingBag, DollarSign, RefreshCw } from 'lucide-react';
 
 const AdminCustomers = () => {
-  const { authHeaders } = useAdminAuth();
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -24,7 +22,7 @@ const AdminCustomers = () => {
     if (appliedSearch) params.search = appliedSearch;
 
     api
-      .get('/admin/customers', { headers: authHeaders, params, signal: controller.signal })
+      .get('/admin/customers', { params, signal: controller.signal })
       .then((res) => {
         if (res.data.success) {
           setCustomers(res.data.customers);
@@ -66,7 +64,7 @@ const AdminCustomers = () => {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search name, phone, city..."
+              placeholder="Search name, last 4 digits or city"
               className="w-full pl-9 pr-4 py-2 bg-brand-50/50 border border-gray-200 rounded-md text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500/30"
             />
           </form>
@@ -103,8 +101,8 @@ const AdminCustomers = () => {
               <thead className="bg-brand-50/60 text-gray-600 uppercase font-bold text-[10px] tracking-wider border-b border-gray-200/80">
                 <tr>
                   <th className="px-6 py-4">Customer</th>
-                  <th className="px-6 py-4">Phone / OTP</th>
-                  <th className="px-6 py-4">Delivery Address</th>
+                  <th className="px-6 py-4">Phone</th>
+                  <th className="px-6 py-4">City</th>
                   <th className="px-6 py-4">Orders Placed</th>
                   <th className="px-6 py-4">Lifetime Spend</th>
                   <th className="px-6 py-4">Registered Date</th>
@@ -122,7 +120,6 @@ const AdminCustomers = () => {
                         </div>
                         <div>
                           <p className="font-bold text-gray-900 text-sm">{c.fullName}</p>
-                          {c.email && <p className="text-[11px] text-gray-400">{c.email}</p>}
                         </div>
                       </div>
                     </td>
@@ -135,12 +132,8 @@ const AdminCustomers = () => {
                       </div>
                     </td>
 
-                    {/* Address */}
-                    <td data-label="Address" className="px-6 py-4 max-w-xs">
-                      <div className="text-gray-700">
-                        <p className="truncate font-medium">{c.addressLine1}</p>
-                        <p className="text-[11px] text-gray-500">{c.city} - {c.pincode}</p>
-                      </div>
+                    <td data-label="City" className="px-6 py-4 text-gray-700">
+                      {c.city || '—'}
                     </td>
 
                     {/* Orders count */}

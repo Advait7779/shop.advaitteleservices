@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
-import { useAdminAuth } from '../../context/AdminAuthContext';
 import { 
   Search, Filter, ShoppingBag, Eye, Truck, Check, X, 
   MapPin, Phone, CreditCard, Calendar, RefreshCw, AlertCircle, FileText
@@ -8,7 +7,6 @@ import {
 import ThemeSelect from '../../components/common/ThemeSelect';
 
 const AdminOrders = () => {
-  const { authHeaders } = useAdminAuth();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('ALL');
@@ -41,7 +39,7 @@ const AdminOrders = () => {
     if (appliedSearch) params.search = appliedSearch;
 
     api
-      .get('/admin/orders', { headers: authHeaders, params, signal: controller.signal })
+      .get('/admin/orders', { params, signal: controller.signal })
       .then((res) => {
         if (res.data.success) {
           setOrders(res.data.orders);
@@ -71,7 +69,7 @@ const AdminOrders = () => {
     setOpeningId(order.id);
     setDetailError('');
     try {
-      const res = await api.get(`/admin/orders/${order.id}`, { headers: authHeaders });
+      const res = await api.get(`/admin/orders/${order.id}`);
       if (!res.data.success) throw new Error('Order details unavailable');
       const detail = res.data.order;
       setSelectedOrder(detail);
@@ -102,8 +100,7 @@ const AdminOrders = () => {
           courierName,
           trackingNumber,
           notes,
-        },
-        { headers: authHeaders }
+        }
       );
 
       if (res.data.success) {

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAdminAuth } from '../../context/AdminAuthContext';
-import { Shield, Lock, Mail, ArrowRight, Loader2, Sparkles, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { companyName } from '../../utils/branding';
+import { Lock, Mail, ArrowRight, Loader2, AlertCircle, Eye, EyeOff } from 'lucide-react';
 
 const AdminLogin = () => {
   const { login, isAuthenticated } = useAdminAuth();
@@ -10,34 +11,32 @@ const AdminLogin = () => {
 
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
+  const [code, setCode] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // If already authenticated, redirect to /admin
   React.useEffect(() => {
     if (isAuthenticated) {
-      navigate('/admin', { replace: true });
+      navigate(location.state?.from?.pathname || '/admin', { replace: true });
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, location.state]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
-    if (!identifier.trim() || !password.trim()) {
-      setError('Please enter both your admin email/phone and password.');
+    if (!identifier.trim() || !password || !/^[0-9]{6}$/.test(code)) {
+      setError('Enter your admin login, password and 6-digit authenticator code.');
       return;
     }
 
     setLoading(true);
-    const result = await login(identifier, password);
+    const result = await login(identifier, password, code);
     setLoading(false);
 
-    if (result.success) {
-      const target = location.state?.from?.pathname || '/admin';
-      navigate(target, { replace: true });
-    } else {
+    if (!result.success) {
+      setCode('');
       setError(result.message || 'Invalid administrator credentials.');
     }
   };
@@ -61,13 +60,13 @@ const AdminLogin = () => {
             Admin Control Center
           </h2>
           <p className="text-xs sm:text-sm text-brand-200">
-            Sign in with your master credentials to manage Advait Teleservices e-commerce operations.
+            Enter your password and the current code from your authenticator app.
           </p>
         </div>
 
         {/* Error Notice */}
         {error && (
-          <div className="p-3.5 rounded-md bg-red-500/20 border border-red-500/40 text-red-200 text-xs font-medium flex items-center gap-2.5">
+          <div role="alert" className="p-3.5 rounded-md bg-red-500/20 border border-red-500/40 text-red-200 text-xs font-medium flex items-center gap-2.5">
             <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
             <span>{error}</span>
           </div>
@@ -76,12 +75,14 @@ const AdminLogin = () => {
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-brand-200 mb-1.5 uppercase tracking-wider">
+            <label htmlFor="admin-identifier" className="block text-xs font-semibold text-brand-200 mb-1.5 uppercase tracking-wider">
               Admin Email or Mobile
             </label>
             <div className="relative">
               <Mail className="w-4 h-4 text-brand-300 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
+                id="admin-identifier"
+                autoComplete="username"
                 type="text"
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
@@ -93,12 +94,14 @@ const AdminLogin = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-brand-200 mb-1.5 uppercase tracking-wider">
+            <label htmlFor="admin-password" className="block text-xs font-semibold text-brand-200 mb-1.5 uppercase tracking-wider">
               Password
             </label>
             <div className="relative">
               <Lock className="w-4 h-4 text-brand-300 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
+                id="admin-password"
+                autoComplete="current-password"
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -120,6 +123,13 @@ const AdminLogin = () => {
                 )}
               </button>
             </div>
+          </div>
+
+          <div>
+            <label htmlFor="admin-code" className="block text-xs font-semibold text-brand-200 mb-1.5 uppercase tracking-wider">Authenticator code</label>
+            <input id="admin-code" type="text" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}"
+              maxLength={6} value={code} onChange={(event) => setCode(event.target.value)} required
+              className="w-full rounded-md border border-white/20 bg-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-400" />
           </div>
 
           <button
@@ -155,7 +165,7 @@ const AdminLogin = () => {
 
       {/* Footer Branding */}
       <p className="relative z-10 text-xs text-brand-300/70 mt-8">
-        Advait Teleservices Private Limited &copy; {new Date().getFullYear()} &bull; Secure Administrator Portal
+        {companyName} &copy; {new Date().getFullYear()} &bull; Secure Administrator Portal
       </p>
 
     </div>
