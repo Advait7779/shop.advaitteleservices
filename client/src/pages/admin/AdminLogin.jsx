@@ -11,7 +11,6 @@ const AdminLogin = () => {
 
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
-  const [code, setCode] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -26,17 +25,16 @@ const AdminLogin = () => {
     e.preventDefault();
     setError('');
 
-    if (!identifier.trim() || !password || !/^[0-9]{6}$/.test(code)) {
-      setError('Enter your admin login, password and 6-digit authenticator code.');
+    if (!identifier.trim() || !password) {
+      setError('Enter your admin email or mobile number and password.');
       return;
     }
 
     setLoading(true);
-    const result = await login(identifier, password, code);
+    const result = await login(identifier, password);
     setLoading(false);
 
     if (!result.success) {
-      setCode('');
       setError(result.message || 'Invalid administrator credentials.');
     }
   };
@@ -60,7 +58,7 @@ const AdminLogin = () => {
             Admin Control Center
           </h2>
           <p className="text-xs sm:text-sm text-brand-200">
-            Enter your password and the current code from your authenticator app.
+            Sign in with your admin email or mobile number and password.
           </p>
         </div>
 
@@ -123,13 +121,6 @@ const AdminLogin = () => {
                 )}
               </button>
             </div>
-          </div>
-
-          <div>
-            <label htmlFor="admin-code" className="block text-xs font-semibold text-brand-200 mb-1.5 uppercase tracking-wider">Authenticator code</label>
-            <input id="admin-code" type="text" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}"
-              maxLength={6} value={code} onChange={(event) => setCode(event.target.value)} required
-              className="w-full rounded-md border border-white/20 bg-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-400" />
           </div>
 
           <button

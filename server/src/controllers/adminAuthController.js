@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs');
 const prisma = require('../config/db');
 const { adminPermissions } = require('../middleware/authMiddleware');
 const { createSession } = require('../services/sessions');
-const { decryptSecret, matchingStep } = require('../services/adminTotp');
 const { allowAttempt } = require('../services/authThrottle');
 const audit = require('../services/securityAudit');
 
@@ -12,22 +11,22 @@ const publicAdmin = (user) => ({
 });
 
 exports.adminLogin = async (req, res) => {
-  const { identifier, email, password, code } = req.body || {};
+  const { identifier, email, password } = req.body || {};
   const loginId = identifier || email;
   if (typeof loginId !== 'string' || !loginId.trim() || loginId.length > 254 ||
-      typeof password !== 'string' || !password || password.length > 1024 ||
-      typeof code !== 'string' || !/^[0-9]{6}$/.test(code)) {
-    return res.status(400).json({ success: false, message: 'Enter your admin login, password and 6-digit authenticator code.' });
+      typeof password !== 'string' || !password || password.length > 1024) {
+    return res.status(400).json({ success: false, message: 'Enter your admin email or mobile number and password.' });
   }
 
   const reject = (actorId) => {
     audit('admin_login_rejected', { actorId });
-    return res.status(401).json({ success: false, message: 'Check your administrator credentials and authenticator code.' });
+    return res.status(401).json({ success: false, message: 'Check your administrator email or mobile number and password.' });
   };
 
   try {
     const user = await prisma.user.findFirst({
       where: { role: 'ADMIN', OR: [{ email: loginId.trim() }, { mobileNumber: loginId.trim() }] },
+      select: { id: true, passwordHash: true },
     });
     if (user) {
       const seconds = await allowAttempt('admin-account', user.id, 8, 15 * 60_000);
@@ -41,29 +40,21 @@ exports.adminLogin = async (req, res) => {
     const dummyHash = '$2b$12$C6UzMDM.H6dfI/f/IKcEe.9M/8zPWtqag/lw6RuuIZVhJMSrgG6za';
     const passwordMatches = await bcrypt.compare(password, user?.passwordHash || dummyHash);
     if (!user?.passwordHash || !passwordMatches) return reject(user?.id);
-    if (!user.totpSecret) {
-      audit('admin_enrollment_needed', { actorId: user.id });
-      return res.status(403).json({ success: false, message: 'An administrator must enroll this account in an authenticator app.' });
-    }
-
-    const step = matchingStep(decryptSecret(user.totpSecret, user.id), code);
-    if (step === null) return reject(user.id);
-
-    const setCookie = await prisma.$transaction(async (tx) => {
-      const claimed = await tx.user.updateMany({
-        where: {
-          id: user.id, role: 'ADMIN', totpSecret: user.totpSecret, passwordHash: user.passwordHash,
-          OR: [{ totpLastStep: null }, { totpLastStep: { lt: step } }],
-        },
-        data: { totpLastStep: step },
-      });
-      if (claimed.count !== 1) return null;
-      return createSession(req, res, user, 'ADMIN', tx);
+    const session = await prisma.$transaction(async (tx) => {
+      // Coordinate with password resets so the old password cannot create a session after a reset.
+      const [admin] = await tx.$queryRaw`
+        SELECT "id", "email", "fullName", "role", "adminAccess"
+        FROM "users"
+        WHERE "id" = ${user.id} AND "role" = 'ADMIN' AND "passwordHash" = ${user.passwordHash}
+        FOR SHARE
+      `;
+      if (!admin) return null;
+      return { admin, setCookie: await createSession(req, res, admin, 'ADMIN', tx) };
     });
-    if (!setCookie) return reject(user.id);
-    setCookie();
+    if (!session) return reject(user.id);
+    session.setCookie();
     audit('admin_login_succeeded', { actorId: user.id });
-    return res.json({ success: true, admin: publicAdmin(user) });
+    return res.json({ success: true, admin: publicAdmin(session.admin) });
   } catch {
     audit('admin_login_error');
     return res.status(503).json({ success: false, message: 'Admin sign-in is unavailable. Please try again later.' });

@@ -1,25 +1,29 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { createHash } = require('node:crypto');
+const bcrypt = require('bcryptjs');
 
 process.env.NODE_ENV = 'production';
 process.env.JWT_SECRET = 'test-only-secret-longer-than-thirty-two-characters';
 const dbPath = require.resolve('../src/config/db');
 const stored = new Map();
-require.cache[dbPath] = {
-  id: dbPath, filename: dbPath, loaded: true,
-  exports: {
-    authSession: {
-      create: async ({ data }) => stored.set(data.tokenHash, data),
-      findUnique: async ({ where }) => stored.get(where.tokenHash),
-      deleteMany: async ({ where }) => {
-        if (stored.get(where.tokenHash)?.kind === where.kind) stored.delete(where.tokenHash);
-      },
+let loginAdmin;
+const prisma = {
+  user: { findFirst: async () => loginAdmin },
+  $transaction: async (operation) => operation(prisma),
+  $executeRaw: async () => 1,
+  $queryRaw: async () => loginAdmin ? [loginAdmin] : [],
+  authSession: {
+    create: async ({ data }) => stored.set(data.tokenHash, data),
+    findUnique: async ({ where }) => stored.get(where.tokenHash),
+    deleteMany: async ({ where }) => {
+      if (stored.get(where.tokenHash)?.kind === where.kind) stored.delete(where.tokenHash);
     },
   },
 };
+require.cache[dbPath] = { id: dbPath, filename: dbPath, loaded: true, exports: prisma };
 const { createSession, logout, readSession } = require('../src/services/sessions');
-const { matchingStep, encryptSecret, decryptSecret } = require('../src/services/adminTotp');
+const { adminLogin } = require('../src/controllers/adminAuthController');
 const { requirePermission } = require('../src/middleware/authMiddleware');
 const { protectBrowserWrites } = require('../src/middleware/browserSecurity');
 
@@ -51,13 +55,21 @@ test('admin session cookies are protected, stored as hashes, and revoked at logo
   assert.equal(await readSession(req, 'ADMIN'), null);
 });
 
-test('authenticator verification matches the RFC 6238 SHA-1 vector and the seed is bound to the admin', () => {
-  const sample = 'GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ';
-  assert.equal(matchingStep(sample, '287082', 59_000), 1);
-  assert.equal(matchingStep(sample, '287082', 119_000), null);
-  const encrypted = encryptSecret(sample, 'admin-a');
-  assert.equal(decryptSecret(encrypted, 'admin-a'), sample);
-  assert.throws(() => decryptSecret(encrypted, 'admin-b'));
+test('admin sign-in requires the correct password and issues a protected session with staff permissions', async () => {
+  const password = 'test-password-only';
+  loginAdmin = { id: 'admin', email: 'staff@example.com', role: 'ADMIN', adminAccess: 'CATALOG',
+    passwordHash: await bcrypt.hash(password, 4) };
+  const login = (password, res) => adminLogin({ body: { identifier: loginAdmin.email, password } }, res);
+  const denied = response();
+  await login('wrong-password', denied);
+  assert.equal(denied.statusCode, 401);
+  assert.equal(denied.set, undefined);
+  const allowed = response();
+  await login(password, allowed);
+  assert.equal(allowed.statusCode, 200);
+  assert.equal(allowed.set.name, '__Host-advait_admin');
+  assert.deepEqual(allowed.body.admin.permissions, ['catalog']);
+  assert.equal(allowed.body.admin.passwordHash, undefined);
 });
 
 test('cross-site form submissions and staff access outside assigned sections are rejected', () => {

@@ -35,6 +35,7 @@ function requirePermission(permission) {
 module.exports = {
   authenticateUser: requireSession('CUSTOMER'),
   verifyAdmin: requireSession('ADMIN'),
+  adminAccessRoles: Object.keys(accessByRole),
   adminPermissions,
   requirePermission,
 };

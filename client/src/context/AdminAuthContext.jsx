@@ -27,9 +27,9 @@ export function AdminAuthProvider({ children }) {
     };
   }, []);
 
-  const login = async (identifier, password, code) => {
+  const login = async (identifier, password) => {
     try {
-      const { data } = await api.post('/admin/auth/login', { identifier, password, code }, { skipSessionExpiry: true });
+      const { data } = await api.post('/admin/auth/login', { identifier, password }, { skipSessionExpiry: true });
       generation.current += 1;
       setAdminUser(data.admin);
       return { success: true };

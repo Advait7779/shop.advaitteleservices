@@ -13,8 +13,9 @@ model User {
   email        String?     @unique
   passwordHash String?
   adminAccess  String?
-  totpSecret   String?
-  totpLastStep Int?
+  /// Legacy columns retained for deployments that already applied the session migration.
+  totpSecret   String?     @ignore
+  totpLastStep Int?        @ignore
   fullName     String
   addressLine1 String?
   addressLine2 String?
