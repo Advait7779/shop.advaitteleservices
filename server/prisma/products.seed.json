@@ -14,7 +14,10 @@
     ],
     "primaryImage": "/products/a5-device-current.png",
     "galleryImages": [
-      "/products/a5-device-current.png"
+      "/products/a5-device-current.png",
+      "/products/a5-device-box.jpg",
+      "/products/a5-device-features.jpg",
+      "/products/a5-device-tracking.jpg"
     ],
     "description": "The Advait A5 Device is an everyday hardwired vehicle GPS tracker built for cars, motorcycles, SUVs, and commercial pickups across Indian road and weather conditions. Wired safely behind the dashboard with an automotive-grade fuse harness, it delivers continuous real-time coordinates every 10 seconds, ignition ON/OFF notifications, remote engine cut-off via the Advait mobile app, and an internal 250mAh backup battery that keeps reporting even if the main vehicle battery is tampered with or disconnected.",
     "features": [

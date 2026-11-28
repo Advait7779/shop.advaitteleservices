@@ -11,6 +11,7 @@ import {
 import ThemeSelect from '../components/common/ThemeSelect';
 import SimOptionSelector from '../components/common/SimOptionSelector';
 import ProductReviewsSection from '../components/common/ProductReviewsSection';
+import RelatedProducts from '../components/common/RelatedProducts';
 import {
   isGpsProduct,
   SIM_OPTIONS,
@@ -177,42 +178,55 @@ const ProductDetails = () => {
 
       {/* ========== MAIN PRODUCT LAYOUT ========== */}
       <section className="max-w-7xl min-w-0 mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid min-w-0 grid-cols-[minmax(0,1fr)] lg:grid-cols-12 gap-10 lg:gap-16">
-          {/* LEFT: Gallery */}
-          <div className="min-w-0 lg:col-span-5 reveal-left">
-            <div className="lg:sticky lg:top-24">
-              <div className="flex items-center justify-center rounded-2xl border border-[#d7e2ec] bg-[#eaf1f7] p-8">
-                <img
-                  src={activeImage || product.primaryImage}
-                  alt={product.title}
-                  className="max-h-[340px] w-auto max-w-full object-contain mix-blend-multiply"
-                />
-              </div>
+        <div className="grid min-w-0 grid-cols-[minmax(0,1fr)] lg:grid-cols-12 gap-8 lg:gap-12">
+          {/* LEFT: Vertical Side Thumbnails + Main Featured Viewer */}
+          <div className="min-w-0 lg:col-span-6 reveal-left">
+            <div className="lg:sticky lg:top-24 flex flex-col-reverse sm:flex-row gap-3.5 items-stretch sm:items-start">
               {gallery.length > 0 && (
-                <div className="flex gap-3 mt-4 justify-center flex-wrap">
-                  {gallery.map((img) => {
+                <div
+                  className="flex sm:flex-col gap-2.5 shrink-0 justify-center sm:justify-start flex-wrap sm:flex-nowrap"
+                  role="group"
+                  aria-label="Product image views"
+                >
+                  {gallery.slice(0, 4).map((img, index) => {
                     const selected = (activeImage || product.primaryImage) === img;
                     return (
                       <button
                         key={img}
                         type="button"
                         onClick={() => setActiveImage(img)}
-                        aria-label="Preview product angle"
-                        className={`h-16 w-16 rounded-xl bg-[#eaf1f7] p-1 transition-all duration-200 ${
-                          selected ? 'border-2 border-[#385775] shadow-xs' : 'border border-[#d7e2ec] opacity-75 hover:opacity-100'
+                        onMouseEnter={() => setActiveImage(img)}
+                        aria-label={`View ${index + 1} of ${product.title}`}
+                        aria-pressed={selected}
+                        className={`h-16 w-16 sm:h-[74px] sm:w-[74px] rounded-xl bg-white p-1 overflow-hidden transition-all duration-200 shrink-0 ${
+                          selected
+                            ? 'border-2 border-[#385775] ring-2 ring-[#385775]/15 shadow-xs'
+                            : 'border border-[#d7e2ec] opacity-80 hover:opacity-100 hover:border-[#7da0c0]'
                         }`}
                       >
-                        <img src={img} alt="" className="h-full w-full object-contain mix-blend-multiply" />
+                        <img
+                          src={img}
+                          alt={`${product.title} thumbnail ${index + 1}`}
+                          className="h-full w-full object-contain rounded-lg"
+                        />
                       </button>
                     );
                   })}
                 </div>
               )}
+
+              <div className="flex-1 min-w-0 aspect-square flex items-center justify-center rounded-2xl border border-[#d7e2ec] bg-white p-3 sm:p-5 overflow-hidden shadow-xs">
+                <img
+                  src={activeImage || product.primaryImage}
+                  alt={product.title}
+                  className="h-full w-full max-h-[460px] object-contain"
+                />
+              </div>
             </div>
           </div>
 
           {/* RIGHT: Info & Buying Controls */}
-          <div className="min-w-0 lg:col-span-7 space-y-6 reveal-right">
+          <div className="min-w-0 lg:col-span-6 space-y-6 reveal-right">
             {/* Status & Rating Header */}
             <div className="flex items-center justify-between gap-2 flex-wrap">
               <div className="flex items-center gap-2 flex-wrap">
@@ -329,24 +343,26 @@ const ProductDetails = () => {
                 </button>
               </div>
 
-              <button
-                type="button"
-                onClick={handleAddToCart}
-                disabled={cartStatus !== 'idle'}
-                className={`flex-1 py-3 px-6 rounded-xl font-bold text-sm uppercase tracking-wide flex items-center justify-center gap-2 transition-all duration-300 btn-press ${
-                  cartStatus !== 'idle'
-                    ? 'bg-brand-600 text-white shadow-lg'
-                    : 'bg-[#385775] hover:bg-[#293d54] text-white shadow-sm hover:shadow-lg'
-                }`}
-              >
-                {cartStatus === 'adding' ? (
-                  <><ShoppingCart className="w-4 h-4" /><span>Adding to Cart...</span></>
-                ) : cartStatus === 'added' ? (
-                  <><Check className="w-4 h-4" /><span>Added to Cart!</span></>
-                ) : (
-                  <><ShoppingCart className="w-4 h-4" /><span>ADD TO CART</span></>
-                )}
-              </button>
+              <div className="min-w-0 sm:flex-1">
+                <button
+                  type="button"
+                  onClick={handleAddToCart}
+                  disabled={cartStatus !== 'idle'}
+                  className={`flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-xl px-6 py-3 text-sm font-bold uppercase tracking-wide transition-all duration-300 btn-press sm:w-1/2 sm:min-w-fit ${
+                    cartStatus !== 'idle'
+                      ? 'bg-brand-600 text-white shadow-lg'
+                      : 'bg-[#385775] hover:bg-[#293d54] text-white shadow-sm hover:shadow-lg'
+                  }`}
+                >
+                  {cartStatus === 'adding' ? (
+                    <><ShoppingCart className="w-4 h-4" /><span>Adding to Cart...</span></>
+                  ) : cartStatus === 'added' ? (
+                    <><Check className="w-4 h-4" /><span>Added to Cart!</span></>
+                  ) : (
+                    <><ShoppingCart className="w-4 h-4" /><span>ADD TO CART</span></>
+                  )}
+                </button>
+              </div>
             </div>
 
             {/* Trust Micro-Badges */}
@@ -473,6 +489,8 @@ const ProductDetails = () => {
         reviews={product.reviews || []}
         onReviewSubmitted={handleReviewSubmitted}
       />
+
+      <RelatedProducts key={product.id} productId={product.id} category={product.category} />
     </div>
   );
 };

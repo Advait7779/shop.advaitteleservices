@@ -28,6 +28,8 @@ async function main() {
         where: { slug: product.slug },
         data: {
           category: product.category,
+          primaryImage: product.primaryImage,
+          galleryImages: product.galleryImages,
           subtitle: product.subtitle,
           description: product.description,
           features: product.features,

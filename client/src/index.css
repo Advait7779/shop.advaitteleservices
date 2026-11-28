@@ -334,7 +334,7 @@
     linear-gradient(#5d7285, #4a6074);
 }
 
-/* Single illustrated satellite tracking banner on the storefront homepage. */
+/* Single crisp white vector tracking banner on the storefront homepage. */
 .tracking-hero {
   position: relative;
   isolation: isolate;
@@ -343,8 +343,8 @@
   justify-content: center;
   min-height: 560px;
   overflow: hidden;
-  background: #1b2730;
-  color: #ffffff;
+  background: #e9f1f2;
+  color: #172536;
 }
 
 .tracking-hero__map,
@@ -360,9 +360,7 @@
 .tracking-hero__map svg { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 .tracking-hero__veil {
-  background:
-    radial-gradient(ellipse 42% 52% at 50% 42%, rgba(12, 23, 35, 0.78) 0%, rgba(12, 23, 35, 0.54) 46%, rgba(12, 23, 35, 0.16) 80%, transparent 100%),
-    linear-gradient(180deg, rgba(12, 23, 35, 0.24) 0%, transparent 18%, transparent 82%, rgba(12, 23, 35, 0.30) 100%);
+  background: radial-gradient(ellipse 36% 47% at 50% 41%, rgba(252, 254, 254, .95) 0%, rgba(252, 254, 254, .84) 45%, rgba(252, 254, 254, .1) 82%, transparent 100%);
 }
 
 .tracking-hero__content {
@@ -375,19 +373,19 @@
 
 /* Live realistic GPS map animations */
 @keyframes mapGpsPulseOuter {
-  0% { r: 10px; opacity: 0.56; stroke-width: 2.2; }
+  0% { r: 10px; opacity: 0.48; stroke-width: 2.2; }
   85% { r: 34px; opacity: 0; stroke-width: 0.8; }
   100% { r: 34px; opacity: 0; stroke-width: 0.8; }
 }
 
 @keyframes mapGpsPulseInner {
-  0% { r: 8px; opacity: 0.65; stroke-width: 2; }
+  0% { r: 8px; opacity: 0.56; stroke-width: 2; }
   85% { r: 24px; opacity: 0; stroke-width: 1; }
   100% { r: 24px; opacity: 0; stroke-width: 1; }
 }
 
 @keyframes mapCarGpsPulse {
-  0% { r: 14px; opacity: 0.54; }
+  0% { r: 14px; opacity: 0.45; }
   80% { r: 29px; opacity: 0; }
   100% { r: 29px; opacity: 0; }
 }
@@ -399,7 +397,7 @@
 
 .map-gps-pulse {
   fill: none;
-  stroke: #4cc2ff;
+  stroke: #2582bf;
 }
 
 .map-gps-pulse--outer {
@@ -413,7 +411,7 @@
 
 .map-car-gps-ring {
   fill: none;
-  stroke: #4cc2ff;
+  stroke: #2582bf;
   stroke-width: 2;
   animation: mapCarGpsPulse 2.6s cubic-bezier(0.2, 0.7, 0.4, 1) infinite;
 }
@@ -438,7 +436,7 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 22px;
-  color: #7cc5f2;
+  color: #336b8b;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: .19em;
@@ -446,23 +444,21 @@
 
 .tracking-hero h1 {
   margin: 0;
-  color: #ffffff;
+  color: #15283a;
   font-size: clamp(3.2rem, 5.5vw, 5.75rem);
   font-weight: 800;
   letter-spacing: -.065em;
   line-height: 1.04;
-  text-shadow: 0 2px 18px rgba(7, 16, 26, 0.6);
 }
 
-.tracking-hero h1 span { color: #7ac6f5; }
+.tracking-hero h1 span { color: #346b8d; }
 
 .tracking-hero__description {
   max-width: 480px;
   margin: 24px auto 28px;
-  color: rgba(226, 238, 248, 0.92);
+  color: #4e6477;
   font-size: clamp(14px, 1.1vw, 17px);
   line-height: 1.65;
-  text-shadow: 0 1px 10px rgba(7, 16, 26, 0.55);
 }
 
 .tracking-hero__actions {
@@ -479,24 +475,24 @@
   gap: 12px;
   min-height: 46px;
   padding: 11px 17px;
-  border: 1px solid #ffffff;
+  border: 1px solid #293d54;
   border-radius: 9px;
   font-size: 13px;
   font-weight: 800;
   transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
-  background: #ffffff;
-  color: #15283a;
-  box-shadow: 0 10px 24px -10px rgba(4, 12, 20, 0.72);
+  background: #293d54;
+  color: #ffffff;
+  box-shadow: 0 9px 17px -12px #172536;
 }
 
-.tracking-hero__primary:hover { transform: translateY(-2px); box-shadow: 0 14px 28px -10px rgba(4, 12, 20, 0.8); background: #eaf1f8; border-color: #eaf1f8; }
-.tracking-hero__primary:focus-visible { outline: 3px solid #7ac6f5; outline-offset: 3px; }
+.tracking-hero__primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -12px #172536; background: #172536; border-color: #172536; }
+.tracking-hero__primary:focus-visible { outline: 3px solid #5c9dbe; outline-offset: 3px; }
 
 @media (max-width: 640px) {
   .tracking-hero { min-height: 620px; }
   .tracking-hero__map img,
   .tracking-hero__map svg { object-position: center; }
-  .tracking-hero__veil { background: radial-gradient(ellipse 88% 52% at 50% 41%, rgba(12, 23, 35, 0.80) 0%, rgba(12, 23, 35, 0.58) 48%, rgba(12, 23, 35, 0.16) 100%); }
+  .tracking-hero__veil { background: radial-gradient(ellipse 84% 47% at 50% 41%, rgba(249, 252, 252, .97) 0%, rgba(249, 252, 252, .88) 48%, rgba(249, 252, 252, .12) 100%); }
   .tracking-hero__content { padding: 84px 18px 168px; }
   .tracking-hero__eyebrow { margin-bottom: 17px; font-size: 9px; letter-spacing: .12em; }
   .tracking-hero h1 { font-size: clamp(2.25rem, 10vw, 3.75rem); }
