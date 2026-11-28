@@ -85,7 +85,7 @@ const OrderSuccess = () => {
 
   if (loading) {
     return (
-      <div className="max-w-2xl mx-auto py-20 px-4 text-center">
+      <div className="max-w-2xl mx-auto pt-28 pb-20 px-4 text-center">
         <div className="w-10 h-10 border-4 border-brand-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
         <p className="text-xs text-gray-500 mt-3 font-semibold">Generating order receipt...</p>
       </div>
@@ -94,7 +94,7 @@ const OrderSuccess = () => {
 
   if (!order) {
     return (
-      <div className="max-w-md mx-auto py-20 px-4 text-center">
+      <div className="max-w-md mx-auto pt-28 pb-20 px-4 text-center">
         <h2 className="text-lg font-bold text-gray-800">Order Record Not Found</h2>
         <Link to="/shop" className="mt-4 inline-block px-5 py-2.5 bg-[#385775] text-white text-xs font-bold rounded-xl btn-press">
           Return to Shop
@@ -108,7 +108,7 @@ const OrderSuccess = () => {
   };
 
   return (
-    <div className="mx-auto max-w-3xl space-y-8 px-4 pb-16 pt-36 reveal sm:px-6 md:pt-24 lg:pt-36">
+    <div className="mx-auto max-w-3xl space-y-8 px-4 pb-16 pt-24 reveal sm:px-6">
       {/* Success Banner */}
       <div className="bg-white p-5 sm:p-8 rounded-3xl border border-gray-200/80 shadow-sm text-center space-y-3">
         <div className="w-16 h-16 bg-brand-100 text-[#385775] rounded-full flex items-center justify-center mx-auto shadow-xs">
@@ -205,7 +205,9 @@ const OrderSuccess = () => {
               <div key={item.id} className="p-3.5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-xs">
                 <div className="min-w-0 break-words">
                   <p className="font-bold text-gray-900">{item.productTitle}</p>
-                  <p className="text-[11px] text-gray-500">Subscription Plan: {item.planDuration}</p>
+                  <p className="text-[11px] text-gray-500">
+                    {item.planDuration?.includes(' · ') ? 'Plan & SIM' : 'Subscription Plan'}: {item.planDuration}
+                  </p>
                 </div>
                 <div className="text-left sm:text-right shrink-0">
                   <p className="font-bold text-gray-900">

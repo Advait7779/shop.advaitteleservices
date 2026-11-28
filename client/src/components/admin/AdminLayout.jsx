@@ -77,14 +77,14 @@ const AdminLayout = () => {
     <div className="min-h-screen min-w-0 bg-[#f6f8fb] flex flex-col lg:flex-row font-sans text-gray-900">
       
       {/* ================= MOBILE HEADER ================= */}
-      <div className="lg:hidden bg-[#293d54] text-white px-4 py-3 flex items-center justify-between border-b border-brand-900 sticky top-0 z-50">
-        <Link to="/admin" className="flex items-center gap-2.5">
-          <img src="/logo.png" alt="" className="w-8 h-8 object-contain" />
-          <span className="text-sm font-extrabold tracking-tight">{companyName}</span>
+      <div className="lg:hidden h-14 bg-[#293d54] text-white px-4 flex items-center justify-between border-b border-brand-900 sticky top-0 z-50">
+        <Link to="/admin" className="flex items-center gap-2.5 min-w-0">
+          <img src="/logo.png" alt="" className="w-8 h-8 shrink-0 object-contain" />
+          <span className="truncate text-sm font-extrabold tracking-tight">{companyName}</span>
         </Link>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 rounded-md bg-white/10 hover:bg-white/20 text-white transition-colors"
+          className="p-2 shrink-0 rounded-md bg-white/10 hover:bg-white/20 text-white transition-colors"
           aria-label="Toggle Navigation"
         >
           {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -93,7 +93,7 @@ const AdminLayout = () => {
 
       {/* ================= SIDEBAR ================= */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-[min(18rem,100vw)] shrink-0 bg-gradient-to-b from-[#172536] via-[#20344a] to-[#293d54] text-white flex flex-col justify-between border-r border-brand-900/60 shadow-2xl transition-transform duration-300 lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 h-dvh overflow-y-auto w-[min(17.5rem,100vw)] lg:w-60 xl:w-64 shrink-0 bg-gradient-to-b from-[#172536] via-[#20344a] to-[#293d54] text-white flex flex-col justify-between border-r border-brand-900/60 shadow-2xl transition-transform duration-300 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -233,7 +233,7 @@ const AdminLayout = () => {
       <div className="flex-1 flex flex-col min-w-0">
         
         {/* Top Header */}
-        <header className="bg-white border-b border-gray-200/80 px-4 py-3 sm:px-6 sm:py-4 flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between sticky top-[57px] lg:top-0 z-30 shadow-xs">
+        <header className="bg-white border-b border-gray-200/80 px-4 py-3 sm:px-6 sm:py-4 flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between sticky top-14 lg:top-0 z-30 shadow-xs">
           <div className="min-w-0">
             <h1 className="text-lg sm:text-2xl font-black text-gray-900 tracking-tight leading-tight">
               {getPageTitle()}
@@ -253,7 +253,7 @@ const AdminLayout = () => {
         </header>
 
         {/* Page Content View */}
-        <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+        <main className="flex-1 min-w-0 p-3.5 sm:p-5 lg:p-6 xl:p-8 max-w-7xl w-full mx-auto">
           <Outlet />
         </main>
       </div>

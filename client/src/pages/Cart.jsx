@@ -196,7 +196,7 @@ const Cart = () => {
     <div className="space-y-10 pb-20">
       
       {/* Page Header */}
-      <section className="bg-gradient-to-r from-[#172536] via-[#293d54] to-[#385775] pb-12 pt-36 text-white md:pt-24 lg:pt-36">
+      <section className="bg-gradient-to-r from-[#172536] via-[#293d54] to-[#385775] pb-12 pt-24 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Shopping Cart</h1>
           <p className="text-xs text-brand-300 mt-2">
@@ -377,7 +377,8 @@ const Cart = () => {
                           {item.product?.title}
                         </Link>
                         <div className="text-xs text-gray-500">
-                          Subscription Plan: <span className="font-semibold text-brand-800">{item.planDuration}</span>
+                          {item.planDuration?.includes(' · ') ? 'Plan & SIM:' : 'Subscription Plan:'}{' '}
+                          <span className="font-semibold text-brand-800">{item.planDuration}</span>
                         </div>
                         <div className="text-xs font-bold text-gray-900">
                           ₹{formatMoney(item.product?.sellingPrice)}

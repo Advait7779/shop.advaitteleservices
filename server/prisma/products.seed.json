@@ -3,7 +3,7 @@
     "slug": "a5-device",
     "title": "A5 DEVICE",
     "category": "vehicle-gps",
-    "subtitle": "GPS TRACKER A5 device GPS Device 1 YEAR REPLACEMENT Warranty",
+    "subtitle": "AIS-Grade Wired Vehicle GPS Tracker with Ignition Alerts, Engine Immobilizer & 1-Year Replacement Warranty",
     "originalPrice": 4500,
     "sellingPrice": 3200,
     "discountPercent": 29,
@@ -16,30 +16,37 @@
     "galleryImages": [
       "/products/a5-device-current.png"
     ],
-    "description": "GPS TRACKER A5 device GPS Device with 1 YEAR REPLACEMENT Warranty. Live GPS Tracking with Ride History feature provides accurate location tracking of your car or bike, including motion tracking even when the engine is turned OFF.",
+    "description": "The Advait A5 Device is an everyday hardwired vehicle GPS tracker built for cars, motorcycles, SUVs, and commercial pickups across Indian road and weather conditions. Wired safely behind the dashboard with an automotive-grade fuse harness, it delivers continuous real-time coordinates every 10 seconds, ignition ON/OFF notifications, remote engine cut-off via the Advait mobile app, and an internal 250mAh backup battery that keeps reporting even if the main vehicle battery is tampered with or disconnected.",
     "features": [
-      "Anti-theft Protection: Receive real-time anti-theft alerts on your phone triggered by ignition activation, towing, or unauthorized wire tampering.",
-      "Live Tracking & History: High precision GPS tracking with smooth ride history playback and instant speed monitoring.",
-      "Connectivity & Alerts: Comes equipped with an in-built 4G SIM Card and smart AI alerts directly on your Advait mobile application.",
-      "OverSpeed Alerts: Immediate notifications sent to owners or fleet managers via SMS and app push notifications.",
-      "Geo-fence Alerts: Set virtual safety boundaries around frequent spots and receive alerts when vehicles enter or exit.",
-      "Vehicle Movement Alarm + Overvoltage Protection: Alerts against unauthorized movement and protects device electronics from voltage spikes.",
-      "90-Day History Records: Access detailed movement, stops, idling, and mileage logs over the past 90 days."
+      "Real-Time Live Tracking & 90-Day Route Replay: View live speed, halt duration, daily kilometers, and trip playback directly on Android, iOS, and web dashboards.",
+      "Remote Engine Immobilizer Relay: Safely cut fuel/ignition power from the mobile app during unauthorized late-night movement or theft attempts (cuts in safely below 20 km/h).",
+      "Ignition, Towing & Wire-Cut Alerts: Instant phone push notifications and SMS warnings if ignition turns ON, vehicle is towed while parked, or power wiring is unplugged.",
+      "SIM Flexible (Without SIM, Vodafone Vi, or Airtel 4G): Order with your preferred pre-tested M2M IoT SIM for plug-and-fit activation or insert your own active 4G SIM.",
+      "Overspeed & Geo-Fence Safety Zones: Mark home, office, highway hubs, or school gates on the map and get notified the second your vehicle enters or exits.",
+      "9V–36V Wide Voltage Protection: Handles alternator surges safely across 2-wheelers, petrol/diesel cars, SUVs, and light commercial delivery vans.",
+      "1-Year Replacement Warranty & Local Helpline: Full device replacement assurance backed by Advait Teleservices technical support for mechanics and owners."
     ],
     "specs": {
-      "color": "Black",
+      "color": "Matte Stealth Black",
       "weight": "125g",
-      "battery": "",
+      "battery": "250mAh Li-Polymer Internal Backup (up to 6 hrs on cut power)",
+      "powerSupply": "9V – 36V DC Automotive Input (In-line 2A Fuse)",
+      "connectivity": "4G LTE + 2G Fallback (Micro SIM Slot)",
+      "gnss": "GPS + GLONASS + BeiDou (< 5m Open-Sky Accuracy)",
+      "compatibility": "Bikes, Cars, SUVs, Tempo Travellers & Pickups",
+      "waterproof": "IP65 Dust & Splash Resistant Enclosure",
+      "operatingTemp": "-20°C to +70°C Cabin Rated",
+      "warranty": "1 Year Replacement Warranty",
       "skuCode": "85269190",
       "taxCode": "18% GST Included",
-      "dimensions": "L: 15 x B: 16 x H: 17 cm"
+      "dimensions": "L: 8.8 x B: 4.5 x H: 1.6 cm"
     },
     "whatsInBox": [
       "1x A5 GPS Tracker Device",
-      "1x Wiring Harness with In-line Fuse",
-      "1x Pre-configured 4G SIM Card",
-      "1x Engine Immobilizer Relay",
-      "1x User Manual & 1-Year Warranty Card"
+      "1x Heavy-Duty Wiring Harness with In-line Fuse",
+      "1x 12V Engine Immobilizer Cut-Off Relay & Socket",
+      "1x Selected SIM Option (Pre-fitted if Vi or Airtel chosen)",
+      "1x Wiring Diagram Card & 1-Year Replacement Warranty Card"
     ],
     "manufacturerInfo": {
       "brand": "Advait Teleservices",
@@ -48,14 +55,14 @@
       "countryOfOrigin": "India"
     },
     "inStock": true,
-    "rating": 5,
+    "rating": 4.8,
     "reviewCount": 38
   },
   {
     "slug": "cctv-trueview-solar-4g",
     "title": "CCTV TRUEVIEW SOLAR 4G",
     "category": "solar-cctv",
-    "subtitle": "100% Wire-Free 4G SIM Solar Powered PTZ Security Camera",
+    "subtitle": "100% Wire-Free 4G LTE SIM Solar PTZ Security Camera with Full-Color Night Vision & Two-Way Audio",
     "originalPrice": 6400,
     "sellingPrice": 6199,
     "discountPercent": 3,
@@ -67,42 +74,52 @@
     "galleryImages": [
       "/products/cctv-trueview-solar-4g.jpg"
     ],
-    "description": "Self-sustaining outdoor security camera equipped with high-efficiency monocrystalline solar panel and lithium-ion backup battery. Operates seamlessly on 4G LTE SIM cards without requiring local Wi-Fi or mains power.",
+    "description": "Designed for farms, construction yards, highway warehouses, open plots, and gates where neither broadband Wi-Fi nor continuous electricity is available. The Trueview Solar 4G PTZ camera runs completely off-grid using an 8W high-efficiency monocrystalline solar panel paired with a 10,400mAh lithium battery pack, streaming crisp 2K live video over a standard 4G LTE nano SIM with smart PIR human motion alerts and floodlight color night vision.",
     "features": [
-      "Solar Powered + Long Life Battery: Never stops recording, completely independent of electric grid.",
-      "Pan-Tilt-Zoom (PTZ): 355° horizontal and 90° vertical rotation controlled from smartphone app.",
-      "Full Color Night Vision: Dual spotlight LEDs deliver color video surveillance in pitch darkness.",
-      "PIR Human Detection: Smart AI recognizes human motion and avoids false alarms from wind or leaves."
+      "Off-Grid 8W Solar Panel + 10,400mAh Battery: Stays powered day and night with up to 5–7 rainy days of battery reserve on a full charge.",
+      "Full 355° Pan & 90° Tilt Remote Control: Sweep yards, gates, and parking bays smoothly from anywhere via mobile app live view.",
+      "Dual-Light Full Color Night Vision: Built-in infrared plus warm floodlight LEDs switch automatically to capture license plates and faces in vivid color.",
+      "PIR Radar Human Detection: Reduces false triggers caused by swaying trees, stray animals, or rain showers and sends instant clip alerts.",
+      "Two-Way Intercom & Siren Deterrence: Speak directly to drivers or delivery staff through the weatherproof mic/speaker or trigger the alarm siren.",
+      "MicroSD + Optional Cloud Recording: Supports local SD card loop recording up to 128GB alongside smartphone clip backup."
     ],
     "specs": {
-      "color": "Pure White",
-      "weight": "1.4kg",
-      "battery": "",
+      "color": "Weatherproof Ceramic White",
+      "weight": "1.4kg (with Solar Mount)",
+      "battery": "10,400mAh Built-in Li-Ion Rechargeable Pack",
+      "powerSupply": "8W Monocrystalline Solar Panel (Type-C Backup Input)",
+      "connectivity": "4G LTE Nano SIM (Works without Wi-Fi Router)",
+      "gnss": "N/A (Fixed 4G Surveillance Camera)",
+      "compatibility": "Farms, Plots, Construction Sites, Godowns & Yards",
+      "waterproof": "IP66 All-Weather Outdoor Housing",
+      "operatingTemp": "-10°C to +55°C Outdoor Rated",
+      "warranty": "1 Year Carry-in Hardware Warranty",
       "skuCode": "85258020",
       "taxCode": "18% GST Included",
       "dimensions": "L: 22 x B: 18 x H: 25 cm"
     },
     "whatsInBox": [
-      "1x Trueview 4G Solar PTZ Camera",
-      "1x Monocrystalline Solar Panel (8W)",
-      "1x Adjustable Wall/Pole Mount Bracket",
-      "1x Built-in Rechargeable Battery Pack",
-      "1x Installation Screws & Manual"
+      "1x Trueview 4G Solar PTZ Security Camera",
+      "1x 8W High-Efficiency Monocrystalline Solar Panel",
+      "1x Heavy Wall/Pole Mounting Bracket & 3m Power Cable",
+      "1x Built-in 10,400mAh Rechargeable Battery Pack",
+      "1x Weatherproof Sealing Cap, Wall Plugs & Setup Manual"
     ],
     "manufacturerInfo": {
       "brand": "Advait Teleservices",
-      "warranty": "1 Year Warranty",
+      "warranty": "1 Year Hardware Warranty",
+      "supportContact": "082829 82829 / sales@advaitteleservices.com",
       "countryOfOrigin": "India"
     },
     "inStock": true,
-    "rating": 4.9,
+    "rating": 4.8,
     "reviewCount": 26
   },
   {
     "slug": "fuel-sensor-ble",
     "title": "FUEL SENSOR(BLE)",
     "category": "fuel-sensors",
-    "subtitle": "Wireless Bluetooth Ultra-Precision Capacitive Fuel Level Sensor",
+    "subtitle": "Wireless Bluetooth Capacitive Diesel & Fuel Level Sensor with Theft Drop Alerts for Heavy Fleets",
     "originalPrice": 22000,
     "sellingPrice": 18500,
     "discountPercent": 16,
@@ -114,31 +131,41 @@
     "galleryImages": [
       "/products/fuel-sensor-ble-current.png"
     ],
-    "description": "State-of-the-art wireless Bluetooth Low Energy (BLE 5.0) capacitive fuel sensor for trucks, buses, tractors, and heavy machinery. Eliminates complex wiring harnesses between fuel tank and tracker.",
+    "description": "Engineered for long-haul trucks, tippers, buses, tractors, excavators, and DG diesel generator sets where fuel pilferage eats straight into operating margins. The Advait BLE Capacitive Fuel Sensor measures tank levels down to sub-millimeter precision without running vulnerable external signal cables along the chassis—pairing wirelessly via encrypted Bluetooth Low Energy (BLE 5.0) to compatible GPS telematics units.",
     "features": [
-      "Wireless BLE 5.0: Quick calibration and cable-free data transmission to GPS unit.",
-      "99.5% Fuel Measurement Accuracy: Detects rapid fuel drops, pilferage, and exact refill quantities in liters.",
-      "Explosion-Proof & IP67: Certified safe for diesel and gasoline storage tanks.",
-      "Live Dashboard Integration: Real-time liters graph and consumption reports."
+      "Cable-Free BLE 5.0 Transmission: Prevents rat damage, roadside wire cuts, and harness shorts between diesel tank and cabin GPS.",
+      "Instant Siphon & Theft Notifications: Detects sudden fuel drops of 3+ liters while parked and alerts fleet owners with exact timestamp, location, and liters drained.",
+      "Refill Verification Against Fuel Receipts: Cross-check bunk refill slips in exact liters directly against Advait telematics graphs.",
+      "Field-Trimmable Capacitance Probe: Rod can be cut smoothly on-site to match shallow generator tanks or tall 400L commercial truck tanks.",
+      "Built-In Temperature Compensation & Stabilization: Filters road slosh and diesel density changes across summer and winter highways.",
+      "Intrinsic Explosion-Safe IP67 Construction: Sealed probe head rated safe for continuous diesel and biodiesel tank immersion."
     ],
     "specs": {
-      "color": "Silver & Black",
+      "color": "Anodized Silver & Black",
       "weight": "750g",
-      "battery": "",
+      "battery": "Internal Long-Life Lithium Cell (Up to 3 Years BLE Broadcast) / 9V–36V Option",
+      "powerSupply": "Wireless Self-Powered / 9V–36V DC Telemetry Bus",
+      "connectivity": "Bluetooth Low Energy (BLE 5.0) — No Separate SIM Needed",
+      "gnss": "Pairs directly with Advait Fleet GPS Gateways",
+      "compatibility": "Trucks, Tippers, Excavators, Buses & DG Generators",
+      "waterproof": "IP67 Explosion-Proof Tank Head Seal",
+      "operatingTemp": "-40°C to +85°C Industrial Rated",
+      "warranty": "1 Year Sensor & Calibration Warranty",
       "skuCode": "90261010",
       "taxCode": "18% GST Included",
-      "dimensions": "Rod length: 700mm / 1000mm (customizable)"
+      "dimensions": "Probe: 700mm / 1000mm Trimmable Aluminum Rod"
     },
     "whatsInBox": [
-      "1x BLE Capacitive Fuel Rod Sensor",
-      "1x Tank Mounting Flange & Gasket Kit",
-      "1x Calibration Cable Unit",
-      "1x Seal & Screws Set",
-      "1x Installation Guide"
+      "1x BLE 5.0 Capacitive Fuel Probe Sensor",
+      "1x SAE 5-Bolt Tank Mounting Flange & Oil-Proof Gasket",
+      "1x Bottom Tank Stabilizer Support Cap",
+      "1x Self-Drilling Fastener & Calibration Sticker Kit",
+      "1x Tank Calibration & Pairing Guide"
     ],
     "manufacturerInfo": {
       "brand": "Advait Teleservices",
-      "warranty": "1 Year Warranty",
+      "warranty": "1 Year Telemetry Sensor Warranty",
+      "supportContact": "082829 82829 / sales@advaitteleservices.com",
       "countryOfOrigin": "India"
     },
     "inStock": true,
@@ -149,7 +176,7 @@
     "slug": "magnetic-tracker",
     "title": "MAGNETIC TRACKER",
     "category": "magnetic-trackers",
-    "subtitle": "Portable GPS Tracker with Strong Neodymium Magnet & Rechargeable Battery",
+    "subtitle": "Wireless 6000mAh Strong Neodymium Magnetic GPS Tracker with 30-Day Standby & Drop Tamper Alert",
     "originalPrice": 6299,
     "sellingPrice": 5499,
     "discountPercent": 13,
@@ -161,41 +188,51 @@
     "galleryImages": [
       "/products/magnetic-tracker.jpg"
     ],
-    "description": "Heavy-duty magnetic tracker featuring ultra-powerful neodymium magnets that firmly attach to any metallic chassis, container, or vehicle underbody in 2 seconds. Zero wiring required.",
+    "description": "Zero installation time and zero vehicle wire cuts. Built around industrial dual neodymium magnets and a sealed IP65 shell, the Advait Magnetic Tracker snaps securely inside underbody frames, trailer axles, shipping containers, rental cars, or equipment trunks in seconds—running up to 30 days per USB charge with an optical anti-removal light sensor that pings your phone immediately if anyone lifts the unit.",
     "features": [
-      "Industrial Strength Magnet: Stays firmly anchored even across rough off-road terrain.",
-      "6000mAh Battery: Up to 30 days of continuous standby and tracking on a single charge.",
-      "Anti-Dismantle Drop Sensor: Optical light sensor triggers instant alert if device is detached.",
-      "IP65 Waterproof Housing: Completely sealed against monsoon rains, mud, and road grime."
+      "2-Second Snap Mount on Metal Surfaces: Dual high-pull neodymium magnets hold firm across rough rural roads and speed breakers.",
+      "6,000mAh Rechargeable Lithium Battery: Up to 30 days on smart movement-triggered sleep mode (7–10 days continuous active interval).",
+      "Optical Drop & Detachment Sensor: Bottom light sensor fires an urgent mobile alert the instant the tracker is peeled off a chassis.",
+      "Flexible SIM Choice: Order ready-to-track with Airtel 4G or Vodafone Vi M2M SIM, or fit your own active tracking SIM card.",
+      "Weatherproof Underbody Shell: Rubberized port flap and gasket seal protect electronics against puddles, dust, and car-wash spray.",
+      "Low-Battery & Movement Alarms: Get advance phone alerts at 15% charge and instant wake-up coordinates on first vibration."
     ],
     "specs": {
       "color": "Charcoal Black",
       "weight": "240g",
-      "battery": "",
+      "battery": "6,000mAh High-Density Rechargeable Li-Ion (Up to 30 Days Standby)",
+      "powerSupply": "5V DC USB Charging (No Vehicle Wiring Required)",
+      "connectivity": "4G LTE + 2G Fallback (Nano/Micro SIM)",
+      "gnss": "GPS + GLONASS + LBS Cell Triangulation",
+      "compatibility": "Rental Cars, Trailers, Containers, Trucks & Construction Assets",
+      "waterproof": "IP65 Weather & Mud Splash Sealed",
+      "operatingTemp": "-20°C to +65°C",
+      "warranty": "1 Year Replacement Warranty",
       "skuCode": "85269194",
       "taxCode": "18% GST Included",
-      "dimensions": "L: 10 x B: 7.5 x H: 2.5 cm"
+      "dimensions": "L: 10.0 x B: 7.5 x H: 2.5 cm"
     },
     "whatsInBox": [
-      "1x Industrial Magnetic Tracker",
-      "1x Micro USB Charging Cable",
-      "1x Anti-tamper Optical Sensor Seal",
-      "1x User Manual"
+      "1x Industrial Magnetic GPS Tracker Unit",
+      "1x Heavy-Duty USB Charging Cable",
+      "1x Selected SIM Option (Pre-configured if Vi or Airtel selected)",
+      "1x Waterproof SIM Door Tool & User Manual"
     ],
     "manufacturerInfo": {
       "brand": "Advait Teleservices",
       "warranty": "1 Year Warranty",
+      "supportContact": "082829 82829 / sales@advaitteleservices.com",
       "countryOfOrigin": "India"
     },
     "inStock": true,
-    "rating": 4.9,
+    "rating": 4.8,
     "reviewCount": 31
   },
   {
     "slug": "magnetic-tracker-voice",
     "title": "MAGNETIC TRACKER WITH VOICE",
     "category": "magnetic-trackers",
-    "subtitle": "Heavy Magnetic Tracker with Remote Voice Listening & Recording",
+    "subtitle": "10,000mAh Long-Range Magnetic GPS Tracker with HD Remote Voice Listening & 60-Day Battery",
     "originalPrice": 9000,
     "sellingPrice": 7499,
     "discountPercent": 17,
@@ -207,41 +244,51 @@
     "galleryImages": [
       "/products/magnetic-tracker-voice.jpg"
     ],
-    "description": "Combines ultra-strong magnetic vehicle mount with built-in high-fidelity microphone for remote audio surveillance, route replay, and covert asset tracking.",
+    "description": "Advait's flagship wireless tracker combining a massive 10,000mAh rechargeable battery (up to 60 days standby), extra-strong rare-earth magnetic chassis grip, and a sensitive silicon-MEMS microphone. Listen to ambient cabin/cargo audio silently by calling the authorized SIM or trigger instant voice-activated snippets in the Advait app without touching any vehicle harness.",
     "features": [
-      "Remote Voice Listening: Dial into device to hear live surroundings or review recorded audio clips.",
-      "10,000mAh Extended Battery: Supports up to 60 days on smart power saving mode.",
-      "Multi-GNSS Positioning: GPS + Beidou + GLONASS + LBS cell-tower triangulation.",
-      "Instant Movement Alarm: Wakes up and transmits coordinates as soon as asset starts moving."
+      "Crystal-Clear Remote Audio Monitoring: Dial silently from your registered admin number to listen to cabin surroundings in real time.",
+      "Massive 10,000mAh Extended Battery: Delivers up to 60 days standby on smart tracking intervals—ideal for long intercity consignments and seasonal equipment.",
+      "Dual Neodymium Underbody Magnets + Optical Drop Alert: Locks onto steel frames effortlessly and alarms instantly if detached.",
+      "SIM Choice Built for Coverage: Choose Airtel 4G, Vodafone Vi M2M, or supply your own preferred network SIM for highway & remote sites.",
+      "Multi-GNSS Accuracy & 90-Day Route Playback: Pinpoints stops, routes, speed, and battery % right inside the Advait mobile app.",
+      "Voice-Trigger & Vibration Wake Alarms: Alerts your phone whenever cabin noise spikes or a parked vehicle begins rolling."
     ],
     "specs": {
-      "color": "Stealth Black",
+      "color": "Stealth Matte Black",
       "weight": "310g",
-      "battery": "",
+      "battery": "10,000mAh High-Density Li-Ion (Up to 60 Days Smart Standby)",
+      "powerSupply": "5V DC Fast USB Charge (Cable Free Operation)",
+      "connectivity": "4G LTE + GSM Voice Call & Data (SIM Card Included on Carrier Selection)",
+      "gnss": "GPS + BeiDou + GLONASS + LBS Assisted",
+      "compatibility": "High-Value Cargo, Cars, Earthmovers, Cranes & Containers",
+      "waterproof": "IP65 Heavy Splash & Dust Proof",
+      "operatingTemp": "-20°C to +70°C",
+      "warranty": "1 Year Replacement Warranty",
       "skuCode": "85269195",
       "taxCode": "18% GST Included",
-      "dimensions": "L: 11 x B: 8 x H: 3 cm"
+      "dimensions": "L: 11.0 x B: 8.0 x H: 3.0 cm"
     },
     "whatsInBox": [
-      "1x Heavy Magnetic Tracker with HD Mic",
-      "1x High-speed USB Charging Cable",
-      "1x Quick Start Guide",
-      "1x Warranty Card"
+      "1x 10,000mAh Magnetic Tracker with HD Microphone",
+      "1x High-Speed Braided USB Charging Cable",
+      "1x Selected SIM Option (Installed & Activated if Vi or Airtel chosen)",
+      "1x Quick Setup Manual & 1-Year Warranty Card"
     ],
     "manufacturerInfo": {
       "brand": "Advait Teleservices",
-      "warranty": "1 Year Warranty",
+      "warranty": "1 Year Full Replacement Warranty",
+      "supportContact": "082829 82829 / sales@advaitteleservices.com",
       "countryOfOrigin": "India"
     },
     "inStock": true,
-    "rating": 5,
+    "rating": 4.9,
     "reviewCount": 42
   },
   {
     "slug": "obd-device",
     "title": "OBD DEVICE / OBD DEVICE WITH VOICE",
     "category": "vehicle-gps",
-    "subtitle": "Plug & Play OBD-II Vehicle Tracker with Audio Monitoring",
+    "subtitle": "30-Second Plug & Play OBD-II Car GPS Tracker with Voice Monitoring, Battery Health & Unplug Alert",
     "originalPrice": 6999,
     "sellingPrice": 4999,
     "discountPercent": 29,
@@ -253,40 +300,50 @@
     "galleryImages": [
       "/products/obd-device-current.png"
     ],
-    "description": "Zero wire-cutting installation! Simply plug into your car OBD-II port below the steering wheel. Includes remote voice monitoring microphone and vehicle diagnostic trouble code (DTC) reading.",
+    "description": "Preserve your car warranty with zero technician visit and zero wire cutting. Simply snap the Advait OBD-II tracker into the standard diagnostic port located below the steering column—it powers immediately, tracks every trip in real time, reads vehicle battery voltage and engine trouble codes, monitors interior audio via a sensitive mic, and fires an urgent phone alert if anyone pulls it out.",
     "features": [
-      "Plug & Play: Plugs directly into standard vehicle OBD port without cutting a single wire.",
-      "Remote Voice Listening: High-sensitivity built-in microphone for interior voice security.",
-      "Vehicle Health Diagnostics: Reads battery voltage, engine load, and diagnostic codes.",
-      "Instant Unplug Alert: Alerts your phone immediately if the device is removed from the OBD port."
+      "Zero-Mechanic Plug & Play Fitment: Installs in under 30 seconds on almost every petrol, diesel, CNG, and hybrid car made since 2010.",
+      "Built-In Voice Listening Microphone: Monitor interior audio on demand when lending your car to a valet or chauffeur.",
+      "ECU Diagnostics & Battery Voltage Watch: Check vehicle battery health, idle warnings, harsh acceleration, and engine fault alerts in the app.",
+      "Immediate Unplug Tamper Alert: Internal 200mAh backup battery keeps transmitting and instantly rings an alarm if unplugged.",
+      "SIM Flexibility (Without SIM, Vodafone Vi, or Airtel 4G): Ready out-of-the-box with pre-paired carrier SIM options or bring your own SIM."
     ],
     "specs": {
-      "color": "Black & Cyan",
+      "color": "Black & Cyan Trim",
       "weight": "85g",
-      "battery": "",
+      "battery": "200mAh Internal Li-Polymer (Supports Post-Unplug Tamper Alerts)",
+      "powerSupply": "12V – 24V via Standard 16-Pin OBD-II Port",
+      "connectivity": "4G LTE + 2G Fallback (Nano/Micro SIM)",
+      "gnss": "High-Sensitivity GPS + GLONASS",
+      "compatibility": "All Cars, SUVs & Compact Vans with 16-Pin OBD-II Port",
+      "waterproof": "IP54 Under-Dash Cabin Enclosure",
+      "operatingTemp": "-20°C to +75°C",
+      "warranty": "1 Year Replacement Warranty",
       "skuCode": "85269192",
       "taxCode": "18% GST Included",
-      "dimensions": "L: 8 x B: 5 x H: 3 cm"
+      "dimensions": "L: 8.0 x B: 5.0 x H: 3.0 cm"
     },
     "whatsInBox": [
-      "1x OBD-II Voice Tracker Device",
-      "1x Quick Start Guide",
-      "1x 1-Year Warranty Card"
+      "1x Plug & Play OBD-II Voice GPS Tracker",
+      "1x Optional OBD L-Angle Hideaway Extension Strap",
+      "1x Selected SIM Option (Pre-fitted if Vi or Airtel chosen)",
+      "1x App Pairing Card & 1-Year Warranty Slip"
     ],
     "manufacturerInfo": {
       "brand": "Advait Teleservices",
-      "warranty": "1 Year Warranty",
+      "warranty": "1 Year Replacement Warranty",
+      "supportContact": "082829 82829 / sales@advaitteleservices.com",
       "countryOfOrigin": "India"
     },
     "inStock": true,
-    "rating": 4.8,
+    "rating": 4.7,
     "reviewCount": 19
   },
   {
     "slug": "v5-device",
     "title": "V5 DEVICE",
     "category": "vehicle-gps",
-    "subtitle": "High Precision Advanced Vehicle GPS Tracker with Remote Engine Cut-Off",
+    "subtitle": "Heavy-Duty Hardwired Fleet GPS Tracker with Remote Engine Cut-Off, SOS Panic Button & 1-Year Replacement",
     "originalPrice": 4999,
     "sellingPrice": 3100,
     "discountPercent": 38,
@@ -299,36 +356,102 @@
     "galleryImages": [
       "/products/v5-device.jpg"
     ],
-    "description": "V5 GPS Device comes with 1 Year Replacement Warranty. Advanced vehicle telematics device designed for high durability and continuous monitoring. Supports anti-theft immobilizer and SOS emergency panic button.",
+    "description": "Built for demanding daily fleet operations and intercity logistics, the Advait V5 Device combines a high-gain GNSS ceramic antenna with reliable ACC ignition sensing, remote engine immobilization, SOS driver emergency panic switch support, and rugged 9V–36V power protection—backed by a full 1-year replacement guarantee.",
     "features": [
-      "Remote Engine Cut-Off: Remotely stop vehicle engine in case of unauthorized access or theft via Advait mobile app.",
-      "High-Gain GPS Chipset: Instant satellite locking with sub-meter precision.",
-      "Ignition Sensor: Instant notification as soon as ignition is turned on or off.",
-      "External Battery Backup: Continues transmitting even if main vehicle battery is disconnected.",
-      "90-Day Playback: View complete route, stops, idle time, and speeds."
+      "Safe Remote Engine Immobilizer: Halt unauthorized vehicle use directly from the Advait fleet dashboard or smartphone app.",
+      "High-Gain Internal GPS Antenna: Maintains steady satellite locks even under steel bridges, basement ramps, and dense tree canopies.",
+      "Wired SOS Panic Button Included: Dedicated cabin distress switch notifies fleet dispatchers immediately during roadside emergencies.",
+      "Backup Power & Cut-Wire Alarm: Internal 180mAh backup battery ensures tamper alerts reach you even if the truck battery terminals are disconnected.",
+      "SIM Carrier Flexibility: Ship pre-installed with Airtel or Vodafone Vi M2M SIM for instant national roaming, or configure your own SIM.",
+      "90-Day Trip Logs, Idling & Over-Speeding Analytics: Export daily shift reports and fuel-wasting idle summaries directly to PDF/Excel."
     ],
     "specs": {
-      "color": "Matte Black",
+      "color": "Matte Black ABS Industrial Shell",
       "weight": "135g",
-      "battery": "",
+      "battery": "180mAh Li-Polymer Emergency Backup",
+      "powerSupply": "9V – 36V DC (Cars, LCVs & Heavy 24V Trucks)",
+      "connectivity": "4G LTE + 2G Fallback (Dual-Band Antenna)",
+      "gnss": "High-Gain GPS + BeiDou + GLONASS",
+      "compatibility": "Commercial Trucks, Ambulances, School Buses, Cabs & Bikes",
+      "waterproof": "IP65 Sealed Chassis Mountable",
+      "operatingTemp": "-25°C to +75°C",
+      "warranty": "1 Year Replacement Warranty",
       "skuCode": "85269191",
       "taxCode": "18% GST Included",
-      "dimensions": "L: 14 x B: 12 x H: 15 cm"
+      "dimensions": "L: 9.2 x B: 5.2 x H: 1.8 cm"
     },
     "whatsInBox": [
-      "1x V5 GPS Tracker Unit",
-      "1x Engine Cut-off Relay Cable",
-      "1x Wiring Harness",
-      "1x SOS Panic Button",
-      "1x Warranty Documentation"
+      "1x V5 Fleet GPS Tracker Unit",
+      "1x Heavy-Gauge Power & ACC Ignition Wiring Harness",
+      "1x 12V/24V Compatible Engine Cut-Off Relay",
+      "1x Cabin SOS Panic Push-Button Loom",
+      "1x Selected SIM Option & 1-Year Replacement Warranty Card"
     ],
     "manufacturerInfo": {
       "brand": "Advait Teleservices",
-      "warranty": "1 Year Replacement Warranty",
+      "warranty": "1 Year Full Replacement Warranty",
+      "supportContact": "082829 82829 / sales@advaitteleservices.com",
       "countryOfOrigin": "India"
     },
     "inStock": true,
-    "rating": 4.9,
+    "rating": 4.8,
     "reviewCount": 29
+  },
+  {
+    "slug": "4g-ai-gps-dashcam",
+    "title": "4G AI GPS DASHCAM",
+    "category": "vehicle-gps",
+    "subtitle": "Cloud 4G LTE Live-Streaming Fleet & Car GPS Dashcam with Tamper-Lock SIM/SD Bay & Real-Time Location",
+    "originalPrice": 14999,
+    "sellingPrice": 11999,
+    "discountPercent": 20,
+    "planOptions": [
+      "1 Year",
+      "2 Years"
+    ],
+    "primaryImage": "/products/4g-ai-gps-dashcam.jpg",
+    "galleryImages": [
+      "/products/4g-ai-gps-dashcam.jpg"
+    ],
+    "description": "Designed for commercial fleets, outstation cabs, delivery vans, and personal cars that need live video visibility alongside continuous GPS tracking. Mounted flush against the upper windshield via a lockable 3M slide bracket, this compact 4G LTE dashcam streams Full HD 1080p road video straight to your phone, stamps speed and GNSS coordinates on every clip, and guards the 4G SIM card and MicroSD storage slot behind a dual-screw anti-tamper hatch.",
+    "features": [
+      "Live 4G Remote Video & Cloud Clip Alerts: Stream real-time windshield footage from anywhere in India via the Advait mobile app without needing local car Wi-Fi.",
+      "High-Precision GPS + BeiDou Telemetry: Combines live vehicle location, speed stamps, ignition status, and 90-day route playback right inside one dashboard.",
+      "Tamper-Lock Side SIM & MicroSD Bay: Dual brass screw-secured side panel protects both your 4G SIM card and loop-recording memory card (up to 128GB) from unauthorized removal.",
+      "G-Sensor Impact & Harsh Event Recording: Automatically locks collision, harsh braking, or sudden shake clips to protect critical accident evidence from overwriting.",
+      "SIM Carrier Ready (Without SIM, Vodafone Vi, or Airtel 4G): Order with a pre-activated Vi or Airtel 4G M2M IoT SIM for smooth remote streaming, or fit your own 4G data SIM.",
+      "Supercapacitor Thermal Design & Hardwired Loom: Engineered without swollen Li-ion cells for hot Indian parked windshields; wired cleanly via 9V–36V ACC power cable with built-in fuse."
+    ],
+    "specs": {
+      "color": "Matte Charcoal Black",
+      "weight": "225g",
+      "battery": "Internal Supercapacitor Backup (Safe Power-Off & Tamper Event Save)",
+      "powerSupply": "9V – 36V DC Hardwired ACC Ignition Loom (In-Line Fuse)",
+      "connectivity": "4G LTE + Built-In Wi-Fi Hotspot (Lockable 4G SIM Slot Required)",
+      "gnss": "Dual-Mode GPS + BeiDou Live Location & Speed Stamp",
+      "compatibility": "Cars, Taxis, School Buses, LCVs & Commercial Trucks",
+      "waterproof": "Heat-Vented Windshield ABS Chassis (-20°C to +70°C)",
+      "operatingTemp": "-20°C to +70°C High-Sun Windshield Rated",
+      "warranty": "1 Year Replacement Warranty",
+      "skuCode": "85258090",
+      "taxCode": "18% GST Included",
+      "dimensions": "L: 10.9 x B: 6.9 x H: 5.2 cm"
+    },
+    "whatsInBox": [
+      "1x 4G AI GPS Dashcam Main Unit",
+      "1x 3M Adhesive Windshield Slide-Lock Mounting Plate",
+      "1x Hardwired 9V–36V ACC Power & Relay Loom",
+      "1x Tamper-Lock SIM/SD Side Door & Security Screws",
+      "1x Selected SIM Option (Pre-fitted if Vi or Airtel chosen) & Warranty Card"
+    ],
+    "manufacturerInfo": {
+      "brand": "Advait Teleservices",
+      "warranty": "1 Year Full Replacement Warranty",
+      "supportContact": "082829 82829 / sales@advaitteleservices.com",
+      "countryOfOrigin": "India"
+    },
+    "inStock": true,
+    "rating": 4.8,
+    "reviewCount": 4
   }
 ]

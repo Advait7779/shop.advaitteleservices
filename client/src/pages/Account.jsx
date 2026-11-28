@@ -59,9 +59,9 @@ export default function Account() {
     } else setProfileNotice(result.message || 'Could not update your details.');
   };
 
-  if (authLoading) return <div className="mx-auto max-w-6xl px-4 pb-16 pt-40 text-center text-sm text-gray-600 md:pt-28 lg:pt-40">Loading your account…</div>;
+  if (authLoading) return <div className="mx-auto max-w-6xl px-4 pb-16 pt-28 text-center text-sm text-gray-600">Loading your account…</div>;
   if (!isAuthenticated) return (
-    <div className="mx-auto max-w-lg px-4 pb-20 pt-40 text-center md:pt-28 lg:pt-40">
+    <div className="mx-auto max-w-lg px-4 pb-20 pt-28 text-center">
       <div className="rounded-2xl border border-brand-200 bg-white p-8 shadow-sm">
         <UserRound className="mx-auto h-10 w-10 text-[#385775]" aria-hidden="true" />
         <h1 className="mt-4 text-2xl font-bold">Your Account</h1>
@@ -73,7 +73,7 @@ export default function Account() {
 
   const inputClass = 'mt-1 w-full rounded-lg border border-brand-200 bg-brand-50/40 px-3 py-2.5 text-sm outline-none focus:border-[#385775] focus:ring-2 focus:ring-[#385775]/20';
   return (
-    <div className="mx-auto max-w-6xl space-y-7 px-4 pb-20 pt-40 sm:px-6 md:pt-28 lg:pt-40 lg:px-8">
+    <div className="mx-auto max-w-6xl space-y-7 px-4 pb-20 pt-28 sm:px-6 lg:px-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div><p className="text-xs font-bold uppercase tracking-[0.18em] text-[#385775]">{companyName}</p><h1 className="mt-1 text-3xl font-bold tracking-tight">My Account</h1><p className="mt-1 text-sm text-gray-600">Your details and orders in one place.</p></div>
         <div className="flex flex-wrap gap-2"><Link to="/shop" className="rounded-lg border border-brand-200 bg-white px-4 py-2.5 text-xs font-bold text-[#385775] hover:bg-brand-50">Shop Products</Link><Link to="/cart" className="rounded-lg bg-[#385775] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#2a435d]">My Cart</Link></div>

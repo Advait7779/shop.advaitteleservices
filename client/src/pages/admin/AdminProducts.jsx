@@ -192,14 +192,14 @@ const AdminProducts = () => {
     <div className="space-y-6">
       
       {/* Top Action Bar */}
-      <div className="bg-white p-6 rounded-lg border border-gray-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white p-4 sm:p-5 rounded-lg border border-gray-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-black text-gray-900 tracking-tight">GPS Product Catalog</h2>
           <p className="text-xs text-gray-500">Manage device specifications, prices, discounts, and images.</p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
-          <form onSubmit={handleSearchSubmit} className="relative w-full sm:w-64">
+        <div className="flex w-full md:w-auto flex-wrap items-center gap-2.5 sm:gap-3">
+          <form onSubmit={handleSearchSubmit} className="relative min-w-0 flex-1 sm:w-64 sm:flex-none">
             <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
@@ -294,12 +294,12 @@ const AdminProducts = () => {
             <table className="admin-responsive-table w-full text-left text-xs">
               <thead className="bg-brand-50/60 text-gray-600 uppercase font-bold text-[10px] tracking-wider border-b border-gray-200/80">
                 <tr>
-                  <th className="px-6 py-4">Thumbnail</th>
-                  <th className="px-6 py-4">Product Name & Slug</th>
-                  <th className="px-6 py-4">Price / MRP</th>
-                  <th className="px-6 py-4">Warranty Plans</th>
-                  <th className="px-6 py-4">Stock Status</th>
-                  <th className="px-6 py-4 text-right">Actions</th>
+                  <th className="px-3.5 py-3.5 xl:px-5">Thumbnail</th>
+                  <th className="px-3.5 py-3.5 xl:px-5">Product Name & Slug</th>
+                  <th className="px-3.5 py-3.5 xl:px-5">Price / MRP</th>
+                  <th className="px-3.5 py-3.5 xl:px-5">Warranty Plans</th>
+                  <th className="px-3.5 py-3.5 xl:px-5">Stock Status</th>
+                  <th className="px-3.5 py-3.5 xl:px-5 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -307,7 +307,7 @@ const AdminProducts = () => {
                   <tr key={p.id} className="hover:bg-brand-50/30 transition-colors">
                     
                     {/* Thumbnail */}
-                    <td data-label="Image" className="px-6 py-4">
+                    <td data-label="Image" className="px-3.5 py-3.5 xl:px-5">
                       <div className="w-14 h-14 rounded-md border border-gray-200 bg-white p-1 flex items-center justify-center overflow-hidden shrink-0 shadow-xs">
                         <img
                           src={p.primaryImage}
@@ -318,7 +318,7 @@ const AdminProducts = () => {
                     </td>
 
                     {/* Title & Slug */}
-                    <td data-label="Product" className="px-6 py-4 max-w-xs">
+                    <td data-label="Product" className="px-3.5 py-3.5 xl:px-5 max-w-[200px] xl:max-w-xs">
                       <div className="font-extrabold text-gray-900 text-sm">{p.title}</div>
                       <div className="text-[11px] font-sans text-gray-400 truncate">/{p.slug}</div>
                       {p.subtitle && (
@@ -327,14 +327,14 @@ const AdminProducts = () => {
                     </td>
 
                     {/* Price & Discount */}
-                    <td data-label="Price" className="px-6 py-4">
+                    <td data-label="Price" className="px-3.5 py-3.5 xl:px-5">
                       <div className="font-black text-gray-900 text-sm">
                         ₹{p.sellingPrice?.toLocaleString('en-IN')}
                       </div>
                       {p.originalPrice > p.sellingPrice && (
                         <div className="flex items-center gap-1.5 text-[11px]">
                           <span className="line-through text-gray-400">₹{p.originalPrice?.toLocaleString('en-IN')}</span>
-                          <span className="text-brand-700 font-bold bg-brand-50 px-1.5 py-0.2 rounded-xs">
+                          <span className="text-brand-700 font-bold bg-brand-50 px-1.5 py-0.2 rounded-xs whitespace-nowrap">
                             {p.discountPercent}% OFF
                           </span>
                         </div>
@@ -342,7 +342,7 @@ const AdminProducts = () => {
                     </td>
 
                     {/* Plans */}
-                    <td data-label="Plans" className="px-6 py-4">
+                    <td data-label="Plans" className="px-3.5 py-3.5 xl:px-5">
                       <div className="flex flex-wrap gap-1">
                         {p.planOptions?.map((plan) => (
                           <span
@@ -356,10 +356,10 @@ const AdminProducts = () => {
                     </td>
 
                     {/* In-Stock Switch */}
-                    <td data-label="Stock" className="px-6 py-4">
+                    <td data-label="Stock" className="px-3.5 py-3.5 xl:px-5">
                       <button
                         onClick={() => handleToggleStock(p)}
-                        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold border transition-colors ${
+                        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold border transition-colors whitespace-nowrap ${
                           p.inStock
                             ? 'bg-brand-50 text-brand-800 border-brand-200 hover:bg-brand-100'
                             : 'bg-red-50 text-red-800 border-red-200 hover:bg-red-100'
@@ -372,7 +372,7 @@ const AdminProducts = () => {
                     </td>
 
                     {/* Actions */}
-                    <td data-label="Actions" className="px-6 py-4 text-right">
+                    <td data-label="Actions" className="px-3.5 py-3.5 xl:px-5 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => handleOpenEdit(p)}

@@ -213,7 +213,7 @@ const AboutUs = () => {
         <div className="bg-white rounded-3xl border border-gray-200/80 shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-12">
           
           {/* Feature Tabs List */}
-          <div className="md:col-span-5 border-r border-gray-100 bg-brand-50/40 p-4 space-y-2">
+          <div className="md:col-span-5 border-b md:border-b-0 md:border-r border-gray-100 bg-brand-50/40 p-4 space-y-2">
             {features.map((feat, index) => {
               const IconComp = feat.icon;
               const isSelected = activeFeature === index;
@@ -235,7 +235,7 @@ const AboutUs = () => {
           </div>
 
           {/* Feature Details Panel */}
-          <div className="md:col-span-7 p-8 flex flex-col justify-center space-y-4">
+          <div className="md:col-span-7 p-5 sm:p-8 flex flex-col justify-center space-y-4">
             <h4 className="text-xl font-bold text-gray-900 flex items-center gap-2">
               <span>{features[activeFeature].title}</span>
             </h4>

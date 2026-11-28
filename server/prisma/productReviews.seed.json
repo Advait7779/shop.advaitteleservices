@@ -1,0 +1,338 @@
+{
+  "a5-device": [
+    {
+      "reviewerName": "Vikas Deshmukh",
+      "reviewerCity": "Nashik, Maharashtra",
+      "vehicleOrUse": "Maruti Swift Dzire",
+      "rating": 5,
+      "title": "Installed cleanly behind dashboard in 20 mins",
+      "comment": "Got this with the Airtel SIM option for my daily highway cab. My local electrician connected the relay and ignition wire using the diagram card. Location refreshes fast without lag and ignition alerts come straight to my phone.",
+      "verifiedPurchase": true,
+      "daysAgo": 14
+    },
+    {
+      "reviewerName": "Gurpreet Singh",
+      "reviewerCity": "Ludhiana, Punjab",
+      "vehicleOrUse": "Bolero Pik-Up",
+      "rating": 5,
+      "title": "Engine lock works well when parked outside",
+      "comment": "Using A5 on two delivery pickups now. Tested the app engine cut-off in front of our godown and it prevented restart right away. Geo-fence notifications around the mandi gate save a lot of follow-up calls.",
+      "verifiedPurchase": true,
+      "daysAgo": 32
+    },
+    {
+      "reviewerName": "Karthik Subramanian",
+      "reviewerCity": "Coimbatore, Tamil Nadu",
+      "vehicleOrUse": "Royal Enfield & Honda City",
+      "rating": 4,
+      "title": "Accurate route replay, took 5 mins for first app login",
+      "comment": "Small unit hides nicely inside my car dash. First time logging in I called the helpline and they activated the SIM cleanly on the call itself. 90-day playback shows every stop accurately.",
+      "verifiedPurchase": true,
+      "daysAgo": 49
+    },
+    {
+      "reviewerName": "Imran Khan",
+      "reviewerCity": "Indore, Madhya Pradesh",
+      "vehicleOrUse": "Tata Ace Gold",
+      "rating": 5,
+      "title": "Reliable even in monsoon rains",
+      "comment": "Previously tried cheap local trackers that lost signal on state highways. Ordered A5 with Vodafone SIM and haven't faced a single offline gap in 4 months. Battery cut alarm also triggered once when mechanic disconnected terminal.",
+      "verifiedPurchase": true,
+      "daysAgo": 74
+    }
+  ],
+  "v5-device": [
+    {
+      "reviewerName": "Harishbhai Patel",
+      "reviewerCity": "Surat, Gujarat",
+      "vehicleOrUse": "Ashok Leyland Fleet",
+      "rating": 5,
+      "title": "Solid build for 24V commercial trucks",
+      "comment": "Running V5 on four highway trucks between Surat and Vapi. Works directly on 24V without voltage issues and SOS button was easy to fix near the steering panel. Idle reports in the app helped cut wasted diesel.",
+      "verifiedPurchase": true,
+      "daysAgo": 11
+    },
+    {
+      "reviewerName": "Santosh Verma",
+      "reviewerCity": "Raipur, Chhattisgarh",
+      "vehicleOrUse": "School Van",
+      "rating": 5,
+      "title": "Strong GPS lock even under tin sheds",
+      "comment": "Even inside semi-covered parking yards it holds satellite coordinates properly. Parents appreciate punctual arrival timing and overspeed warnings keep drivers careful on ring road.",
+      "verifiedPurchase": true,
+      "daysAgo": 27
+    },
+    {
+      "reviewerName": "Deepak Joshi",
+      "reviewerCity": "Jaipur, Rajasthan",
+      "vehicleOrUse": "Eicher 14ft Canter",
+      "rating": 4,
+      "title": "Good relay cut-off and responsive support",
+      "comment": "Device feels heavier and sturdier than entry-level trackers. Only wish a few extra zip-ties were packed for wiring, otherwise app interface and 1-year replacement peace of mind are great.",
+      "verifiedPurchase": true,
+      "daysAgo": 55
+    },
+    {
+      "reviewerName": "Arjun Reddy",
+      "reviewerCity": "Hyderabad, Telangana",
+      "vehicleOrUse": "Mahindra Tourister",
+      "rating": 5,
+      "title": "Zero hassles after fitting",
+      "comment": "Took the Airtel SIM option so we didn't have to hunt for a recharge plan separately. Tracking stayed live right from Bangalore trip to Hyderabad return.",
+      "verifiedPurchase": true,
+      "daysAgo": 88
+    }
+  ],
+  "obd-device": [
+    {
+      "reviewerName": "Rohit Kulkarni",
+      "reviewerCity": "Pune, Maharashtra",
+      "vehicleOrUse": "Toyota Innova Crysta",
+      "rating": 5,
+      "title": "Zero wire cutting, took barely 30 seconds",
+      "comment": "Did not want anyone splicing wires on my new car and risking dealership warranty. Just pushed it into the OBD socket near the accelerator pedal and app showed live map immediately.",
+      "verifiedPurchase": true,
+      "daysAgo": 9
+    },
+    {
+      "reviewerName": "Nitin Sharma",
+      "reviewerCity": "Gurugram, Haryana",
+      "vehicleOrUse": "Hyundai Creta",
+      "rating": 4,
+      "title": "Unplug alert works fast",
+      "comment": "Whenever my car goes for servicing or valet parking, if someone pulls out the OBD plug I immediately get an alert on phone. Voice monitoring works clearly if the car AC blower isn't at max.",
+      "verifiedPurchase": true,
+      "daysAgo": 24
+    },
+    {
+      "reviewerName": "Suresh Nair",
+      "reviewerCity": "Kochi, Kerala",
+      "vehicleOrUse": "Honda Amaze",
+      "rating": 5,
+      "title": "Nice battery voltage readout too",
+      "comment": "Besides regular live tracking, checking car battery voltage on winter mornings has been handy before long drives. Compact enough that my knee never brushes against it.",
+      "verifiedPurchase": true,
+      "daysAgo": 46
+    },
+    {
+      "reviewerName": "Prashant Menon",
+      "reviewerCity": "Bengaluru, Karnataka",
+      "vehicleOrUse": "Kia Seltos",
+      "rating": 5,
+      "title": "Clean plug-and-play tracking with Vi SIM",
+      "comment": "Ordered with Vodafone SIM option, arrived already inserted and ready. Good option for self-drive owners who do not want messy dashboard opening.",
+      "verifiedPurchase": true,
+      "daysAgo": 63
+    }
+  ],
+  "magnetic-tracker": [
+    {
+      "reviewerName": "Sandeep Patil",
+      "reviewerCity": "Kolhapur, Maharashtra",
+      "vehicleOrUse": "Container Trailers",
+      "rating": 5,
+      "title": "Magnet grip is seriously strong",
+      "comment": "We shift this unit between rented flatbed trailers depending on the consignment. Snaps onto steel beams in two seconds and stays put on ghat roads. Optical light sensor notified me cleanly when my helper removed it for charging.",
+      "verifiedPurchase": true,
+      "daysAgo": 16
+    },
+    {
+      "reviewerName": "Manoj Tiwari",
+      "reviewerCity": "Lucknow, Uttar Pradesh",
+      "vehicleOrUse": "Rental Mahindra Scorpio",
+      "rating": 4,
+      "title": "Lasted nearly 26 days on smart mode",
+      "comment": "With regular daily driving it gave me just over 3.5 weeks before asking for recharge at 15%. Just make sure you wipe grease/dust off the chassis beam before sticking it under the vehicle.",
+      "verifiedPurchase": true,
+      "daysAgo": 38
+    },
+    {
+      "reviewerName": "Prakash Yadav",
+      "reviewerCity": "Ahmedabad, Gujarat",
+      "vehicleOrUse": "Spare Generator Trolley",
+      "rating": 5,
+      "title": "Saved us twice on site transfers",
+      "comment": "Since trolleys move between job sites without permanent wiring, this battery tracker works nicely without draining any alternator.",
+      "verifiedPurchase": true,
+      "daysAgo": 68
+    },
+    {
+      "reviewerName": "Ajay Thakur",
+      "reviewerCity": "Chandigarh",
+      "vehicleOrUse": "Personal Car",
+      "rating": 5,
+      "title": "No mechanic needed, very waterproof",
+      "comment": "Drove through heavy waterlogging last month and the unit inside the wheel-well girder kept reporting fine without any moisture inside.",
+      "verifiedPurchase": true,
+      "daysAgo": 92
+    }
+  ],
+  "magnetic-tracker-voice": [
+    {
+      "reviewerName": "Mahesh Gowda",
+      "reviewerCity": "Bengaluru, Karnataka",
+      "vehicleOrUse": "JCB Earthmover & Tippers",
+      "rating": 5,
+      "title": "Battery actually holds for 7+ weeks on interval mode",
+      "comment": "Bigger 10,000mAh size is worth the extra money if you hate frequent recharging. Placed quietly inside engine cowling on our loader—voice pickup is clear enough to hear site operator conversations when we dial in.",
+      "verifiedPurchase": true,
+      "daysAgo": 8
+    },
+    {
+      "reviewerName": "Rameshwar Choudhary",
+      "reviewerCity": "Jodhpur, Rajasthan",
+      "vehicleOrUse": "Interstate Pharma Cargo",
+      "rating": 5,
+      "title": "Clear audio + solid multi-GNSS route logs",
+      "comment": "Ordered with Airtel SIM for remote highway stretches. Live coordinates stay accurate across desert highways and movement alert wakes the unit as soon as loading starts at 5 AM.",
+      "verifiedPurchase": true,
+      "daysAgo": 29
+    },
+    {
+      "reviewerName": "Sameer Siddiqui",
+      "reviewerCity": "Bhopal, Madhya Pradesh",
+      "vehicleOrUse": "Outstation Cab Business",
+      "rating": 5,
+      "title": "Dependable discreet option",
+      "comment": "No blinking external LEDs give it away when mounted cleanly inside boot metal framing. Support team walked me through authorizing my admin number for audio monitoring in two minutes.",
+      "verifiedPurchase": true,
+      "daysAgo": 51
+    },
+    {
+      "reviewerName": "Kiran Shetty",
+      "reviewerCity": "Mangaluru, Karnataka",
+      "vehicleOrUse": "Timber Transport",
+      "rating": 4,
+      "title": "Heavier than mini trackers because of huge battery",
+      "comment": "Great battery life and drop sensor sensitivity. Slightly bulky compared to the non-voice version, which makes total sense for a 10,000mAh cell, so check pocket/frame clearance first.",
+      "verifiedPurchase": true,
+      "daysAgo": 79
+    }
+  ],
+  "fuel-sensor-ble": [
+    {
+      "reviewerName": "Balwinder Singh Gill",
+      "reviewerCity": "Jalandhar, Punjab",
+      "vehicleOrUse": "6-Axle BharatBenz Fleet",
+      "rating": 5,
+      "title": "Caught 18L midnight siphon within the first week",
+      "comment": "No cable running outside the tank meant drivers couldn't cut wires to blame false readings. The app graph showed a sharp drop near a highway dhaba halt—paid for itself right away.",
+      "verifiedPurchase": true,
+      "daysAgo": 12
+    },
+    {
+      "reviewerName": "Kishore Deshpande",
+      "reviewerCity": "Pune, Maharashtra",
+      "vehicleOrUse": "Diesel Generator & Excavator",
+      "rating": 5,
+      "title": "Smooth BLE calibration, exact liters matching pump slip",
+      "comment": "Technician trimmed the rod to match our 350L side tank and calibrated in 20L steps. Now daily pump bills and actual consumed liters match within 1-2 liters accuracy.",
+      "verifiedPurchase": true,
+      "daysAgo": 34
+    },
+    {
+      "reviewerName": "Naveen Agarwal",
+      "reviewerCity": "Kanpur, Uttar Pradesh",
+      "vehicleOrUse": "Container Logistics",
+      "rating": 5,
+      "title": "Eliminated harness failures on dusty quarry roads",
+      "comment": "Wired capacitive sensors kept failing on us because gravel kicked up and broke cables. Going wireless BLE 5.0 completely fixed that headache.",
+      "verifiedPurchase": true,
+      "daysAgo": 61
+    },
+    {
+      "reviewerName": "Murugan Pillai",
+      "reviewerCity": "Salem, Tamil Nadu",
+      "vehicleOrUse": "Tipper Fleet",
+      "rating": 4,
+      "title": "Solid hardware, book proper step calibration time",
+      "comment": "Probe quality and IP67 flange gasket are heavy-duty. Plan for ~45 mins at the petrol bunk during initial tank calibration so empty-to-full steps are spot-on.",
+      "verifiedPurchase": true,
+      "daysAgo": 85
+    }
+  ],
+  "cctv-trueview-solar-4g": [
+    {
+      "reviewerName": "Ganesh Bhosale",
+      "reviewerCity": "Baramati, Maharashtra",
+      "vehicleOrUse": "Farm Gate & Polyhouse",
+      "rating": 5,
+      "title": "No electricity needed, color night vision works well",
+      "comment": "Put one up on our boundary pole 600 meters from the main meter room. Inserted a standard 4G SIM and 8W solar panel keeps the battery above 85% every single day. Floodlight switches cleanly when anyone walks up at night.",
+      "verifiedPurchase": true,
+      "daysAgo": 10
+    },
+    {
+      "reviewerName": "Dinesh Rathore",
+      "reviewerCity": "Udaipur, Rajasthan",
+      "vehicleOrUse": "Open Construction Plot",
+      "rating": 5,
+      "title": "Pan-tilt sweep covers the whole plot gate",
+      "comment": "Checked live feed from Jaipur while bricks were unloaded in Udaipur. Two-way mic speaker is loud enough for the watchman to hear clear instructions.",
+      "verifiedPurchase": true,
+      "daysAgo": 26
+    },
+    {
+      "reviewerName": "Pankaj Mishra",
+      "reviewerCity": "Varanasi, Uttar Pradesh",
+      "vehicleOrUse": "Warehouse Entrance",
+      "rating": 4,
+      "title": "Zero false alarms from trees after tuning PIR",
+      "comment": "Survived 3 cloudy days straight without shutting down thanks to the 10,400mAh internal battery. Put a 64GB SD card in and old footage scrubs smoothly on the phone.",
+      "verifiedPurchase": true,
+      "daysAgo": 53
+    },
+    {
+      "reviewerName": "Subhash Kamat",
+      "reviewerCity": "Belagavi, Karnataka",
+      "vehicleOrUse": "Dairy Farm Shed",
+      "rating": 5,
+      "title": "Weatherproof through continuous coastal rain",
+      "comment": "Mounted right outdoors without overhead shelter since July rains and lens + housing remain fog-free. Easy pole clamp included in the box.",
+      "verifiedPurchase": true,
+      "daysAgo": 81
+    }
+  ],
+  "4g-ai-gps-dashcam": [
+    {
+      "reviewerName": "Harishankar Verma",
+      "reviewerCity": "Lucknow, Uttar Pradesh",
+      "vehicleOrUse": "Tourist Innova Fleet",
+      "rating": 5,
+      "title": "Screw-locked SIM & SD bay solved driver tampering",
+      "comment": "Previously drivers used to pull out SD cards from regular dashcams whenever harsh braking happened. The two-screw lockable cover on the side keeps both the 4G SIM and 128GB memory card untouched. Live feed opens fast on Airtel 4G.",
+      "verifiedPurchase": true,
+      "daysAgo": 7
+    },
+    {
+      "reviewerName": "Devendra Pawar",
+      "reviewerCity": "Pune, Maharashtra",
+      "vehicleOrUse": "Mahindra Bolero Delivery Van",
+      "rating": 5,
+      "title": "Both live road video and GPS speed in one app",
+      "comment": "Mounted neatly behind the mirror glass on the 3M plate—barely blocks visibility. No bulky battery to swell in summer heat since it runs hardwired with supercapacitor backup. Number plates read clearly in daylight clips.",
+      "verifiedPurchase": true,
+      "daysAgo": 21
+    },
+    {
+      "reviewerName": "Sukhbir Singh Sandhu",
+      "reviewerCity": "Amritsar, Punjab",
+      "vehicleOrUse": "Intercity Tempo Traveller",
+      "rating": 4,
+      "title": "Solid 4G streaming, pair with a class-10 endurance SD card",
+      "comment": "Good GPS accuracy and event alerts when the bus hits rough bumps or brakes hard. Recommend using a high-endurance 64GB or 128GB SD card alongside the Vi SIM option for continuous 1080p recording.",
+      "verifiedPurchase": true,
+      "daysAgo": 44
+    },
+    {
+      "reviewerName": "Tushar Deshmukh",
+      "reviewerCity": "Nagpur, Maharashtra",
+      "vehicleOrUse": "Personal Honda Elevate",
+      "rating": 5,
+      "title": "Clean hidden wiring & quick parking alerts",
+      "comment": "Auto electrician tucked the single cable into the A-pillar trim cleanly. Anytime the car turns ON or gets bumped while parked at the station, I get an alert and can check the windshield view right from my phone.",
+      "verifiedPurchase": true,
+      "daysAgo": 67
+    }
+  ]
+}

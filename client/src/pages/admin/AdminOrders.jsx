@@ -159,7 +159,7 @@ const AdminOrders = () => {
     <div className="space-y-6">
       
       {/* Header and Filter Controls */}
-      <div className="bg-white p-6 rounded-lg border border-gray-200/80 shadow-xs space-y-4">
+      <div className="bg-white p-4 sm:p-5 rounded-lg border border-gray-200/80 shadow-xs space-y-4">
         
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
@@ -167,10 +167,10 @@ const AdminOrders = () => {
             <p className="text-xs text-gray-500">Track and fulfill GPS shipments with tracking IDs.</p>
           </div>
 
-          <div className="flex min-w-0 items-center gap-2">
+          <div className="flex w-full md:w-auto min-w-0 items-center gap-2">
             <button
               onClick={refreshOrders}
-              className="p-2.5 rounded-md border border-gray-200 hover:bg-brand-50 text-gray-600 hover:text-[#385775] transition-colors btn-press"
+              className="p-2.5 shrink-0 rounded-md border border-gray-200 hover:bg-brand-50 text-gray-600 hover:text-[#385775] transition-colors btn-press"
               title="Refresh Orders"
             >
               <RefreshCw className="w-4 h-4" />
@@ -230,13 +230,13 @@ const AdminOrders = () => {
             <table className="admin-responsive-table w-full text-left text-xs">
               <thead className="bg-brand-50/60 text-gray-600 uppercase font-bold text-[10px] tracking-wider border-b border-gray-200/80">
                 <tr>
-                  <th className="px-6 py-4">Order ID & Date</th>
-                  <th className="px-6 py-4">Customer Details</th>
-                  <th className="px-6 py-4">Ordered Devices</th>
-                  <th className="px-6 py-4">Amount</th>
-                  <th className="px-6 py-4">Status</th>
-                  <th className="px-6 py-4">Courier / Tracking</th>
-                  <th className="px-6 py-4 text-right">Actions</th>
+                  <th className="px-3.5 py-3.5 xl:px-5">Order ID & Date</th>
+                  <th className="px-3.5 py-3.5 xl:px-5">Customer Details</th>
+                  <th className="px-3.5 py-3.5 xl:px-5">Ordered Devices</th>
+                  <th className="px-3.5 py-3.5 xl:px-5">Amount</th>
+                  <th className="px-3.5 py-3.5 xl:px-5">Status</th>
+                  <th className="px-3.5 py-3.5 xl:px-5">Courier / Tracking</th>
+                  <th className="px-3.5 py-3.5 xl:px-5 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -244,7 +244,7 @@ const AdminOrders = () => {
                   <tr key={order.id} className="hover:bg-brand-50/30 transition-colors">
                     
                     {/* Order # and Date */}
-                    <td data-label="Order" className="px-6 py-4 font-sans">
+                    <td data-label="Order" className="px-3.5 py-3.5 xl:px-5 font-sans">
                       <div className="font-bold text-gray-900">{order.orderNumber}</div>
                       <div className="text-[11px] text-gray-400">
                         {new Date(order.createdAt).toLocaleString('en-IN', {
@@ -258,14 +258,14 @@ const AdminOrders = () => {
                     </td>
 
                     {/* Customer Info */}
-                    <td data-label="Customer" className="px-6 py-4">
+                    <td data-label="Customer" className="px-3.5 py-3.5 xl:px-5">
                       <div className="font-semibold text-gray-900">{order.user?.fullName}</div>
                       <div className="text-[11px] text-gray-500 font-sans">{order.user?.mobileNumber}</div>
                       <div className="text-[11px] text-gray-400">{order.user?.city}, {order.user?.pincode}</div>
                     </td>
 
                     {/* Items */}
-                    <td data-label="Devices" className="px-6 py-4">
+                    <td data-label="Devices" className="px-3.5 py-3.5 xl:px-5">
                       <div className="space-y-1">
                         {order.items?.map((item) => (
                           <div key={item.id} className="text-gray-800">
@@ -277,17 +277,17 @@ const AdminOrders = () => {
                     </td>
 
                     {/* Total Amount */}
-                    <td data-label="Amount" className="px-6 py-4 font-black text-gray-900 text-sm">
+                    <td data-label="Amount" className="px-3.5 py-3.5 xl:px-5 font-black text-gray-900 text-sm whitespace-nowrap">
                       ₹{order.totalAmount?.toLocaleString('en-IN')}
                     </td>
 
                     {/* Status */}
-                    <td data-label="Status" className="px-6 py-4">
+                    <td data-label="Status" className="px-3.5 py-3.5 xl:px-5">
                       {getStatusBadge(order.status)}
                     </td>
 
                     {/* Tracking */}
-                    <td data-label="Tracking" className="px-6 py-4 text-[11px]">
+                    <td data-label="Tracking" className="px-3.5 py-3.5 xl:px-5 text-[11px]">
                       {order.trackingNumber ? (
                         <div>
                           <div className="font-semibold text-gray-900">{order.courierName || 'Courier'}</div>
@@ -301,7 +301,7 @@ const AdminOrders = () => {
                     </td>
 
                     {/* Action */}
-                    <td data-label="Action" className="px-6 py-4 text-right">
+                    <td data-label="Action" className="px-3.5 py-3.5 xl:px-5 text-right">
                       <button
                         onClick={() => handleOpenDetail(order)}
                         disabled={!!openingId}
@@ -320,7 +320,7 @@ const AdminOrders = () => {
         )}
       </div>
 
-      <div className="flex items-center justify-end gap-3 text-xs font-semibold text-gray-600">
+      <div className="flex flex-wrap items-center justify-end gap-3 text-xs font-semibold text-gray-600">
         <button type="button" disabled={page <= 1} onClick={() => setPage((p) => p - 1)} className="px-3 py-2 bg-white border rounded-md disabled:opacity-40">Previous</button>
         <span>Page {page} of {totalPages}</span>
         <button type="button" disabled={page >= totalPages} onClick={() => setPage((p) => p + 1)} className="px-3 py-2 bg-white border rounded-md disabled:opacity-40">Next</button>
@@ -332,7 +332,7 @@ const AdminOrders = () => {
           <div className="w-full max-w-xl bg-white h-full shadow-2xl flex flex-col justify-between overflow-y-auto animate-fadeInRight">
             
             {/* Drawer Header */}
-            <div className="p-6 bg-[#172536] text-white flex items-center justify-between border-b border-brand-900 sticky top-0 z-10">
+            <div className="p-4 sm:p-5 bg-[#172536] text-white flex items-center justify-between gap-2 border-b border-brand-900 sticky top-0 z-10">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-widest text-brand-300">Order Inspection</span>
                 <h3 className="text-lg font-black tracking-tight text-white">{selectedOrder.orderNumber}</h3>

@@ -33,6 +33,15 @@ export default function AuthModal() {
   }, [authModalOpen]);
 
   useEffect(() => {
+    if (!authModalOpen) return undefined;
+    const onEscape = (event) => {
+      if (event.key === 'Escape') closeAuthModal();
+    };
+    document.addEventListener('keydown', onEscape);
+    return () => document.removeEventListener('keydown', onEscape);
+  }, [authModalOpen, closeAuthModal]);
+
+  useEffect(() => {
     if (!authModalOpen || step !== 'OTP' || resendTimer <= 0) return undefined;
     const timer = setTimeout(() => setResendTimer((seconds) => seconds - 1), 1000);
     return () => clearTimeout(timer);
@@ -112,7 +121,12 @@ export default function AuthModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-[#172536]/60 p-3 backdrop-blur-sm sm:p-4">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-[#172536]/60 p-3 backdrop-blur-sm sm:p-4"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) closeAuthModal();
+      }}
+    >
       <div role="dialog" aria-modal="true" aria-labelledby="customer-auth-title" className="my-auto flex max-h-[92vh] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl">
         <div className="flex shrink-0 items-center justify-between bg-gradient-to-r from-[#172536] via-[#293d54] to-[#385775] px-5 py-5 text-white">
           <div className="flex items-center gap-3">

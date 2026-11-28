@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingBag, LoaderCircle, Check } from 'lucide-react';
+import { ShoppingBag, LoaderCircle, Check, Star } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { companyName } from '../../utils/branding';
 
@@ -28,6 +28,8 @@ const ProductCard = ({ product }) => {
   const savings = product.originalPrice > product.sellingPrice
     ? product.originalPrice - product.sellingPrice
     : 0;
+  const ratingValue = Number(product.rating || 0);
+  const reviewTotal = Number(product.reviewCount || 0);
 
   return (
     <article className="product-editorial group flex h-full flex-col">
@@ -45,7 +47,16 @@ const ProductCard = ({ product }) => {
       </div>
 
       <div className="product-editorial__details">
-        <div className="product-editorial__meta">
+        <div className="product-editorial__meta flex items-center justify-between gap-2">
+          {ratingValue > 0 ? (
+            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[#172536]">
+              <Star className="h-3 w-3 fill-amber-400 text-amber-400" aria-hidden="true" />
+              <span>{ratingValue.toFixed(1)}</span>
+              {reviewTotal > 0 && <span className="font-medium text-gray-500">({reviewTotal})</span>}
+            </span>
+          ) : (
+            <span />
+          )}
           <span className={`product-editorial__stock ${product.inStock === false ? 'product-editorial__stock--empty' : ''}`}>
             {product.inStock === false ? 'Out of stock' : 'In stock'}
           </span>

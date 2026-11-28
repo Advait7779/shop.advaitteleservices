@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { shopCategoryLink } from '../../data/productCategories';
 import { useProductCategories } from '../../context/CategoryContext';
 import { 
-  ShoppingCart, User, LogOut, Menu, X, ChevronDown, MapPin, Search
+  ShoppingCart, User, LogOut, Menu, X, ChevronDown, MapPin
 } from 'lucide-react';
 
 const accountInitials = (fullName) => {
@@ -22,11 +22,9 @@ const Navbar = () => {
   const moreCategories = categories.slice(5);
   const { itemCount, showToast } = useCart();
   const location = useLocation();
-  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [openCategory, setOpenCategory] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
   const [scrolled, setScrolled] = useState(false);
   const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
   const signOutDialogRef = useRef(null);
@@ -51,7 +49,6 @@ const Navbar = () => {
     setMobileMenuOpen(false);
     setUserDropdownOpen(false);
     setOpenCategory(null);
-    setSearchTerm(location.pathname === '/shop' ? new URLSearchParams(location.search).get('search') || '' : '');
   }, [location.pathname, location.search]);
 
   useEffect(() => {
@@ -93,28 +90,13 @@ const Navbar = () => {
     return () => document.removeEventListener('keydown', keepFocusInside);
   }, [showSignOutConfirm]);
 
-  const submitSearch = (event) => {
-    event.preventDefault();
-    const query = searchTerm.trim();
-    navigate(shopCategoryLink(null, query));
-    setMobileMenuOpen(false);
-  };
-
-  const searchForm = (mobile = false) => (
-    <form onSubmit={submitSearch} role="search" className={`flex items-center rounded-md border border-white/20 bg-white ${mobile ? 'w-full' : 'w-full max-w-[590px]'}`}>
-      <Search className="ml-3 h-4 w-4 shrink-0 text-[#385775]" aria-hidden="true" />
-      <input type="search" value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} placeholder="Search GPS devices, sensors and cameras" aria-label="Search products" className="min-w-0 flex-1 border-0 bg-transparent px-3 py-2.5 text-sm text-[#172536] outline-none placeholder:text-gray-500" />
-      <button type="submit" aria-label="Submit product search" className="mr-1 flex h-9 w-9 shrink-0 items-center justify-center rounded bg-[#385775] text-white hover:bg-[#2a435d] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"><Search className="h-4 w-4" aria-hidden="true" /></button>
-    </form>
-  );
-
   return (
     <>
     <header className={`fixed inset-x-0 top-0 z-40 w-full text-white ${scrolled ? 'shadow-xl' : ''}`}>
       <div className="bg-[#293d54]">
-        <div className="grid h-[70px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 px-4 sm:gap-3 sm:px-6 md:grid-cols-[minmax(210px,1fr)_minmax(0,590px)_minmax(210px,1fr)] lg:h-[76px] lg:gap-8 lg:px-9">
+        <div className="flex h-[70px] items-center justify-between gap-2 px-4 sm:px-6 lg:h-[76px] lg:gap-4 xl:px-9">
           {/* Brand at the left of the main header */}
-          <Link to="/" className="group flex min-w-0 items-center gap-2 lg:gap-2.5">
+          <Link to="/" className="group flex shrink-0 items-center gap-2 lg:gap-2.5">
             <img 
               src="/logo.png" 
               alt=""
@@ -126,10 +108,94 @@ const Navbar = () => {
             </div>
           </Link>
 
-          <div className="hidden min-w-0 justify-center md:flex">{searchForm()}</div>
+          <nav aria-label="Product categories" className="hidden h-full min-w-0 flex-1 items-stretch justify-center gap-0.5 lg:flex xl:gap-2 2xl:gap-5">
+            <Link
+              to="/shop"
+              className={`flex h-10 shrink-0 items-center self-center whitespace-nowrap rounded-md px-2 text-[11px] font-semibold uppercase hover:bg-white/10 xl:text-xs xl:tracking-wide ${location.pathname === '/shop' && !new URLSearchParams(location.search).has('category') ? 'text-brand-200' : 'text-white'}`}
+            >
+              All Products
+            </Link>
+            {mainCategories.map((category) => {
+              const isOpen = openCategory === category.id;
+              const hasItems = category.items.length > 0;
+              return (
+                <div
+                  key={category.id}
+                  className="relative flex min-w-0 items-center"
+                  onPointerEnter={(event) => {
+                    if (event.pointerType === 'mouse' && hasItems) setOpenCategory(category.id);
+                  }}
+                  onPointerLeave={(event) => {
+                    if (event.pointerType === 'mouse') setOpenCategory((current) => current === category.id ? null : current);
+                  }}
+                  onBlur={(event) => {
+                    if (!event.currentTarget.contains(event.relatedTarget)) setOpenCategory((current) => current === category.id ? null : current);
+                  }}
+                >
+                  <div className={`flex h-10 min-w-0 items-center whitespace-nowrap rounded-md hover:bg-white/10 ${isOpen ? 'bg-white/10' : ''}`}>
+                    <Link
+                      to={shopCategoryLink(category.id)}
+                      title={category.label}
+                      onClick={() => setOpenCategory(null)}
+                      className={`flex h-full min-w-0 items-center pl-2 text-[11px] font-semibold uppercase xl:text-xs xl:tracking-wide ${hasItems ? 'pr-0.5' : 'pr-2'}`}
+                    >
+                      <span className="max-w-[148px] truncate xl:max-w-[175px]">{category.label}</span>
+                    </Link>
+                    {hasItems && (
+                      <button
+                        type="button"
+                        onClick={() => setOpenCategory(isOpen ? null : category.id)}
+                        aria-label={`Show ${category.label} products`}
+                        aria-expanded={isOpen}
+                        className="flex h-full shrink-0 items-center pl-0.5 pr-2"
+                      >
+                        <ChevronDown className={`h-3 w-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
+                      </button>
+                    )}
+                  </div>
+                  {hasItems && isOpen && (
+                    <div className="absolute left-1/2 top-full z-50 w-max min-w-[220px] max-w-72 -translate-x-1/2 rounded-b-lg border border-gray-200 bg-white py-2 text-[#2f455d] shadow-xl">
+                      {category.items.map((item) => (
+                        <Link key={item.search} to={shopCategoryLink(category.id, item.search)} onClick={() => setOpenCategory(null)} className="block px-4 py-2.5 text-sm hover:bg-[#eaf0f6] focus:bg-[#eaf0f6]">
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+            {moreCategories.length > 0 && (
+              <div
+                className="relative flex shrink-0 items-center"
+                onPointerEnter={(event) => {
+                  if (event.pointerType === 'mouse') setOpenCategory('more');
+                }}
+                onPointerLeave={(event) => {
+                  if (event.pointerType === 'mouse') setOpenCategory((current) => current === 'more' ? null : current);
+                }}
+                onBlur={(event) => {
+                  if (!event.currentTarget.contains(event.relatedTarget)) setOpenCategory((current) => current === 'more' ? null : current);
+                }}
+              >
+                <button type="button" onClick={() => setOpenCategory(openCategory === 'more' ? null : 'more')} aria-expanded={openCategory === 'more'} className="flex h-10 items-center gap-1 rounded-md px-2 text-[11px] font-semibold uppercase hover:bg-white/10 xl:text-xs xl:tracking-wide">
+                  More <ChevronDown className="h-3 w-3" aria-hidden="true" />
+                </button>
+                {openCategory === 'more' && (
+                  <div className="absolute right-0 top-full z-50 max-h-80 min-w-[200px] overflow-y-auto rounded-b-lg border border-gray-200 bg-white py-2 text-[#2f455d] shadow-xl">
+                    {moreCategories.map((category) => (
+                      <Link key={category.id} to={shopCategoryLink(category.id)} onClick={() => setOpenCategory(null)} className="block px-4 py-2.5 text-sm hover:bg-[#eaf0f6] focus:bg-[#eaf0f6]">
+                        {category.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </nav>
 
           {/* Account and cart */}
-          <div className="col-start-3 flex items-center justify-self-end gap-1 sm:gap-3">
+          <div className="flex shrink-0 items-center gap-1 sm:gap-3">
             
             {/* User Profile / Login */}
             {isAuthenticated ? (
@@ -197,46 +263,15 @@ const Navbar = () => {
             </Link>
 
             {/* Mobile Menu Toggle */}
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden p-2 text-white hover:text-brand-400 rounded-lg transition-colors duration-150" aria-label="Toggle menu">
+            <button type="button" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden p-2 text-white hover:text-brand-400 rounded-lg transition-colors duration-150" aria-label="Toggle menu" aria-expanded={mobileMenuOpen} aria-controls="mobile-storefront-menu">
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
-        <div className="px-4 pb-3 md:hidden">{searchForm(true)}</div>
       </div>
 
-      {/* Product types in a separate bar, matching the reference header structure. */}
-      <nav aria-label="Product categories" className="hidden h-11 items-center justify-center border-t border-white/10 bg-[#22354a] px-4 lg:flex">
-        <div className={`grid h-full w-full max-w-[1130px] items-center ${moreCategories.length ? 'grid-cols-7' : 'grid-cols-6'}`}>
-        <Link to="/shop" className={`flex h-full items-center justify-center whitespace-nowrap px-2 text-[11px] font-semibold uppercase hover:bg-white/10 xl:text-xs xl:tracking-wide ${location.pathname === '/shop' && !new URLSearchParams(location.search).has('category') ? 'text-brand-200' : 'text-white'}`}>All Products</Link>
-        {mainCategories.map((menu, index) => (
-          <div key={menu.id} className="relative flex h-full justify-center" onMouseEnter={() => menu.items.length && setOpenCategory(index)} onMouseLeave={() => setOpenCategory(null)}>
-            <div className={`flex h-full items-center whitespace-nowrap rounded transition-colors hover:bg-white/10 ${openCategory === index ? 'bg-white/10' : ''}`}>
-              <Link to={shopCategoryLink(menu.id)} onClick={() => setOpenCategory(null)} className={`flex h-full items-center pl-3 text-[11px] font-semibold uppercase xl:text-xs xl:tracking-wide ${menu.items.length ? 'pr-1' : 'pr-3'}`}>{menu.label}</Link>
-              {menu.items.length > 0 && <button type="button" onClick={() => setOpenCategory(openCategory === index ? null : index)} aria-label={`Show ${menu.label} products`} aria-expanded={openCategory === index} aria-haspopup="true" className="flex h-full items-center pl-1 pr-3"><ChevronDown className={`h-3 w-3 transition-transform ${openCategory === index ? 'rotate-180' : ''}`} aria-hidden="true" /></button>}
-            </div>
-            {menu.items.length > 0 && openCategory === index && (
-              <div className="absolute left-1/2 top-full z-50 min-w-[220px] -translate-x-1/2 rounded-b-lg border border-gray-200 bg-white py-2 text-[#2f455d] shadow-xl">
-                {menu.items.map((item) => (
-                  <Link key={item.search} to={shopCategoryLink(menu.id, item.search)} onClick={() => setOpenCategory(null)} className="block px-4 py-2.5 text-sm hover:bg-[#eaf0f6] focus:bg-[#eaf0f6]">{item.label}</Link>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-        {moreCategories.length > 0 && (
-          <div className="relative flex h-full justify-center" onMouseEnter={() => setOpenCategory('more')} onMouseLeave={() => setOpenCategory(null)}>
-            <button type="button" onClick={() => setOpenCategory(openCategory === 'more' ? null : 'more')} aria-expanded={openCategory === 'more'} aria-haspopup="true" className="flex h-full items-center gap-1 px-3 text-[11px] font-semibold uppercase hover:bg-white/10 xl:text-xs xl:tracking-wide">More <ChevronDown className="h-3 w-3" aria-hidden="true" /></button>
-            {openCategory === 'more' && <div className="absolute right-0 top-full z-50 max-h-80 min-w-[200px] overflow-y-auto rounded-b-lg border border-gray-200 bg-white py-2 text-[#2f455d] shadow-xl">
-              {moreCategories.map((menu) => <Link key={menu.id} to={shopCategoryLink(menu.id)} onClick={() => setOpenCategory(null)} className="block px-4 py-2.5 text-sm hover:bg-[#eaf0f6]">{menu.label}</Link>)}
-            </div>}
-          </div>
-        )}
-        </div>
-      </nav>
-
       {/* Mobile Drawer */}
-      <div inert={!mobileMenuOpen} aria-hidden={!mobileMenuOpen} className={`lg:hidden bg-[#293d54] transition-all duration-300 ease-in-out ${mobileMenuOpen ? 'max-h-[calc(100dvh-124px)] overflow-y-auto opacity-100 md:max-h-[calc(100dvh-70px)]' : 'max-h-0 overflow-hidden opacity-0'}`}>
+      <div id="mobile-storefront-menu" inert={!mobileMenuOpen} aria-hidden={!mobileMenuOpen} className={`lg:hidden bg-[#293d54] transition-all duration-300 ease-in-out ${mobileMenuOpen ? 'max-h-[calc(100dvh-70px)] overflow-y-auto opacity-100' : 'max-h-0 overflow-hidden opacity-0'}`}>
         <div className="border-t border-white/15 px-4 pt-3 pb-5 space-y-1 shadow-2xl">
           <Link to="/shop" onClick={() => setMobileMenuOpen(false)} className="block rounded px-3 py-2.5 text-sm font-semibold text-brand-100 hover:bg-white/10">All Products</Link>
 

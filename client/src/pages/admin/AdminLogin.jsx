@@ -40,21 +40,21 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#172536] via-[#293d54] to-[#385775] text-white flex flex-col justify-center items-center px-4 py-12 relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-[#172536] via-[#293d54] to-[#385775] text-white flex flex-col justify-center items-center px-4 py-6 sm:py-12 relative overflow-hidden font-sans">
       
       {/* Background ambient lighting */}
       <div className="absolute inset-0 opacity-[0.07] bg-[radial-gradient(#9cb3c9_1px,transparent_1px)] [background-size:24px_24px]"></div>
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-brand-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
       {/* Main Card */}
-      <div className="relative z-10 w-full max-w-[390px] bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg p-7 sm:p-8 shadow-2xl space-y-6">
+      <div className="relative z-10 w-full max-w-[390px] bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg p-5 sm:p-8 shadow-2xl space-y-4 sm:space-y-6">
         
         {/* Top Header & Logo */}
-        <div className="text-center space-y-3">
-          <div className="inline-flex p-3 rounded-md bg-white/15 border border-white/25 shadow-lg backdrop-blur-md">
-            <img src="/logo.png" alt="Advait Logo" className="w-12 h-12 object-contain" />
+        <div className="text-center space-y-2 sm:space-y-3">
+          <div className="inline-flex p-2.5 sm:p-3 rounded-md bg-white/15 border border-white/25 shadow-lg backdrop-blur-md">
+            <img src="/logo.png" alt="Advait Logo" className="w-10 h-10 sm:w-12 sm:h-12 object-contain" />
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+          <h2 className="text-xl sm:text-3xl font-extrabold tracking-tight text-white">
             Admin Control Center
           </h2>
           <p className="text-xs sm:text-sm text-brand-200">

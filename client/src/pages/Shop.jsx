@@ -94,8 +94,8 @@ const Shop = () => {
   }, [hasNextPage, loading, loadingMore, page]);
 
   return (
-    <div className="mx-auto grid w-full max-w-[1536px] min-w-0 grid-cols-[minmax(0,1fr)] gap-6 px-4 pb-20 pt-36 sm:px-6 md:pt-24 lg:grid-cols-[220px_minmax(0,1fr)] lg:px-8 lg:pt-36">
-      <aside aria-label="Product categories" className="min-w-0 self-start rounded-xl border border-[#dce5ee] bg-white p-4 lg:sticky lg:top-36">
+    <div className="mx-auto grid w-full max-w-[1536px] min-w-0 grid-cols-[minmax(0,1fr)] gap-6 px-4 pb-20 pt-24 sm:px-6 lg:grid-cols-[220px_minmax(0,1fr)] lg:px-8">
+      <aside aria-label="Product categories" className="min-w-0 self-start rounded-xl border border-[#dce5ee] bg-white p-4 lg:sticky lg:top-24">
         <h1 className="mb-4 text-lg font-semibold text-[#172536]">Product Categories</h1>
         <nav className="flex w-full min-w-0 gap-2 overflow-x-auto overscroll-x-contain pb-1 lg:flex-col lg:overflow-visible lg:pb-0">
           <Link to="/shop" className={`flex shrink-0 items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors lg:w-full ${!category ? 'bg-[#eaf0f6] text-[#385775]' : 'text-gray-600 hover:bg-[#f6f8fb]'}`}>

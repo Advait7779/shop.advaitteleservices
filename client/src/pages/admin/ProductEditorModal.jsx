@@ -243,28 +243,28 @@ const ProductEditorModal = ({ product, isOpen, onClose, onSaved }) => {
   const imagePreviewFailed = imagePreviewSrc && failedImageSrc === imagePreviewSrc;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="w-full max-w-3xl bg-white rounded-lg border border-gray-200/80 shadow-2xl overflow-hidden animate-fadeInScale max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4">
+      <div className="w-full max-w-3xl bg-white rounded-lg border border-gray-200/80 shadow-2xl overflow-hidden animate-fadeInScale max-h-[92dvh] flex flex-col">
         
         {/* Header */}
-        <div className="bg-[#172536] text-white px-6 py-4 flex items-center justify-between border-b border-brand-900 shrink-0">
-          <div>
+        <div className="bg-[#172536] text-white px-4 py-3 sm:px-6 sm:py-4 flex items-center justify-between gap-2 border-b border-brand-900 shrink-0">
+          <div className="min-w-0">
             <span className="text-[10px] font-bold uppercase tracking-widest text-brand-300">Catalog Manager</span>
-            <h3 className="text-lg font-black tracking-tight text-white">
+            <h3 className="text-base sm:text-lg font-black tracking-tight text-white truncate">
               {isEditing ? `Edit Product: ${product.title}` : 'Add New GPS Tracker / Device'}
             </h3>
           </div>
           <button
             onClick={onClose}
             disabled={saving}
-            className="p-2 rounded-md bg-white/10 hover:bg-white/20 text-white transition-colors"
+            className="p-2 shrink-0 rounded-md bg-white/10 hover:bg-white/20 text-white transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-6 flex-1 text-xs">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 overflow-y-auto space-y-5 sm:space-y-6 flex-1 text-xs">
           
           {error && (
             <div className="p-3.5 rounded-md bg-red-50 text-red-700 border border-red-200 flex items-center gap-2">

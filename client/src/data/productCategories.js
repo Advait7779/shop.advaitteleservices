@@ -3,6 +3,7 @@ export const productCategories = [
     { label: 'A5 GPS Tracker', search: 'A5 DEVICE' },
     { label: 'V5 GPS Tracker', search: 'V5 DEVICE' },
     { label: 'OBD GPS Tracker', search: 'OBD DEVICE' },
+    { label: '4G AI GPS Dashcam', search: '4G AI GPS DASHCAM' },
   ] },
   { id: 'magnetic-trackers', label: 'Magnetic Trackers', items: [
     { label: 'Magnetic Tracker', search: 'MAGNETIC TRACKER' },

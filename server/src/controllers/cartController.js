@@ -1,4 +1,5 @@
 const prisma = require('../config/db');
+const { isValidProductPlan } = require('../utils/productOptions');
 
 exports.getCart = async (req, res) => {
   try {
@@ -46,7 +47,7 @@ exports.mergeCart = async (req, res) => {
     await prisma.$transaction(async (tx) => {
       for (const item of items) {
         const product = await tx.product.findUnique({ where: { id: item.productId } });
-        if (!product || !product.inStock || !product.planOptions.includes(item.planDuration)) {
+        if (!product || !product.inStock || !isValidProductPlan(product, item.planDuration)) {
           throw new Error('UNAVAILABLE_CART_ITEM');
         }
         const where = { userId_productId_planDuration: {
@@ -89,7 +90,7 @@ exports.addToCart = async (req, res) => {
     if (!product) {
       return res.status(404).json({ success: false, message: 'Product not found.' });
     }
-    if (!product.inStock || !product.planOptions.includes(planDuration) || !Number.isSafeInteger(count) || count < 1 || count > 100) {
+    if (!product.inStock || !isValidProductPlan(product, planDuration) || !Number.isSafeInteger(count) || count < 1 || count > 100) {
       return res.status(400).json({ success: false, message: 'Invalid quantity, plan, or unavailable product.' });
     }
 
@@ -154,7 +155,7 @@ exports.updateCartItem = async (req, res) => {
     }
     if (planDuration) {
       const product = await prisma.product.findUnique({ where: { id: existing.productId } });
-      if (!product || !product.inStock || !product.planOptions.includes(planDuration)) {
+      if (!product || !product.inStock || !isValidProductPlan(product, planDuration)) {
         return res.status(400).json({ success: false, message: 'Selected plan is unavailable.' });
       }
     }

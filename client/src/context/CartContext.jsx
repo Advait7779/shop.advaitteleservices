@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import api from '../services/api';
 import { useAuth } from './AuthContext';
+import { isValidClientPlan } from '../utils/productOptions';
 
 const CartContext = createContext();
 const GUEST_CART_KEY = 'advait_guest_cart';
@@ -96,7 +97,7 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = async (product, planDuration = '1 Year', quantity = 1) => {
     if (!product?.id || product.inStock === false || !Number.isSafeInteger(quantity) ||
-        quantity < 1 || quantity > 100 || (product.planOptions?.length && !product.planOptions.includes(planDuration))) {
+        quantity < 1 || quantity > 100 || !isValidClientPlan(product, planDuration)) {
       showToast('This item or plan is unavailable.', 'error');
       return false;
     }

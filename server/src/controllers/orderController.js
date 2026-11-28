@@ -3,6 +3,7 @@ const prisma = require('../config/db');
 const { parsePagination } = require('../utils/pagination');
 const { razorpayInstance, key_id, key_secret } = require('../config/razorpay');
 const audit = require('../services/securityAudit');
+const { isValidProductPlan } = require('../utils/productOptions');
 
 const moneyPaise = (price) => Math.round(price * 100);
 const publicOrder = ({ checkoutKey, cartSnapshot, razorpaySignature, ...order }) => order;
@@ -75,7 +76,7 @@ exports.createOrder = async (req, res) => {
     if (!cartItems.length) return res.status(400).json({ success: false, message: 'Your cart is empty.' });
     for (const item of cartItems) {
       const price = item.product.sellingPrice;
-      if (!item.product.inStock || !item.product.planOptions.includes(item.planDuration) ||
+      if (!item.product.inStock || !isValidProductPlan(item.product, item.planDuration) ||
           !Number.isSafeInteger(item.quantity) || item.quantity < 1 || item.quantity > 100 ||
           !Number.isFinite(price) || price <= 0 || Math.abs(moneyPaise(price) - price * 100) > 0.000001) {
         return res.status(400).json({ success: false, message: 'Your cart contains an unavailable or invalid item. Please review it.' });

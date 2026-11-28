@@ -51,13 +51,13 @@ const AdminCustomers = () => {
     <div className="space-y-6">
       
       {/* Top Header */}
-      <div className="bg-white p-6 rounded-lg border border-gray-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white p-4 sm:p-5 rounded-lg border border-gray-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-black text-gray-900 tracking-tight">Customer Directory</h2>
           <p className="text-xs text-gray-500">Registered vehicle owners and fleet enterprise accounts.</p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex w-full md:w-auto min-w-0 items-center gap-3">
           <form onSubmit={handleSearch} className="relative min-w-0 flex-1 sm:w-72 sm:flex-none">
             <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
@@ -71,7 +71,7 @@ const AdminCustomers = () => {
 
           <button
             onClick={refreshCustomers}
-            className="p-2.5 rounded-md border border-gray-200 hover:bg-brand-50 text-gray-600 transition-colors"
+            className="p-2.5 shrink-0 rounded-md border border-gray-200 hover:bg-brand-50 text-gray-600 transition-colors"
             title="Refresh Customers"
           >
             <RefreshCw className="w-4 h-4" />
@@ -100,12 +100,12 @@ const AdminCustomers = () => {
             <table className="admin-responsive-table w-full text-left text-xs">
               <thead className="bg-brand-50/60 text-gray-600 uppercase font-bold text-[10px] tracking-wider border-b border-gray-200/80">
                 <tr>
-                  <th className="px-6 py-4">Customer</th>
-                  <th className="px-6 py-4">Phone</th>
-                  <th className="px-6 py-4">City</th>
-                  <th className="px-6 py-4">Orders Placed</th>
-                  <th className="px-6 py-4">Lifetime Spend</th>
-                  <th className="px-6 py-4">Registered Date</th>
+                  <th className="px-3.5 py-3 xl:px-5 xl:py-3.5">Customer</th>
+                  <th className="px-3.5 py-3 xl:px-5 xl:py-3.5">Phone</th>
+                  <th className="px-3.5 py-3 xl:px-5 xl:py-3.5">City</th>
+                  <th className="px-3.5 py-3 xl:px-5 xl:py-3.5">Orders Placed</th>
+                  <th className="px-3.5 py-3 xl:px-5 xl:py-3.5">Lifetime Spend</th>
+                  <th className="px-3.5 py-3 xl:px-5 xl:py-3.5">Registered Date</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -113,43 +113,43 @@ const AdminCustomers = () => {
                   <tr key={c.id} className="hover:bg-brand-50/30 transition-colors">
                     
                     {/* Customer Name */}
-                    <td data-label="Customer" className="px-6 py-4">
+                    <td data-label="Customer" className="px-3.5 py-3 xl:px-5 xl:py-3.5">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-md bg-brand-100 text-[#385775] font-bold text-xs flex items-center justify-center">
+                        <div className="w-9 h-9 shrink-0 rounded-md bg-brand-100 text-[#385775] font-bold text-xs flex items-center justify-center">
                           {c.fullName?.charAt(0) || 'U'}
                         </div>
-                        <div>
-                          <p className="font-bold text-gray-900 text-sm">{c.fullName}</p>
+                        <div className="min-w-0">
+                          <p className="font-bold text-gray-900 text-sm break-words">{c.fullName}</p>
                         </div>
                       </div>
                     </td>
 
                     {/* Phone */}
-                    <td data-label="Phone" className="px-6 py-4">
-                      <div className="flex items-center gap-1.5 font-sans font-semibold text-gray-800">
+                    <td data-label="Phone" className="px-3.5 py-3 xl:px-5 xl:py-3.5">
+                      <div className="flex items-center gap-1.5 font-sans font-semibold text-gray-800 whitespace-nowrap">
                         <Phone className="w-3.5 h-3.5 text-brand-600" />
                         <span>{c.mobileNumber}</span>
                       </div>
                     </td>
 
-                    <td data-label="City" className="px-6 py-4 text-gray-700">
+                    <td data-label="City" className="px-3.5 py-3 xl:px-5 xl:py-3.5 text-gray-700">
                       {c.city || '—'}
                     </td>
 
                     {/* Orders count */}
-                    <td data-label="Orders" className="px-6 py-4 font-bold text-gray-900">
-                      <span className="px-2.5 py-1 rounded-md bg-brand-50 text-brand-800 border border-brand-200 text-xs font-semibold">
+                    <td data-label="Orders" className="px-3.5 py-3 xl:px-5 xl:py-3.5 font-bold text-gray-900">
+                      <span className="px-2.5 py-1 rounded-md bg-brand-50 text-brand-800 border border-brand-200 text-xs font-semibold whitespace-nowrap">
                         {c.totalOrders} {c.totalOrders === 1 ? 'order' : 'orders'}
                       </span>
                     </td>
 
                     {/* Spend */}
-                    <td data-label="Spend" className="px-6 py-4 font-black text-gray-900 text-sm">
+                    <td data-label="Spend" className="px-3.5 py-3 xl:px-5 xl:py-3.5 font-black text-gray-900 text-sm whitespace-nowrap">
                       ₹{c.totalSpent?.toLocaleString('en-IN')}
                     </td>
 
                     {/* Registered Date */}
-                    <td data-label="Registered" className="px-6 py-4 text-gray-500 text-[11px]">
+                    <td data-label="Registered" className="px-3.5 py-3 xl:px-5 xl:py-3.5 text-gray-500 text-[11px] whitespace-nowrap">
                       {new Date(c.registeredAt).toLocaleDateString('en-IN', {
                         day: 'numeric',
                         month: 'short',
